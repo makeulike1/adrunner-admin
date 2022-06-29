@@ -37,5 +37,10 @@ public interface AffRepository extends CrudRepository<Aff, Integer> {
 
     @Query(value="select * from aff where is_delete=false and status=1", nativeQuery = true)
     Iterable<Aff> listStatusComplete();
+
+    @Transactional
+    @Modifying
+    @Query(value="update aff set is_delete=true", nativeQuery = true)
+    void deleteByAffId(Integer id);
  
 }

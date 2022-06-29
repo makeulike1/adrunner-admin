@@ -238,6 +238,12 @@ public class AffController extends RequestResponseInterface{
                 .body(getStatusMessage(203));
          }
   
+         // 제휴사 삭제
+         affRepository.deleteByAffId(id);
+
+         // 메모리 데이터 업데이트
+         memoryDataService.deleteMemoryData("aff", id);
+
          return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));
