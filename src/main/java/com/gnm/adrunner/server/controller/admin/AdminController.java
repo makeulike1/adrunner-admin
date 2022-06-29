@@ -152,21 +152,35 @@ public class AdminController extends RequestResponseInterface{
 
 
 
-    // 테스트 : 리포트 신규 삽입
+    // 테스트 : 일일 리포트 신규 삽입
     @CrossOrigin(origins = "*")
     @GetMapping("/test") 
     public @ResponseBody ResponseEntity<String>  test(HttpServletRequest request) throws ParseException {
         
         HttpHeaders responseHeaders = new HttpHeaders();
         
-        //schedulerService.updateRptDay(true);
-        schedulerService.insertWeeklyReport();
+        schedulerService.updateRptDay(true);
         
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));
     }
 
+
+
+    // 테스트 : 주간 리포트 신규 삽입
+    @CrossOrigin(origins = "*")
+    @GetMapping("/test2") 
+    public @ResponseBody ResponseEntity<String>  test2(HttpServletRequest request) throws ParseException {
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+        
+        schedulerService.insertWeeklyReport();
+        
+        return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(getStatusMessage(200));
+    }
     
 
     
