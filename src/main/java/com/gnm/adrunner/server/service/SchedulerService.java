@@ -93,18 +93,16 @@ public class SchedulerService {
                 Integer totalCost2          = 0;
                 Float   conversionRate      = (float)0.0;
                 
-                for(int i=1; i<=6; i++){
+                for(int i=-1; i>=-6; i--){
                         
-                    i *= -1;
-
-                    String previousDate = timeBuilder.getPreviousDate(-1);
+                    String previousDate = timeBuilder.getPreviousDate(i);
 
                     if(i == -1)endDate      = previousDate;
 
                     if(i == -6)startDate    = previousDate;
 
 
-                    Iterable<RptDay> list2 = rptDayRepository.getDayRptByDate(previousDate, mediaKey);
+                    Iterable<RptDay> list2 = rptDayRepository.getDayRptByDate(previousDate, mediaKey, adsKey);
 
                     for(RptDay e : list2){
                         totalClicks += e.getClicks();
