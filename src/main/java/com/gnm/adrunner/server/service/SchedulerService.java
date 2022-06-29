@@ -7,9 +7,11 @@ import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.AdsMedia;
 import com.gnm.adrunner.server.entity.RptDay;
+import com.gnm.adrunner.server.entity.RptWeek;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.RptDayRepository;
+import com.gnm.adrunner.server.repo.RptWeekRepository;
 import com.gnm.adrunner.server.repo.SystemConfigRepository;
 import com.gnm.adrunner.util.redisUtil;
 import com.gnm.adrunner.util.timeBuilder;
@@ -49,6 +51,9 @@ public class SchedulerService {
     @Autowired
     SystemConfigRepository  systemConfigRepository;
 
+    @Autowired
+    RptWeekRepository       rptWeekRepository;
+
 
     // 일일 리포트 스케쥴러
     @Scheduled(cron = "0 0 0 * * * ")
@@ -58,8 +63,94 @@ public class SchedulerService {
 
 
 
+    // 주간 리포트 스케쥴러
+    @Scheduled(cron = "0 0 0 * * MON")
+    public void insertWeeklyReport(){
+
+
+        String currentDate = timeBuilder.getTodayDate();
+
+        //Redis 에서 광고에 대한 클릭 수 조회
+        Iterable<Ads> list = adsRepository.listForScheduler();
+
+        for(Ads e1 : list){
+
+            String adsKey = e1.getAdsKey();
+            
+            String advKey = e1.getAdvKey();
+
+
+            String[] list1 = adsMediaRepository.mediaKeyListByAdsKey(adsKey);
+
+            
+            for(String mediaKey : list1){
+
+                String  startDate    = "";
+                String  endDate      = "";
+                Integer totalClicks         = 0;
+                Integer totalConversions    = 0;
+                Integer totalCost1          = 0;
+                Integer totalCost2          = 0;
+                Float   conversionRate      = (float)0.0;
+                
+                for(int i=1; i<=6; i++){
+                        
+                    i *= -1;
+
+                    String previousDate = timeBuilder.getPreviousDate(-1);
+
+                    if(i == -1)endDate      = previousDate;
+
+                    if(i == -6)startDate    = previousDate;
+
+
+                    Iterable<RptDay> list2 = rptDayRepository.getDayRptByDate(previousDate, mediaKey);
+
+                    for(RptDay e : list2){
+                        totalClicks += e.getClicks();
+                        totalConversions += e.getConversions();
+                        totalCost1 += e.getCost1();
+                        totalCost2 += e.getCost2();
+                    }
+                }
+
+
+
+                // 매체사별로 주별 리포트 삽입
+                RptWeek rw = new RptWeek();
+                rw.setAdsKey(adsKey);
+                rw.setAdvKey(advKey);
+                rw.setDate(currentDate);
+                rw.setStartdate(startDate);
+                rw.setEnddate(endDate);
+                rw.setTotalClicks(totalClicks);
+                rw.setTotalConversions(totalConversions);
+                rw.setMediaKey(mediaKey);
+                rw.setTotalCost1(totalCost1);
+                rw.setTotalCost2(totalCost2);
+
+                if(totalConversions != 0)
+                    conversionRate = totalConversions/(float)totalClicks;
+                else conversionRate = (float)0.0;
+
+                rw.setConversionRate(conversionRate);
+                rptWeekRepository.save(rw);
+
+
+            }
+            
+        }
+
+
+        
+
+    }
+
+
+
+
     @Scheduled(cron = "*/1 * * * * * ")
-    public void test() throws ParseException{
+    public void refreshStatus() throws ParseException{
 
 
 
@@ -125,6 +216,8 @@ public class SchedulerService {
         }
         
     }
+
+
 
 
 

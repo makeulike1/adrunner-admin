@@ -159,7 +159,8 @@ public class AdminController extends RequestResponseInterface{
         
         HttpHeaders responseHeaders = new HttpHeaders();
         
-        schedulerService.updateRptDay(true);
+        //schedulerService.updateRptDay(true);
+        schedulerService.insertWeeklyReport();
         
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
