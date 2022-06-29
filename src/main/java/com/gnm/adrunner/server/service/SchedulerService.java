@@ -93,13 +93,13 @@ public class SchedulerService {
                 Integer totalCost2          = 0;
                 Float   conversionRate      = (float)0.0;
                 
-                for(int i=-1; i>=-6; i--){
+                for(int i=-1; i>=-7; i--){
                         
                     String previousDate = timeBuilder.getPreviousDate(i);
 
                     if(i == -1)endDate      = previousDate;
 
-                    if(i == -6)startDate    = previousDate;
+                    if(i == -7)startDate    = previousDate;
 
 
                     Iterable<RptDay> list2 = rptDayRepository.getDayRptByDate(previousDate, mediaKey, adsKey);
