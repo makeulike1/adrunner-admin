@@ -4,9 +4,9 @@ public class RequestSaveAffParam {
 
     private Integer paramType;
 
-    private String  queryKey;
+    private String  paramKey;
 
-    private String  queryValue;
+    private String  paramValue;
 
     private String  passValue;
 
@@ -18,20 +18,20 @@ public class RequestSaveAffParam {
         this.paramType = paramType;
     }
 
-    public String getQueryKey() {
-        return queryKey;
+    public String getParamKey() {
+        return paramKey;
     }
 
-    public void setQueryKey(String queryKey) {
-        this.queryKey = queryKey;
+    public void setParamKey(String paramKey) {
+        this.paramKey = paramKey;
     }
 
-    public String getQueryValue() {
-        return queryValue;
+    public String getParamValue() {
+        return paramValue;
     }
 
-    public void setQueryValue(String queryValue) {
-        this.queryValue = queryValue;
+    public void setParamValue(String paramValue) {
+        this.paramValue = paramValue;
     }
 
     public String getPassValue() {
@@ -44,9 +44,9 @@ public class RequestSaveAffParam {
 
     @Override
     public String toString() {
-        return "RequestSaveAffParam [paramType=" + paramType + ", passValue=" + passValue + ", queryKey=" + queryKey
-                + ", queryValue=" + queryValue + "]";
+        return "RequestSaveAffParam [paramKey=" + paramKey + ", paramType=" + paramType + ", paramValue=" + paramValue
+                + ", passValue=" + passValue + "]";
     }
-
+ 
     
 }

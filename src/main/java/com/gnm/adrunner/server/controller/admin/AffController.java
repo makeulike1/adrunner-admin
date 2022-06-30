@@ -177,8 +177,8 @@ public class AffController extends RequestResponseInterface{
          }
 
          AffParam ap = new AffParam();
-         ap.setParamKey(req.getQueryKey());
-         ap.setParamValue(req.getQueryValue());
+         ap.setParamKey(req.getParamKey());
+         ap.setParamValue(req.getParamValue());
          ap.setPassValue(req.getPassValue());
          ap.setParamType(req.getParamType());
          ap.setAffId(affid);
