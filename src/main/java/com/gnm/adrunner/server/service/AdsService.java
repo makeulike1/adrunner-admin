@@ -78,7 +78,6 @@ public class AdsService {
         String  REQ_STARTDATE       = req.getStartdate();
         String  REQ_ENDDATE         = req.getEnddate();
         String  REQ_EVENTNAME       = req.getEventName();
-        String  REQ_TRACKING_URL    = req.getTrackingUrl();
         String  REQ_LOOPBACK        = req.getLoopback();
         Boolean REQ_ISDAILY_CAP     = req.getIsDailyCap();
         String  REQ_ADVKEY          = req.getAdvKey();
@@ -97,7 +96,6 @@ public class AdsService {
         Integer PREV_COST2          = prevData.getCost2();
         String  PREV_LOOPBACK       = prevData.getLoopbackdate();
         String  PREV_ADVKEY         = prevData.getAdvKey();
-        String  PREV_TRACKING_URL   = prevData.getTrackingUrl();
         String  PREV_NAME           = prevData.getName();
         String  PREV_STARTDATE      = prevData.getStartdate();
         String  PREV_ENDDATE        = prevData.getEnddate();
@@ -253,18 +251,7 @@ public class AdsService {
                 logAdsService.insert(adsKey, adminIp, adminId,    "cost2", PREV_COST2.toString(), REQ_COST2.toString());
             }
         }
-
-
-
-        // 트래킹 URL 
-        if(REQ_TRACKING_URL != null){
-            criteriaUpdate.set("trackingUrl",  REQ_TRACKING_URL);
-            if(!REQ_TRACKING_URL.equals(PREV_TRACKING_URL)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "trackingUrl", PREV_TRACKING_URL.toString(), REQ_TRACKING_URL.toString());
-            }
-        }
-
-
+ 
 
         // 광고주
         if(REQ_ADVKEY != null){
