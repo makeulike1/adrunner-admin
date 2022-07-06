@@ -37,4 +37,21 @@ public interface MediaRepository extends CrudRepository<Media, Integer>{
     @Query(value="update media set is_delete=true where id=?1", nativeQuery = true)
     public void deleteMedia(Integer mediaId);
 
+    @Transactional
+    @Modifying
+    @Query(value="update media set is_postback=?2 where id=?1", nativeQuery = true)
+    public void updatePostbackState(Integer mediaid, Boolean state);
+
+    
+    @Transactional
+    @Modifying
+    @Query(value="update media set postback_install=?2 where id=?1", nativeQuery = true)
+    public void updatePostbackInstallURL(Integer mediaid, String url);
+
+
+    @Transactional
+    @Modifying
+    @Query(value="update media set postback_event=?2 where id=?1", nativeQuery = true)
+    public void updatePostbackEventURL(Integer mediaid, String url);
+
 }

@@ -20,6 +20,12 @@ public class Media {
     
     private Boolean     isDelete;
 
+    private Boolean     isPostback;
+
+    private String      postbackInstall;
+
+    private String      postbackEvent;
+ 
     private String      createtime;
 
     public Integer getId() {
@@ -54,6 +60,30 @@ public class Media {
         this.isDelete = isDelete;
     }
 
+    public Boolean getIsPostback() {
+        return isPostback;
+    }
+
+    public void setIsPostback(Boolean isPostback) {
+        this.isPostback = isPostback;
+    }
+
+    public String getPostbackInstall() {
+        return postbackInstall;
+    }
+
+    public void setPostbackInstall(String postbackInstall) {
+        this.postbackInstall = postbackInstall;
+    }
+
+    public String getPostbackEvent() {
+        return postbackEvent;
+    }
+
+    public void setPostbackEvent(String postbackEvent) {
+        this.postbackEvent = postbackEvent;
+    }
+
     public String getCreatetime() {
         return createtime;
     }
@@ -64,9 +94,11 @@ public class Media {
 
     @Override
     public String toString() {
-        return "Media [createtime=" + createtime + ", id=" + id + ", isDelete=" + isDelete + ", mediaKey=" + mediaKey
-                + ", name=" + name + "]";
+        return "Media [createtime=" + createtime + ", id=" + id + ", isDelete=" + isDelete + ", isPostback="
+                + isPostback + ", mediaKey=" + mediaKey + ", name=" + name + ", postbackEvent=" + postbackEvent
+                + ", postbackInstall=" + postbackInstall + "]";
     }
- 
-     
+
+    
+    
 }

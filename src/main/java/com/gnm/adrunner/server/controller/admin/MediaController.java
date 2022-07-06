@@ -2,6 +2,7 @@ package com.gnm.adrunner.server.controller.admin;
  
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Media;
+import com.gnm.adrunner.server.param.req.admin.RequestModifyMediaUrl;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveMedia;
 
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -116,9 +118,12 @@ public class MediaController extends RequestResponseInterface{
 
         
         Media m = new Media();
-        m.setName(req.getName());
+        m.setName(req.getName()); 
         m.setMediaKey(""); 
         m.setIsDelete(false);
+        m.setIsPostback(false);
+        m.setPostbackEvent("-");
+        m.setPostbackInstall("-");
         m.setCreatetime(timeBuilder.getCurrentTime());
 
         
@@ -162,4 +167,120 @@ public class MediaController extends RequestResponseInterface{
                 .body(getStatusMessage(200));
     }
 
+
+
+    // 특정 매체사 정보 조회
+    @CrossOrigin(origins = "*")
+    @GetMapping("/find/{mediaid}")
+    public @ResponseBody ResponseEntity<String> findMedia(
+        @PathVariable Integer mediaid, HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+ 
+        
+        Media m = mediaRepository.findByID(mediaid);
+
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(gson.toJson(m));
+
+    }
+
+
+    
+
+
+    // 매체사 포스트백 송수신 상태 수정
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/postback-state/{mediaid}/{state}")
+    public @ResponseBody ResponseEntity<String> updatePostback(
+        @PathVariable Integer mediaid, @PathVariable Boolean state, HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+        mediaRepository.updatePostbackState(mediaid, state);
+        
+        // 메모리 데이터 업데이트
+        memoryDataService.addMemoryData("media", mediaid);
+
+
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+
+    }
+
+
+
+    // 매체사 인스톨 포스트백 URL 수정
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/postback-install/{mediaid}")
+    public @ResponseBody ResponseEntity<String> updatePostbackInstallURL(
+        @RequestBody RequestModifyMediaUrl req, 
+        @PathVariable Integer mediaid, HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+        mediaRepository.updatePostbackInstallURL(mediaid, req.getUrl());
+
+        // 메모리 데이터 업데이트
+        memoryDataService.addMemoryData("media", mediaid);
+        
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+
+    }
+
+
+
+
+    // 매체사 이벤트 포스트백 URL 수정
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/postback-event/{mediaid}")
+    public @ResponseBody ResponseEntity<String> updatePostbackEventURL(
+        @RequestBody RequestModifyMediaUrl req, 
+        @PathVariable Integer mediaid, HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+        mediaRepository.updatePostbackEventURL(mediaid, req.getUrl());
+
+        // 메모리 데이터 업데이트
+        memoryDataService.addMemoryData("media", mediaid);
+        
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+
+    }
 }
