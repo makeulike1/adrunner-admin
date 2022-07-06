@@ -294,9 +294,10 @@ public class MediaController extends RequestResponseInterface{
 
     // 특정 매체사에 대해서 파라미터 조회
     @CrossOrigin(origins = "*")
-    @GetMapping("/param/find/{mediaKey}")
+    @GetMapping("/param/find/{mediaKey}/{type}")
     public @ResponseBody ResponseEntity<String> findMediaParam(
-        @PathVariable String mediaKey, HttpServletRequest request){
+        @PathVariable String mediaKey,
+        @PathVariable Integer type, HttpServletRequest request){
 
         
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -310,7 +311,7 @@ public class MediaController extends RequestResponseInterface{
         
         return ResponseEntity.status(200)
             .headers(responseHeaders)
-            .body(gson.toJson(mediaParamRepository.findByMediaKey(mediaKey)));
+            .body(gson.toJson(mediaParamRepository.findByMediaKeyAndType(mediaKey, type)));
 
     }
 
