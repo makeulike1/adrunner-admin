@@ -14,6 +14,8 @@ public class MediaParam {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    private Integer type;
+
     private String mediaKey;
 
     private String paramKey;
@@ -28,6 +30,14 @@ public class MediaParam {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getMediaKey() {
@@ -65,7 +75,9 @@ public class MediaParam {
     @Override
     public String toString() {
         return "MediaParam [createtime=" + createtime + ", id=" + id + ", mediaKey=" + mediaKey + ", paramKey="
-                + paramKey + ", paramValue=" + paramValue + "]";
+                + paramKey + ", paramValue=" + paramValue + ", type=" + type + "]";
     }
+ 
+    
 
 }

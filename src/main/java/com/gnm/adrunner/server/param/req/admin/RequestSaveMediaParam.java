@@ -1,12 +1,22 @@
 package com.gnm.adrunner.server.param.req.admin;
 
 public class RequestSaveMediaParam {
+
+    private Integer type;
     
     private String mediaKey;
 
     private String paramKey;
 
     private String paramValue;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public String getMediaKey() {
         return mediaKey;
@@ -35,8 +45,10 @@ public class RequestSaveMediaParam {
     @Override
     public String toString() {
         return "RequestSaveMediaParam [mediaKey=" + mediaKey + ", paramKey=" + paramKey + ", paramValue=" + paramValue
-                + "]";
+                + ", type=" + type + "]";
     }
+ 
+    
 
     
 }

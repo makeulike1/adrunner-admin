@@ -342,6 +342,7 @@ public class MediaController extends RequestResponseInterface{
         mp.setParamKey(req.getParamKey());
         mp.setParamValue(req.getParamValue());
         mp.setCreatetime(timeBuilder.getCurrentTime());
+        mp.setType(req.getType());
 
         mediaParamRepository.save(mp);
         
