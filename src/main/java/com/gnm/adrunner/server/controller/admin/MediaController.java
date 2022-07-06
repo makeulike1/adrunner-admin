@@ -316,6 +316,32 @@ public class MediaController extends RequestResponseInterface{
     }
 
 
+    // 특정 매체사에 대해서 파라미터 삭제
+    @CrossOrigin(origins = "*")
+    @DeleteMapping("/param/{id}}")
+    public @ResponseBody ResponseEntity<String> deleteMediaParam(
+        @PathVariable Integer id,
+        HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+        mediaParamRepository.deleteById(id);
+ 
+        
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+
+    }
+
+
 
     
     // 매체사 파라미터 등록
