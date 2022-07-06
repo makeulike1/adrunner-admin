@@ -318,7 +318,7 @@ public class MediaController extends RequestResponseInterface{
 
     // 특정 매체사에 대해서 파라미터 삭제
     @CrossOrigin(origins = "*")
-    @DeleteMapping("/param/{id}}")
+    @DeleteMapping("/param/{id}")
     public @ResponseBody ResponseEntity<String> deleteMediaParam(
         @PathVariable Integer id,
         HttpServletRequest request){
