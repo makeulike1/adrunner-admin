@@ -2,8 +2,10 @@ package com.gnm.adrunner.server.controller.admin;
  
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Media;
+import com.gnm.adrunner.server.entity.MediaParam;
 import com.gnm.adrunner.server.param.req.admin.RequestModifyMediaUrl;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveMedia;
+import com.gnm.adrunner.server.param.req.admin.RequestSaveMediaParam;
 
 import org.springframework.stereotype.Controller;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
+import com.gnm.adrunner.server.repo.MediaParamRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.MediaService;
@@ -55,6 +58,9 @@ public class MediaController extends RequestResponseInterface{
     @Autowired
     MemoryDataService memoryDataService;
  
+
+    @Autowired
+    MediaParamRepository mediaParamRepository;
 
     // 매체사 목록  
     @CrossOrigin(origins = "*")
@@ -283,4 +289,65 @@ public class MediaController extends RequestResponseInterface{
             .body(getStatusMessage(200));
 
     }
+
+
+
+    // 특정 매체사에 대해서 파라미터 조회
+    @CrossOrigin(origins = "*")
+    @GetMapping("/param/find/{mediaKey}")
+    public @ResponseBody ResponseEntity<String> findMediaParam(
+        @PathVariable String mediaKey, HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+ 
+        
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(gson.toJson(mediaParamRepository.findByMediaKey(mediaKey)));
+
+    }
+
+
+
+    
+    // 매체사 파라미터 등록
+    @CrossOrigin(origins = "*")
+    @PostMapping("/param/save")
+    public @ResponseBody ResponseEntity<String> saveMediaParam(
+        @RequestBody RequestSaveMediaParam req, 
+        HttpServletRequest request){
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+
+                // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+
+        MediaParam mp = new MediaParam();
+        mp.setMediaKey(req.getMediaKey());
+        mp.setParamKey(req.getParamKey());
+        mp.setParamValue(req.getParamValue());
+        mp.setCreatetime(timeBuilder.getCurrentTime());
+
+        mediaParamRepository.save(mp);
+        
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+
+    }
+
 }
