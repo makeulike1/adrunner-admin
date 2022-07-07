@@ -82,7 +82,7 @@ public class AdsService {
         String  REQ_LOOPBACK        = req.getLoopback();
         Boolean REQ_ISDAILY_CAP     = req.getIsDailyCap();
         String  REQ_ADVKEY          = req.getAdvKey();
-
+        Boolean REQ_IS_POSTBACK     = req.getIsPostback();
 
         Integer REQ_COST1           = req.getCost1();
         Integer REQ_COST2           = req.getCost2();
@@ -102,6 +102,7 @@ public class AdsService {
         String  PREV_ENDDATE        = prevData.getEnddate();
         String  PREV_EVENTNAME      = prevData.getEventName();
         Boolean PREV_ISDAILY_CAP    = prevData.getIsDailyCap();
+        Boolean PREV_IS_POSTBACK    = prevData.getIsPostback();
 
 
 
@@ -269,6 +270,16 @@ public class AdsService {
                 logAdsService.insert(adsKey, adminIp, adminId,    "advKey", PREV_ADVKEY.toString(), REQ_ADVKEY.toString());
             }
         }
+
+
+        // 포스트백 송 수신 여부
+        if(REQ_IS_POSTBACK != null){
+            criteriaUpdate.set("isPostback", REQ_IS_POSTBACK);
+            if(!REQ_IS_POSTBACK.equals(PREV_IS_POSTBACK)){
+                logAdsService.insert(adsKey, adminIp, adminId,    "isPostback", PREV_IS_POSTBACK.toString(), REQ_IS_POSTBACK.toString());
+            }
+        }
+        
         
         
 

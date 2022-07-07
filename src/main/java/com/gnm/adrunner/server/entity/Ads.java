@@ -63,6 +63,8 @@ public class Ads {
     private Integer cost2;
 
     private Integer redisIndex;
+ 
+    private Boolean isPostback;
 
     public Integer getId() {
         return id;
@@ -272,15 +274,27 @@ public class Ads {
         this.redisIndex = redisIndex;
     }
 
+    public Boolean getIsPostback() {
+        return isPostback;
+    }
+
+    public void setIsPostback(Boolean isPostback) {
+        this.isPostback = isPostback;
+    }
+
     @Override
     public String toString() {
         return "Ads [adsKey=" + adsKey + ", advKey=" + advKey + ", aff=" + aff + ", autodown=" + autodown
                 + ", autostart=" + autostart + ", cost1=" + cost1 + ", cost2=" + cost2 + ", createtime=" + createtime
                 + ", deletetime=" + deletetime + ", description=" + description + ", enddate=" + enddate
                 + ", eventName=" + eventName + ", id=" + id + ", isDailyCap=" + isDailyCap + ", isDelete=" + isDelete
-                + ", loopbackdate=" + loopbackdate + ", name=" + name + ", os=" + os + ", redisIndex=" + redisIndex
-                + ", startdate=" + startdate + ", status=" + status + ", supplyDemand=" + supplyDemand + ", targetImp="
-                + targetImp + ", trackingUrl=" + trackingUrl + ", type=" + type + ", updatetime=" + updatetime + "]";
+                + ", isPostback=" + isPostback + ", loopbackdate=" + loopbackdate + ", name=" + name + ", os=" + os
+                + ", redisIndex=" + redisIndex + ", startdate=" + startdate + ", status=" + status + ", supplyDemand="
+                + supplyDemand + ", targetImp=" + targetImp + ", trackingUrl=" + trackingUrl + ", type=" + type
+                + ", updatetime=" + updatetime + "]";
     }
+ 
+    
+
     
 }

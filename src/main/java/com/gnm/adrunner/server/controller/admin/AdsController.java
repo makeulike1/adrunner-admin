@@ -196,6 +196,7 @@ public class AdsController extends RequestResponseInterface{
          *      AD_AUTOSTART        : 자동 시작 여부 (Y/N)
          *      AD_AUTODOWN         : 자동 종료 여부 (Y/N)
          *      AD_LOOPBACK         : 광고 loopback 기간
+         *      AD_IS_POSTBACK      : 포스트백 송 수신 여부 (Y/N)
          */
 
         String      AD_NAME                                 = req.getName();
@@ -215,6 +216,7 @@ public class AdsController extends RequestResponseInterface{
         Integer     AD_COST2                                = req.getCost2();
         String      AD_EVENT_NAME                           = req.getEventName();
         String      AD_LOOPBACK                             = req.getLoopback();
+        Boolean     AD_IS_POSTBACK                          = req.getIsPostback();
         List<RequestSaveAds1>    AD_MEDIA                   = req.getMedia();
         
         String ADS_KEY = keyBuilder.buildUUID().substring(0, 12).toUpperCase();
@@ -253,6 +255,7 @@ public class AdsController extends RequestResponseInterface{
         Ad.setRedisIndex(redisIndex);
         Ad.setAdsKey(ADS_KEY);
         Ad.setAdvKey(req.getAdvKey());
+        Ad.setIsPostback(AD_IS_POSTBACK);
                 
  
         

@@ -43,6 +43,8 @@ public class RequestSaveAds {
 
     private String  advKey;
 
+    private Boolean isPostback;
+
     private List<RequestSaveAds1> media;
 
     public Integer getAff() {
@@ -197,6 +199,14 @@ public class RequestSaveAds {
         this.advKey = advKey;
     }
 
+    public Boolean getIsPostback() {
+        return isPostback;
+    }
+
+    public void setIsPostback(Boolean isPostback) {
+        this.isPostback = isPostback;
+    }
+
     public List<RequestSaveAds1> getMedia() {
         return media;
     }
@@ -209,10 +219,12 @@ public class RequestSaveAds {
     public String toString() {
         return "RequestSaveAds [advKey=" + advKey + ", aff=" + aff + ", autodown=" + autodown + ", autostart="
                 + autostart + ", cost1=" + cost1 + ", cost2=" + cost2 + ", description=" + description + ", enddate="
-                + enddate + ", eventName=" + eventName + ", isDailyCap=" + isDailyCap + ", loopback=" + loopback
-                + ", media=" + media + ", name=" + name + ", os=" + os + ", startdate=" + startdate + ", status="
-                + status + ", supplyDemand=" + supplyDemand + ", targetImp=" + targetImp + ", trackingUrl="
-                + trackingUrl + ", type=" + type + "]";
+                + enddate + ", eventName=" + eventName + ", isDailyCap=" + isDailyCap + ", isPostback=" + isPostback
+                + ", loopback=" + loopback + ", media=" + media + ", name=" + name + ", os=" + os + ", startdate="
+                + startdate + ", status=" + status + ", supplyDemand=" + supplyDemand + ", targetImp=" + targetImp
+                + ", trackingUrl=" + trackingUrl + ", type=" + type + "]";
     }
+ 
+    
      
 }
