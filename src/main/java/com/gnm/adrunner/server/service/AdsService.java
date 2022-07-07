@@ -83,6 +83,7 @@ public class AdsService {
         Boolean REQ_ISDAILY_CAP     = req.getIsDailyCap();
         String  REQ_ADVKEY          = req.getAdvKey();
         Boolean REQ_IS_POSTBACK     = req.getIsPostback();
+        Boolean REQ_SUPPLYDEMAND    = req.getSupplyDemand();
 
         Integer REQ_COST1           = req.getCost1();
         Integer REQ_COST2           = req.getCost2();
@@ -103,6 +104,7 @@ public class AdsService {
         String  PREV_EVENTNAME      = prevData.getEventName();
         Boolean PREV_ISDAILY_CAP    = prevData.getIsDailyCap();
         Boolean PREV_IS_POSTBACK    = prevData.getIsPostback();
+        Boolean PREV_SUPPLYDEMAND   = prevData.getSupplyDemand();
 
 
 
@@ -262,6 +264,7 @@ public class AdsService {
         }
 
 
+        
 
         // 광고주
         if(REQ_ADVKEY != null){
@@ -272,6 +275,7 @@ public class AdsService {
         }
 
 
+
         // 포스트백 송 수신 여부
         if(REQ_IS_POSTBACK != null){
             criteriaUpdate.set("isPostback", REQ_IS_POSTBACK);
@@ -279,12 +283,22 @@ public class AdsService {
                 logAdsService.insert(adsKey, adminIp, adminId,    "isPostback", PREV_IS_POSTBACK.toString(), REQ_IS_POSTBACK.toString());
             }
         }
-        
-        
+
+
+
+        // 서플라이 디맨드 여부
+        if(REQ_SUPPLYDEMAND != null){
+            criteriaUpdate.set("supplyDemand", REQ_SUPPLYDEMAND);
+            if(!REQ_SUPPLYDEMAND.equals(PREV_SUPPLYDEMAND)){
+                logAdsService.insert(adsKey, adminIp, adminId,    "supplyDemand", PREV_SUPPLYDEMAND.toString(), REQ_SUPPLYDEMAND.toString());
+            }
+        }
         
 
+        
         criteriaUpdate.where(criteriaBuilder.equal(root.get("id"), id));
         entityManager.createQuery(criteriaUpdate).executeUpdate();
+        
     }
 
     
