@@ -39,9 +39,10 @@ public class GlobalConstant {
 
 
     public static Integer   ADS_STATUS_LIVE             = 0;
-    public static Integer   ADS_STATUS_PAUSE            = 1;
+    public static Integer   ADS_STATUS_READY            = 1;
     public static Integer   ADS_STATUS_DISMISS          = 2;
     public static Integer   ADS_STATUS_LOOPBACK         = 3;
+    public static Integer   ADS_STATUS_PAUSE            = 4;
 
 
 

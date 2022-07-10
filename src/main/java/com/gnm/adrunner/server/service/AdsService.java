@@ -111,7 +111,7 @@ public class AdsService {
         // 운영 OS
         if(REQ_OS != null){
             criteriaUpdate.set("os",        REQ_OS);    
-            if(!REQ_LOOPBACK.equals(PREV_OS)){
+            if(!REQ_LOOPBACK.equals(PREV_LOOPBACK)){
                 logAdsService.insert(adsKey, adminIp,   adminId,    "os", PREV_OS.toString(), REQ_OS.toString());
             }
         }

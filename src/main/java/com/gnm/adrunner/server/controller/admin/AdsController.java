@@ -235,7 +235,7 @@ public class AdsController extends RequestResponseInterface{
         Ad.setEnddate(AD_ENDDATE);
         Ad.setDescription(AD_DESCRIPTION);
         Ad.setIsDailyCap(AD_IS_DAILYCAP);
-        Ad.setStatus(GlobalConstant.ADS_STATUS_PAUSE);
+        Ad.setStatus(GlobalConstant.ADS_STATUS_READY);
         Ad.setIsDelete(false);
         Ad.setCreatetime(timeBuilder.getCurrentTime());
         Ad.setUpdatetime(timeBuilder.getCurrentTime());

@@ -195,8 +195,8 @@ public class SchedulerService {
 
 
 
-        // 일시중지된 광고에만 해당
-        for(Ads e : adsRepository.listByStatus(GlobalConstant.ADS_STATUS_PAUSE)){
+        // 시작대기인 광고에만 해당
+        for(Ads e : adsRepository.listByStatus(GlobalConstant.ADS_STATUS_READY)){
 
             Date startDate      = timeBuilder.toDate(e.getStartdate());
 
