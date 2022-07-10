@@ -20,6 +20,7 @@ public class timeBuilder {
 
     public static SimpleDateFormat  simpleDateFormat3   = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 
+    
     // 현재 시각 반환
     public static String getCurrentTime(){
         simpleDateFormat.setTimeZone(timeZone);
@@ -37,7 +38,7 @@ public class timeBuilder {
     public static String getYesterdayStartTime(){
         Calendar c = Calendar.getInstance(timeZone);
         c.add(Calendar.DATE, -1);
-        return simpleDateFormat1.format(Calendar.getInstance(timeZone).getTime());
+        return simpleDateFormat1.format(c.getTime());
     }
 
 
@@ -45,7 +46,7 @@ public class timeBuilder {
     public static String getYesterdayEndTime(){
         Calendar c = Calendar.getInstance(timeZone);
         c.add(Calendar.DATE, -1);
-        return simpleDateFormat2.format(Calendar.getInstance(timeZone).getTime());
+        return simpleDateFormat2.format(c.getTime());
     }
     
 
@@ -53,7 +54,7 @@ public class timeBuilder {
     public static String getYesterdayDate(){
         Calendar c = Calendar.getInstance(timeZone);
         c.add(Calendar.DATE, -1);
-        return simpleDateFormat3.format(Calendar.getInstance(timeZone).getTime());
+        return simpleDateFormat3.format(c.getTime());
     }
 
 
@@ -62,7 +63,7 @@ public class timeBuilder {
     public static String getPreviousDate(Integer day){
         Calendar c = Calendar.getInstance(timeZone);
         c.add(Calendar.DATE, day);
-        return simpleDateFormat3.format(Calendar.getInstance(timeZone).getTime());
+        return simpleDateFormat3.format(c.getTime());
     }
 
 
@@ -85,5 +86,6 @@ public class timeBuilder {
         return simpleDateFormat2.format(Calendar.getInstance(timeZone).getTime());
     }
 
+    
     
 }
