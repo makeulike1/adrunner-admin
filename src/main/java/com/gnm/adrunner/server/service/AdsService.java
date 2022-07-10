@@ -71,7 +71,6 @@ public class AdsService {
         Integer REQ_STATUS          = req.getStatus();
         Integer REQ_AFF             = req.getAff(); 
         Integer REQ_TYPE            = req.getType();
-        Integer REQ_TARGETIMP       = req.getTargetImp();
         Boolean REQ_AUTOSTART       = req.getAutostart();
         Boolean REQ_AUTODOWN        = req.getAutodown();
         String  REQ_NAME            = req.getName();
@@ -91,7 +90,6 @@ public class AdsService {
         Integer PREV_STATUS         = prevData.getStatus();
         Integer PREV_AFF            = prevData.getAff();
         Integer PREV_TYPE           = prevData.getType();
-        Integer PREV_TARGETIMP      = prevData.getTargetImp();
         Boolean PREV_AUTOSTART      = prevData.getAutostart();
         Boolean PREV_AUTODOWN       = prevData.getAutodown();
         Integer PREV_COST1          = prevData.getCost1();
@@ -214,19 +212,7 @@ public class AdsService {
             }
         }
 
-
-
-
-
-        // 광고 목표한도
-        if(REQ_TARGETIMP != null){
-            criteriaUpdate.set("targetImp",     REQ_TARGETIMP);
-            if(!REQ_TARGETIMP.equals(PREV_TARGETIMP)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "targetImp", PREV_TARGETIMP.toString(), REQ_TARGETIMP.toString());
-            }
-        }
-        
-
+ 
 
         // 이벤트 이름
         if(REQ_EVENTNAME != null){

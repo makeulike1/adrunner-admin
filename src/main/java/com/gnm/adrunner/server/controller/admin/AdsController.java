@@ -207,7 +207,6 @@ public class AdsController extends RequestResponseInterface{
         String      AD_ENDDATE                              = req.getEnddate();
         String      AD_DESCRIPTION                          = req.getDescription();
         Boolean     AD_IS_DAILYCAP                          = req.getIsDailyCap();
-        Integer     AD_TARGET_IMP                           = req.getTargetImp();
         String      AD_TRACKING_URL                         = req.getTrackingUrl();
         Integer     AD_OS                                   = req.getOs();
         Boolean     AD_AUTOSTART                            = req.getAutostart();
@@ -236,7 +235,6 @@ public class AdsController extends RequestResponseInterface{
         Ad.setEnddate(AD_ENDDATE);
         Ad.setDescription(AD_DESCRIPTION);
         Ad.setIsDailyCap(AD_IS_DAILYCAP);
-        Ad.setTargetImp(AD_TARGET_IMP);
         Ad.setStatus(GlobalConstant.ADS_STATUS_PAUSE);
         Ad.setIsDelete(false);
         Ad.setCreatetime(timeBuilder.getCurrentTime());
