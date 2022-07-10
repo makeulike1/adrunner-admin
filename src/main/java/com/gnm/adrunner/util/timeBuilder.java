@@ -20,7 +20,6 @@ public class timeBuilder {
 
     public static SimpleDateFormat  simpleDateFormat3   = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 
-    
     // 현재 시각 반환
     public static String getCurrentTime(){
         simpleDateFormat.setTimeZone(timeZone);
@@ -71,20 +70,24 @@ public class timeBuilder {
 
     // 오늘 날짜 반환
     public static String getTodayDate(){
+        simpleDateFormat3.setTimeZone(timeZone);
         return simpleDateFormat3.format(Calendar.getInstance(timeZone).getTime());
     }
 
 
     // 오늘 날짜로 00:00:00 시각 반환
     public static String getTodayStartTime(){
+        simpleDateFormat1.setTimeZone(timeZone);
         return simpleDateFormat1.format(Calendar.getInstance(timeZone).getTime());
     }
 
 
     // 오늘 날짜로 23:59:59 시각 반환
     public static String getTodayEndTime(){
+        simpleDateFormat2.setTimeZone(timeZone);
         return simpleDateFormat2.format(Calendar.getInstance(timeZone).getTime());
     }
+
 
     
     
