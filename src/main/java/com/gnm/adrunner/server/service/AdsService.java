@@ -83,6 +83,7 @@ public class AdsService {
         String  REQ_ADVKEY          = req.getAdvKey();
         Boolean REQ_IS_POSTBACK     = req.getIsPostback();
         Boolean REQ_SUPPLYDEMAND    = req.getSupplyDemand();
+        Integer REQ_OS              = req.getOs();
 
         Integer REQ_COST1           = req.getCost1();
         Integer REQ_COST2           = req.getCost2();
@@ -103,8 +104,21 @@ public class AdsService {
         Boolean PREV_ISDAILY_CAP    = prevData.getIsDailyCap();
         Boolean PREV_IS_POSTBACK    = prevData.getIsPostback();
         Boolean PREV_SUPPLYDEMAND   = prevData.getSupplyDemand();
+        Integer PREV_OS             = prevData.getOs();
 
 
+
+        // 운영 OS
+        if(REQ_OS != null){
+            criteriaUpdate.set("os",        REQ_OS);    
+            if(!REQ_LOOPBACK.equals(PREV_OS)){
+                logAdsService.insert(adsKey, adminIp,   adminId,    "os", PREV_OS.toString(), REQ_OS.toString());
+            }
+        }
+
+
+
+        
 
         // Loopback 기간
         if(REQ_LOOPBACK != null){
