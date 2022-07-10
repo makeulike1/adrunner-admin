@@ -129,7 +129,7 @@ public class redisUtil {
             // Redis에서 클릭키 조회 - 리스트 이름은 [광고키:오늘날짜:매체사키] 정규식 패턴
             for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
                 String ck = adsKey+":"+timeBuilder.getTodayDate()+":"+e;
-                List<Object> list = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().range(ck, 0, 5);
+                List<Object> list = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().range(ck, 0, 100);
                 for(Object e1 : list)result.add(e1.toString());
                 list = null;
             }
