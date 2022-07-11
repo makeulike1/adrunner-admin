@@ -426,11 +426,16 @@ public class AdsService {
             for(String e : mediaKeyList){
                 Integer ckcount = redisUtil.getCkCount(it.getAdsKey(), e, it.getRedisIndex());
                 Integer cvcount = postbackService.countTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
+                Integer todaycv = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
+                Integer daylimit = adsMediaRepository.getMediaDailyCapByAdsKeyAndMediaKey(it.getAdsKey(), e);
+
 
                 ResponseListAds2 tmp = new ResponseListAds2();
                 tmp.setMediaKey(e);
                 tmp.setTotalClicks(ckcount);
                 tmp.setTotalConversions(cvcount);
+                tmp.setTodaycvCount(todaycv);
+                tmp.setDayLimit(daylimit);
 
                 for(Media e1 : mediaList){
                     if(e.equals(e1.getMediaKey()))

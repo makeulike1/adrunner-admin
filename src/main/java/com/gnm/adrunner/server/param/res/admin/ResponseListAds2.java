@@ -10,6 +10,10 @@ public class ResponseListAds2 {
 
     private Integer totalConversions;
 
+    private Integer todaycvCount;
+ 
+    private Integer dayLimit;
+
     public String getMediaKey() {
         return mediaKey;
     }
@@ -42,11 +46,27 @@ public class ResponseListAds2 {
         this.totalConversions = totalConversions;
     }
 
+    public Integer getTodaycvCount() {
+        return todaycvCount;
+    }
+
+    public void setTodaycvCount(Integer todaycvCount) {
+        this.todaycvCount = todaycvCount;
+    }
+
+    public Integer getDayLimit() {
+        return dayLimit;
+    }
+
+    public void setDayLimit(Integer dayLimit) {
+        this.dayLimit = dayLimit;
+    }
+
     @Override
     public String toString() {
-        return "ResponseListAds2 [mediaKey=" + mediaKey + ", mediaName=" + mediaName + ", totalClicks=" + totalClicks
-                + ", totalConversions=" + totalConversions + "]";
+        return "ResponseListAds2 [dayLimit=" + dayLimit + ", mediaKey=" + mediaKey + ", mediaName=" + mediaName
+                + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks + ", totalConversions="
+                + totalConversions + "]";
     }
- 
-    
+
 }
