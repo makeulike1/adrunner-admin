@@ -22,6 +22,8 @@ public class AdsMedia {
 
     private Integer mediaDailyCap;
 
+    private Integer runDailyCap;
+
     private Boolean isDayLimit;
 
     private Boolean isDelete;
@@ -68,6 +70,14 @@ public class AdsMedia {
         this.mediaDailyCap = mediaDailyCap;
     }
 
+    public Integer getRunDailyCap() {
+        return runDailyCap;
+    }
+
+    public void setRunDailyCap(Integer runDailyCap) {
+        this.runDailyCap = runDailyCap;
+    }
+
     public Boolean getIsDayLimit() {
         return isDayLimit;
     }
@@ -96,7 +106,7 @@ public class AdsMedia {
     public String toString() {
         return "AdsMedia [adsKey=" + adsKey + ", createtime=" + createtime + ", id=" + id + ", isDayLimit=" + isDayLimit
                 + ", isDelete=" + isDelete + ", mediaCost=" + mediaCost + ", mediaDailyCap=" + mediaDailyCap
-                + ", mediaKey=" + mediaKey + "]";
+                + ", mediaKey=" + mediaKey + ", runDailyCap=" + runDailyCap + "]";
     }
-    
+  
 }

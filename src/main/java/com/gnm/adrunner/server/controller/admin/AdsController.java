@@ -274,6 +274,7 @@ public class AdsController extends RequestResponseInterface{
             am.setCreatetime(timeBuilder.getCurrentTime());
             am.setMediaCost(e.getCost());
             am.setMediaDailyCap(e.getDailycap());
+            am.setRunDailyCap(e.getDailycap());
             am.setIsDayLimit(false);
             Integer amId = adsMediaService.saveAdsMedia(am);
             // 메모리 데이터 추가
