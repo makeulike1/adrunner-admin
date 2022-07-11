@@ -40,7 +40,7 @@ public interface AdsMediaRepository extends CrudRepository<AdsMedia, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value="update ads_media SET is_day_limit=?1 where ads_key=?1 and media_key = ?2", nativeQuery = true)
+    @Query(value="update ads_media SET is_day_limit=?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
     public void updateIsDayLimit(Boolean isDayLimit, String adsKey, String mediaKey);
 
 
