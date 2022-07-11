@@ -486,6 +486,57 @@ public class AdsController extends RequestResponseInterface{
           
     }
 
+
+
+
+    // 매체사 데일리캡 추가 확보
+    @CrossOrigin(origins = "*")
+    @GetMapping("/media/add-daily-cap")
+    public @ResponseBody ResponseEntity<String> add_daily_cap(
+        @RequestParam(value="adsKey", required=true) String adsKey, 
+        @RequestParam(value="mediaKey", required=true) String mediaKey, 
+        @RequestParam(value="value", required=true) Integer value, HttpServletRequest request) {
+    
+            
+        HttpHeaders responseHeaders = new HttpHeaders();
+            
+        String token = request.getHeader("token");
+
+        // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+            
+
+        // 데일리 도달 여부를 false로 수정
+        adsMediaRepository.updateIsDayLimit(false, adsKey, mediaKey);
+
+        
+        // 데일리 캡을 추가 부여 
+        adsMediaRepository.addDailyCap(value, adsKey, mediaKey);
+
+
+        Integer amId = adsMediaRepository.selectIdByAdsKeyAndMediaKey(adsKey, mediaKey);
+
+
+        // 메모리 데이터 업데이트
+        memoryDataService.updateMemoryData("ads-media", amId);
+
+        String adminId = adminLoginRepository.findAdminIdByToken(token);
+
+
+        // 데일리 캡 추가 확보 이력 기록
+        logAdsService.insert(adsKey, "", adminId, "add-daily-cap", "", value.toString());
+
+
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+          
+    }
+
     
 
 

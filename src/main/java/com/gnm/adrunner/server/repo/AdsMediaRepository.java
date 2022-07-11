@@ -65,4 +65,10 @@ public interface AdsMediaRepository extends CrudRepository<AdsMedia, Integer> {
     @Modifying
     @Query(value="update ads_media SET is_delete=0 where ads_key=?1 and media_key = ?2", nativeQuery = true)
     public void recoverByAdsKeyAndMediaKey(String adsKey, String mediaKey);
+
+
+    @Transactional
+    @Modifying
+    @Query(value="update ads_media SET media_daily_cap = media_daily_cap + ?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
+    public void addDailyCap(Integer value, String adsKey, String mediaKey);
 }
