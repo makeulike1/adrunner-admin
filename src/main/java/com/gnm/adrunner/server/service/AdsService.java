@@ -428,6 +428,7 @@ public class AdsService {
                 Integer cvcount = postbackService.countTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
                 Integer todaycv = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
                 Integer daylimit = adsMediaRepository.getMediaDailyCapByAdsKeyAndMediaKey(it.getAdsKey(), e);
+                Boolean isDayLimit = adsMediaRepository.getIsDayLimitByAdskeyAndMediakey(it.getAdsKey(), e);
 
 
                 ResponseListAds2 tmp = new ResponseListAds2();
@@ -436,6 +437,7 @@ public class AdsService {
                 tmp.setTotalConversions(cvcount);
                 tmp.setTodaycvCount(todaycv);
                 tmp.setDayLimit(daylimit);
+                tmp.setIsDayLimit(isDayLimit);
 
                 for(Media e1 : mediaList){
                     if(e.equals(e1.getMediaKey()))

@@ -14,6 +14,8 @@ public class ResponseListAds2 {
  
     private Integer dayLimit;
 
+    private Boolean isDayLimit;
+
     public String getMediaKey() {
         return mediaKey;
     }
@@ -62,11 +64,19 @@ public class ResponseListAds2 {
         this.dayLimit = dayLimit;
     }
 
-    @Override
-    public String toString() {
-        return "ResponseListAds2 [dayLimit=" + dayLimit + ", mediaKey=" + mediaKey + ", mediaName=" + mediaName
-                + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks + ", totalConversions="
-                + totalConversions + "]";
+    public Boolean getIsDayLimit() {
+        return isDayLimit;
     }
 
+    public void setIsDayLimit(Boolean isDayLimit) {
+        this.isDayLimit = isDayLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseListAds2 [dayLimit=" + dayLimit + ", isDayLimit=" + isDayLimit + ", mediaKey=" + mediaKey
+                + ", mediaName=" + mediaName + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks
+                + ", totalConversions=" + totalConversions + "]";
+    } 
+ 
 }
