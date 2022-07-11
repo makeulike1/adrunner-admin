@@ -26,6 +26,8 @@ public class ViewAdsMedia {
 
     private Integer     mediaDailyCap;
 
+    private Boolean     mediaIsDelete;
+
     public Integer getId() {
         return id;
     }
@@ -74,12 +76,19 @@ public class ViewAdsMedia {
         this.mediaDailyCap = mediaDailyCap;
     }
 
+    public Boolean getMediaIsDelete() {
+        return mediaIsDelete;
+    }
+
+    public void setMediaIsDelete(Boolean mediaIsDelete) {
+        this.mediaIsDelete = mediaIsDelete;
+    }
+
     @Override
     public String toString() {
         return "ViewAdsMedia [adsKey=" + adsKey + ", id=" + id + ", mediaCost=" + mediaCost + ", mediaDailyCap="
-                + mediaDailyCap + ", mediaKey=" + mediaKey + ", name=" + name + "]";
-    }
- 
-    
+                + mediaDailyCap + ", mediaIsDelete=" + mediaIsDelete + ", mediaKey=" + mediaKey + ", name=" + name
+                + "]";
+    } 
 
 }

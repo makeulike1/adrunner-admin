@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ViewAdsMediaRepository extends CrudRepository<ViewAdsMedia, Integer> {
  
-    @Query(value="select * from view_ads_media where ads_key=?1", nativeQuery = true)
+    @Query(value="select * from view_ads_media where ads_key=?1 and media_is_delete=0", nativeQuery = true)
     public Iterable<ViewAdsMedia> findByAdsKey(String adsKey);
 }
