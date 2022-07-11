@@ -4,6 +4,8 @@ public class ResponseListAds2 {
 
     private String  mediaKey;
 
+    private String  mediaName;
+
     private Integer totalClicks;
 
     private Integer totalConversions;
@@ -14,6 +16,14 @@ public class ResponseListAds2 {
 
     public void setMediaKey(String mediaKey) {
         this.mediaKey = mediaKey;
+    }
+
+    public String getMediaName() {
+        return mediaName;
+    }
+
+    public void setMediaName(String mediaName) {
+        this.mediaName = mediaName;
     }
 
     public Integer getTotalClicks() {
@@ -34,8 +44,9 @@ public class ResponseListAds2 {
 
     @Override
     public String toString() {
-        return "ResponseListAds2 [mediaKey=" + mediaKey + ", totalClicks=" + totalClicks + ", totalConversions="
-                + totalConversions + "]";
+        return "ResponseListAds2 [mediaKey=" + mediaKey + ", mediaName=" + mediaName + ", totalClicks=" + totalClicks
+                + ", totalConversions=" + totalConversions + "]";
     }
-
+ 
+    
 }

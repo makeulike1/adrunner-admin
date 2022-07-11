@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
  
 import com.gnm.adrunner.server.entity.Aff;
+import com.gnm.adrunner.server.entity.Media;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
@@ -23,6 +24,7 @@ import com.gnm.adrunner.server.param.res.admin.ResponseListAds2;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AffRepository;
+import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.util.redisUtil;
 import com.gnm.adrunner.util.timeBuilder;
 
@@ -54,6 +56,8 @@ public class AdsService {
     @Autowired
     AdsMediaRepository adsMediaRepository;
  
+    @Autowired
+    MediaRepository mediaRepository;
 
 
     @Transactional
@@ -353,6 +357,8 @@ public class AdsService {
 
  
 
+        List<Media> mediaList = mediaRepository.listAll();
+
         
         //제휴사 이름 표출을 위해서 제휴사 목록 전체 조회
         Iterable<Aff> affList = affService.listAff();
@@ -425,6 +431,12 @@ public class AdsService {
                 tmp.setMediaKey(e);
                 tmp.setTotalClicks(ckcount);
                 tmp.setTotalConversions(cvcount);
+
+                for(Media e1 : mediaList){
+                    if(e.equals(e1.getMediaKey()))
+                        tmp.setMediaName(e1.getName());
+                }
+                
                 mediaDataList.add(tmp);
                 
             }
