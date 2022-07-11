@@ -19,6 +19,8 @@ import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds1;
+import com.gnm.adrunner.server.param.res.admin.ResponseListAds2;
+import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AffRepository;
 import com.gnm.adrunner.util.redisUtil;
@@ -48,6 +50,9 @@ public class AdsService {
 
     @Autowired
     AffRepository affRepository;
+
+    @Autowired
+    AdsMediaRepository adsMediaRepository;
  
 
 
@@ -372,7 +377,7 @@ public class AdsService {
 
 
             //Redis 에서 광고에 대한 일별 클릭 수 조회
-            Integer clickCount = redisUtil.getCkCount(it.getAdsKey()+"*", it.getRedisIndex());
+            Integer clickCount = redisUtil.getCkCount(it.getAdsKey(), it.getRedisIndex());
 
             
 
@@ -407,10 +412,28 @@ public class AdsService {
 
             conversionRate *= 100;
 
+        
+
+            // 광고에 연동된 매체사 키 리스트 : 매체사별로 클릭 수 조회
+            List<ResponseListAds2> mediaDataList = new ArrayList<ResponseListAds2>();
+            String[] mediaKeyList = adsMediaRepository.mediaKeyListByAdsKey(it.getAdsKey());
+            for(String e : mediaKeyList){
+                Integer ckcount = redisUtil.getCkCount(it.getAdsKey(), e, it.getRedisIndex());
+                Integer cvcount = postbackService.countTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
+
+                ResponseListAds2 tmp = new ResponseListAds2();
+                tmp.setMediaKey(e);
+                tmp.setTotalClicks(ckcount);
+                tmp.setTotalConversions(cvcount);
+                mediaDataList.add(tmp);
+                
+            }
 
             record.setClick(clickCount); 
             record.setConversion(conversion);
             record.setConversionRate(conversionRate);
+            record.setMediaData(mediaDataList);
+            mediaDataList = null;
             
             result.add(record);
         }

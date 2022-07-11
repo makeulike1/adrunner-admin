@@ -75,6 +75,16 @@ public class PostbackService {
         
     }
 
+    public Integer countTotalPostbackByAdsKeyAndMediaKey(String adsKey, String mediaKey){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
+        Root<Postback> root = query.from(Postback.class);
+        query.select(criteriaBuilder.count(root));
+        query.where(criteriaBuilder.like(root.get("clickKey"), "%"+adsKey+":"+mediaKey+"%"));
+        return (int) (long) entityManager.createQuery(query).getSingleResult();
+        
+    }
+
 
 
 

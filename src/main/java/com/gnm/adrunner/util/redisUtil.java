@@ -41,7 +41,7 @@ public class redisUtil {
 
         Integer totalCkCount = 0;
         for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
-            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+"*");
+            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+":*");
             List<String> keysList = new ArrayList<>(); 
             Iterator<String> it = redisKeys.iterator();
             while (it.hasNext()) {
@@ -61,6 +61,35 @@ public class redisUtil {
 
         return totalCkCount;
     }
+
+
+
+    // Redis 클릭수 반환 ( 매체사 포함 )
+    public static Integer getCkCount(String adsKey, String mediaKey, Integer redisIndex){
+
+        Integer totalCkCount = 0;
+        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
+            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+":*:"+mediaKey);
+            List<String> keysList = new ArrayList<>(); 
+            Iterator<String> it = redisKeys.iterator();
+            while (it.hasNext()) {
+                keysList.add(it.next());
+            }
+
+            
+            Integer clickCount = 0;
+            for(String key : keysList){
+                Object tmp = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().size(key);
+                if(tmp != null)
+                    clickCount += Integer.parseInt(tmp.toString());
+            }
+
+            totalCkCount += clickCount;
+        }
+
+        return totalCkCount;
+    }
+    
 
 
 

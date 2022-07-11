@@ -1,5 +1,7 @@
 package com.gnm.adrunner.server.param.res.admin;
 
+import java.util.List;
+
 import com.gnm.adrunner.server.entity.Ads;
 
 public class ResponseListAds1 {
@@ -14,12 +16,22 @@ public class ResponseListAds1 {
 
     private Double      conversionRate;
  
+    private List<ResponseListAds2>  mediaData;
+
     public Ads getAds() {
         return ads;
     }
 
     public void setAds(Ads ads) {
         this.ads = ads;
+    }
+
+    public String getAffName() {
+        return affName;
+    }
+
+    public void setAffName(String affName) {
+        this.affName = affName;
     }
 
     public Integer getClick() {
@@ -46,19 +58,21 @@ public class ResponseListAds1 {
         this.conversionRate = conversionRate;
     }
 
-    public String   getAffName(){
-        return affName;
+    public List<ResponseListAds2> getMediaData() {
+        return mediaData;
     }
 
-    public void setAffName(String affName){
-        this.affName = affName;
+    public void setMediaData(List<ResponseListAds2> mediaData) {
+        this.mediaData = mediaData;
     }
 
     @Override
     public String toString() {
-        return "ResListAds1 [ads=" + ads + ", click=" + click + ", conversion=" + conversion + ", conversionRate="
-                + conversionRate + "]";
+        return "ResponseListAds1 [ads=" + ads + ", affName=" + affName + ", click=" + click + ", conversion="
+                + conversion + ", conversionRate=" + conversionRate + ", mediaData=" + mediaData + "]";
     }
+ 
+    
 
     
 }
