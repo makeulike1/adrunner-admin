@@ -24,6 +24,8 @@ public class AdsMedia {
 
     private Boolean isDayLimit;
 
+    private Boolean isDelete;
+
     private String  createtime;
 
     public Integer getId() {
@@ -74,6 +76,14 @@ public class AdsMedia {
         this.isDayLimit = isDayLimit;
     }
 
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
     public String getCreatetime() {
         return createtime;
     }
@@ -85,8 +95,8 @@ public class AdsMedia {
     @Override
     public String toString() {
         return "AdsMedia [adsKey=" + adsKey + ", createtime=" + createtime + ", id=" + id + ", isDayLimit=" + isDayLimit
-                + ", mediaCost=" + mediaCost + ", mediaDailyCap=" + mediaDailyCap + ", mediaKey=" + mediaKey + "]";
+                + ", isDelete=" + isDelete + ", mediaCost=" + mediaCost + ", mediaDailyCap=" + mediaDailyCap
+                + ", mediaKey=" + mediaKey + "]";
     }
-     
     
 }

@@ -369,26 +369,38 @@ public class AdsController extends RequestResponseInterface{
         String mediaKey     =   mediaRepository.getKeyByName(mediaName);
 
 
-
-        // 광고에 연동된 매체사 신규 추가
-        AdsMedia adsMedia = new AdsMedia();
-        adsMedia.setAdsKey(adsKey);
-        adsMedia.setMediaKey(mediaKey);
-        adsMedia.setMediaCost(0);
-        adsMedia.setMediaDailyCap(0);
-        adsMedia.setIsDayLimit(false);
-        adsMedia.setCreatetime(timeBuilder.getCurrentTime());
+        Integer amid = adsMediaRepository.selectIdByAdsKeyAndMediaKey(adsKey, mediaKey);
 
 
-        Integer amId = adsMediaService.saveAdsMedia(adsMedia);
+        // 만약 사전에 연동되어 있던 매체사인 경우
+        if(amid != null){
+            adsMediaRepository.recoverByAdsKeyAndMediaKey(adsKey, mediaKey);
 
-        // 메모리 데이터 추가
-        memoryDataService.addMemoryData("ads-media", amId);
+            // 클릭 서버 : 메모리 데이터 삭제
+            memoryDataService.deleteMemoryData("ads-media", amid);
 
+        }else{
+
+
+            // 광고에 연동된 매체사 신규 추가
+            AdsMedia adsMedia = new AdsMedia();
+            adsMedia.setAdsKey(adsKey);
+            adsMedia.setMediaKey(mediaKey);
+            adsMedia.setMediaCost(0);
+            adsMedia.setMediaDailyCap(0);
+            adsMedia.setIsDayLimit(false);
+            adsMedia.setCreatetime(timeBuilder.getCurrentTime());
+
+
+            Integer amId = adsMediaService.saveAdsMedia(adsMedia);
+
+            // 메모리 데이터 추가
+            memoryDataService.addMemoryData("ads-media", amId);
+        
+        }
 
         // 매체사 추가 연동에 대해서 광고 이력에 기록
         String adminId = adminLoginRepository.findAdminIdByToken(token);
-
         
         // 광고 변경 이력 갱신
         logAdsService.insert(adsKey, "", adminId, "media-new", "", mediaName);
@@ -428,9 +440,11 @@ public class AdsController extends RequestResponseInterface{
 
         // 광고에 연동된 매체사 삭제
         Integer amid = adsMediaRepository.selectIdByAdsKeyAndMediaKey(adsKey, mediaKey);
-        adsMediaService.deleteById(amid);
+        adsMediaRepository.deleteByAdskeyAndMediaKey(adsKey, mediaKey);
 
-        // 메모리 데이터 삭제
+
+
+        // 클릭 서버 : 메모리 데이터 삭제
         memoryDataService.deleteMemoryData("ads-media", amid);
 
 
