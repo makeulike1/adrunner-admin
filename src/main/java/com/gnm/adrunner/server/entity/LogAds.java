@@ -21,6 +21,8 @@ public class LogAds {
     private String  clientIp;
 
     private String  updatedKey;
+
+    private String  updatedKey2;
  
     private String  prevValue;
 
@@ -68,6 +70,14 @@ public class LogAds {
         this.updatedKey = updatedKey;
     }
 
+    public String getUpdatedKey2() {
+        return updatedKey2;
+    }
+
+    public void setUpdatedKey2(String updatedKey2) {
+        this.updatedKey2 = updatedKey2;
+    }
+
     public String getPrevValue() {
         return prevValue;
     }
@@ -96,10 +106,8 @@ public class LogAds {
     public String toString() {
         return "LogAds [adminId=" + adminId + ", adsKey=" + adsKey + ", clientIp=" + clientIp + ", createtime="
                 + createtime + ", id=" + id + ", prevValue=" + prevValue + ", updatedKey=" + updatedKey
-                + ", updatedValue=" + updatedValue + "]";
+                + ", updatedKey2=" + updatedKey2 + ", updatedValue=" + updatedValue + "]";
     }
- 
-    
-
+  
  
 }

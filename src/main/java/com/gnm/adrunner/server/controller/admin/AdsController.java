@@ -124,7 +124,7 @@ public class AdsController extends RequestResponseInterface{
 
 
         // 광고 상태 변경 로깅
-        logAdsService.insert(ads.getAdsKey(),   request.getRemoteAddr(),   adminId.toString(),    "status",     ads.getStatus().toString(), status.toString());
+        logAdsService.insert(ads.getAdsKey(),   request.getRemoteAddr(),   adminId.toString(),    "status",    "",   ads.getStatus().toString(), status.toString());
 
 
 
@@ -303,7 +303,7 @@ public class AdsController extends RequestResponseInterface{
 
 
         // 광고 변경 이력 갱신
-        logAdsService.insert(ADS_KEY, "", adminId, "new", "", "");
+        logAdsService.insert(ADS_KEY, "", adminId, "new", "", "", "");
         
 
         

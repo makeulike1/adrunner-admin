@@ -172,7 +172,7 @@ public class AdsMediaController extends RequestResponseInterface{
         String adminId = adminLoginRepository.findAdminIdByToken(token);
         
         // 광고 변경 이력 갱신
-        logAdsService.insert(adsKey, "", adminId, "media-new", "", mediaName);
+        logAdsService.insert(adsKey, "", adminId, "media-new", "", "", mediaName);
 
 
         return ResponseEntity.status(200)
@@ -223,7 +223,7 @@ public class AdsMediaController extends RequestResponseInterface{
 
 
         // 광고 변경 이력 갱신
-        logAdsService.insert(adsKey, "", adminId, "media-remove", "", mediaName);
+        logAdsService.insert(adsKey, "", adminId, "media-remove", "", "", mediaName);
 
         return ResponseEntity.status(200)
             .headers(responseHeaders)
@@ -341,7 +341,7 @@ public class AdsMediaController extends RequestResponseInterface{
 
 
         // 데일리 캡 추가 확보 이력 기록
-        logAdsService.insert(adsKey, "", adminId, "add-daily-cap", "", value.toString());
+        logAdsService.insert(adsKey, "", adminId, "add-daily-cap", "", "", value.toString());
 
 
         return ResponseEntity.status(200)

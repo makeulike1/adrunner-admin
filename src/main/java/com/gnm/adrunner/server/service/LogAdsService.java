@@ -21,7 +21,7 @@ public class LogAdsService {
     @Autowired
     LogAdsRepository logAdsRepository;
 
-    public void insert(String adsKey, String clientIp, String adminId, String updatedKey, String prevValue, String updatedValue) {
+    public void insert(String adsKey, String clientIp, String adminId, String updatedKey, String updatedKey2, String prevValue, String updatedValue) {
 
         LogAds la = new LogAds();
 
@@ -30,6 +30,7 @@ public class LogAdsService {
         la.setAdsKey(adsKey);
         la.setClientIp(clientIp);
         la.setUpdatedKey(updatedKey);
+        la.setUpdatedKey2(updatedKey2);
         la.setPrevValue(prevValue);
         la.setUpdatedValue(updatedValue);
         la.setCreatetime(CURRENT_TIME);

@@ -103,7 +103,7 @@ public class AdsMediaService {
 
         // 매체사 단가 업데이트에 대해서 업데이트 로그
         if(!PREV_MEDIA_COST.equals(REQ_MEDIA_COST))
-            logAdsService.insert(adsKey, remoteAddr, adminId, name+"의 매체사 단가",        PREV_MEDIA_COST.toString(),     REQ_MEDIA_COST.toString());   
+            logAdsService.insert(adsKey, remoteAddr, adminId,   "media-daily-cost",  name,        PREV_MEDIA_COST.toString(),     REQ_MEDIA_COST.toString());   
 
 
 
@@ -111,13 +111,13 @@ public class AdsMediaService {
 
         // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
         if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP))
-            logAdsService.insert(adsKey, remoteAddr, adminId, name+" 매체사 일일 한도",     PREV_MEDIA_DAILYCAP.toString(), REQ_MEDIA_DAILYCAP.toString());   
+            logAdsService.insert(adsKey, remoteAddr, adminId, "media-daily-limit",  name,     PREV_MEDIA_DAILYCAP.toString(), REQ_MEDIA_DAILYCAP.toString());   
      
 
             
         // 매체사 일일한도 
         if(!PREV_IS_LIMIT.equals(REQ_IS_LIMIT))
-            logAdsService.insert(adsKey, remoteAddr, adminId, name+" 매체사 데일리캡 사용여부",     PREV_IS_LIMIT.toString(),       REQ_IS_LIMIT.toString());   
+            logAdsService.insert(adsKey, remoteAddr, adminId, "media-daily-cap",                name,     PREV_IS_LIMIT.toString(),       REQ_IS_LIMIT.toString());   
             
 
 

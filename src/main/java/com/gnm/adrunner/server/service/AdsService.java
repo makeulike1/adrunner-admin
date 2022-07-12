@@ -119,7 +119,7 @@ public class AdsService {
         if(REQ_OS != null){
             criteriaUpdate.set("os",        REQ_OS);    
             if(!REQ_LOOPBACK.equals(PREV_LOOPBACK)){
-                logAdsService.insert(adsKey, adminIp,   adminId,    "os", PREV_OS.toString(), REQ_OS.toString());
+                logAdsService.insert(adsKey, adminIp,   adminId,    "os", "", PREV_OS.toString(), REQ_OS.toString());
             }
         }
 
@@ -131,7 +131,7 @@ public class AdsService {
         if(REQ_LOOPBACK != null){
             criteriaUpdate.set("loopbackdate",        REQ_LOOPBACK);    
             if(!REQ_LOOPBACK.equals(PREV_LOOPBACK)){
-                logAdsService.insert(adsKey, adminIp,   adminId,    "loopbackdate", PREV_LOOPBACK.toString(), REQ_LOOPBACK.toString());
+                logAdsService.insert(adsKey, adminIp,   adminId,    "loopbackdate","",  PREV_LOOPBACK.toString(), REQ_LOOPBACK.toString());
             }
         }
 
@@ -143,7 +143,7 @@ public class AdsService {
         if(REQ_STATUS != null){
             criteriaUpdate.set("status",        REQ_STATUS);    
             if(!REQ_STATUS.equals(PREV_STATUS)){
-                logAdsService.insert(adsKey, adminIp,   adminId,    "status", PREV_STATUS.toString(), REQ_STATUS.toString());
+                logAdsService.insert(adsKey, adminIp,   adminId,    "status", "", PREV_STATUS.toString(), REQ_STATUS.toString());
             }
         }
  
@@ -154,7 +154,7 @@ public class AdsService {
             if(!REQ_AFF.equals(PREV_AFF)){
                 String PREV_AFF_NAME    = affRepository.findNameById(PREV_AFF);
                 String REQ_AFF_NAME     = affRepository.findNameById(REQ_AFF); 
-                logAdsService.insert(adsKey, adminIp, adminId,    "aff",    PREV_AFF_NAME, REQ_AFF_NAME);
+                logAdsService.insert(adsKey, adminIp, adminId,    "aff",    "", PREV_AFF_NAME, REQ_AFF_NAME);
             }
         }
 
@@ -163,7 +163,7 @@ public class AdsService {
         if(REQ_AUTOSTART != null){
             criteriaUpdate.set("autostart",           REQ_AUTOSTART);    
             if(!REQ_AUTOSTART.equals(PREV_AUTOSTART))
-                logAdsService.insert(adsKey, adminIp, adminId,    "autostart", PREV_AUTOSTART.toString(), REQ_AUTOSTART.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "autostart", "", PREV_AUTOSTART.toString(), REQ_AUTOSTART.toString());
         }
 
 
@@ -173,7 +173,7 @@ public class AdsService {
         if(REQ_AUTODOWN != null){
             criteriaUpdate.set("autodown",           REQ_AUTODOWN);    
             if(!REQ_AUTODOWN.equals(PREV_AUTODOWN))
-                logAdsService.insert(adsKey, adminIp, adminId,    "autodown", PREV_AUTODOWN.toString(), REQ_AUTODOWN.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "autodown", "", PREV_AUTODOWN.toString(), REQ_AUTODOWN.toString());
         }
 
 
@@ -182,7 +182,7 @@ public class AdsService {
         if(REQ_NAME != null){
             criteriaUpdate.set("name",          REQ_NAME);
             if(!REQ_NAME.equals(PREV_NAME)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "name", PREV_NAME, REQ_NAME);
+                logAdsService.insert(adsKey, adminIp, adminId,    "name", "", PREV_NAME, REQ_NAME);
             }
         }
 
@@ -193,7 +193,7 @@ public class AdsService {
         if(REQ_TYPE != null){
             criteriaUpdate.set("type",          REQ_TYPE);
             if(!REQ_TYPE.equals(PREV_TYPE)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "type", PREV_TYPE.toString(), REQ_TYPE.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "type", "", PREV_TYPE.toString(), REQ_TYPE.toString());
             }
         }
 
@@ -205,7 +205,7 @@ public class AdsService {
         if(REQ_STARTDATE != null){
             criteriaUpdate.set("startdate",     REQ_STARTDATE);
             if(!REQ_STARTDATE.equals(PREV_STARTDATE)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "startdate", PREV_STARTDATE, REQ_STARTDATE);
+                logAdsService.insert(adsKey, adminIp, adminId,    "startdate", "", PREV_STARTDATE, REQ_STARTDATE);
             }
         }
 
@@ -217,7 +217,7 @@ public class AdsService {
         if(REQ_ENDDATE != null){
             criteriaUpdate.set("enddate",       REQ_ENDDATE);
             if(!REQ_ENDDATE.equals(PREV_ENDDATE)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "enddate", PREV_ENDDATE, REQ_ENDDATE);
+                logAdsService.insert(adsKey, adminIp, adminId,    "enddate", "", PREV_ENDDATE, REQ_ENDDATE);
             }
             
         }
@@ -229,7 +229,7 @@ public class AdsService {
         if(REQ_ISDAILY_CAP != null){
             criteriaUpdate.set("isDailyCap",    REQ_ISDAILY_CAP);
             if(REQ_ISDAILY_CAP != PREV_ISDAILY_CAP){
-                logAdsService.insert(adsKey, adminIp, adminId,    "isDailyCap", PREV_ISDAILY_CAP.toString(), REQ_ISDAILY_CAP.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "isDailyCap", "", PREV_ISDAILY_CAP.toString(), REQ_ISDAILY_CAP.toString());
             }
         }
 
@@ -239,7 +239,7 @@ public class AdsService {
         if(REQ_EVENTNAME != null){
             criteriaUpdate.set("eventName",     REQ_EVENTNAME);
             if(!REQ_EVENTNAME.equals(PREV_EVENTNAME)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "eventName", PREV_EVENTNAME, REQ_EVENTNAME);
+                logAdsService.insert(adsKey, adminIp, adminId,    "eventName", "", PREV_EVENTNAME, REQ_EVENTNAME);
             }
         }
 
@@ -250,7 +250,7 @@ public class AdsService {
         if(REQ_COST1 != null){
             criteriaUpdate.set("cost1",     REQ_COST1);
             if(!REQ_COST1.equals(PREV_COST1)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "cost1", PREV_COST1.toString(), REQ_COST1.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "cost1", "", PREV_COST1.toString(), REQ_COST1.toString());
             }
         }
 
@@ -259,7 +259,7 @@ public class AdsService {
         if(REQ_COST2 != null){
             criteriaUpdate.set("cost2",     REQ_COST2);
             if(!REQ_COST2.equals(PREV_COST2)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "cost2", PREV_COST2.toString(), REQ_COST2.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "cost2", "", PREV_COST2.toString(), REQ_COST2.toString());
             }
         }
 
@@ -277,7 +277,7 @@ public class AdsService {
         if(REQ_ADVKEY != null){
             criteriaUpdate.set("advKey",  REQ_ADVKEY);
             if(!REQ_ADVKEY.equals(PREV_ADVKEY)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "advKey", PREV_ADVKEY.toString(), REQ_ADVKEY.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "advKey", "", PREV_ADVKEY.toString(), REQ_ADVKEY.toString());
             }
         }
 
@@ -287,7 +287,7 @@ public class AdsService {
         if(REQ_IS_POSTBACK != null){
             criteriaUpdate.set("isPostback", REQ_IS_POSTBACK);
             if(!REQ_IS_POSTBACK.equals(PREV_IS_POSTBACK)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "isPostback", PREV_IS_POSTBACK.toString(), REQ_IS_POSTBACK.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "isPostback", "", PREV_IS_POSTBACK.toString(), REQ_IS_POSTBACK.toString());
             }
         }
 
@@ -297,7 +297,7 @@ public class AdsService {
         if(REQ_SUPPLYDEMAND != null){
             criteriaUpdate.set("supplyDemand", REQ_SUPPLYDEMAND);
             if(!REQ_SUPPLYDEMAND.equals(PREV_SUPPLYDEMAND)){
-                logAdsService.insert(adsKey, adminIp, adminId,    "supplyDemand", PREV_SUPPLYDEMAND.toString(), REQ_SUPPLYDEMAND.toString());
+                logAdsService.insert(adsKey, adminIp, adminId,    "supplyDemand", "", PREV_SUPPLYDEMAND.toString(), REQ_SUPPLYDEMAND.toString());
             }
         }
         

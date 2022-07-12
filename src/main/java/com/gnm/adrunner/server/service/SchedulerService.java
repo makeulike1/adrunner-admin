@@ -163,7 +163,7 @@ public class SchedulerService {
 
             if(loopbackDate.compareTo(currentDate) == -1){
                 adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_DISMISS);
-                logAdsService.insert(e.getAdsKey(), "", "system", "time-up", "", "");
+                logAdsService.insert(e.getAdsKey(), "", "system", "time-up", "", "", "");
                 memoryDataService.updateMemoryData("ads", e.getId());
                 redisUtil.flushDB(e.getRedisIndex());
 
@@ -186,7 +186,7 @@ public class SchedulerService {
             // 만약 광고 종료시간이 현재 시간보다 전이면 Loopback 상태
             if(endDate.compareTo(currentDate) == -1){
                 adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_LOOPBACK);
-                logAdsService.insert(e.getAdsKey(), "", "system", "loopback", "", "");
+                logAdsService.insert(e.getAdsKey(), "", "system", "loopback", "", "", "");
                 memoryDataService.updateMemoryData("ads", e.getId());
             }
  
@@ -206,7 +206,7 @@ public class SchedulerService {
                 // 그리고 광고 자동시작여부가 체크되어 있으면 자동으로 광고 시작
                 if(e.getAutostart()){
                     adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_LIVE);
-                    logAdsService.insert(e.getAdsKey(), "", "system", "start-up", "", "");
+                    logAdsService.insert(e.getAdsKey(), "", "system", "start-up", "", "", "");
                     memoryDataService.updateMemoryData("ads", e.getId());
                 }
             }
