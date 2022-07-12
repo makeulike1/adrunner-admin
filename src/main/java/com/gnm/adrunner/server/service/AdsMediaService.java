@@ -35,8 +35,8 @@ public class AdsMediaService {
     }
 
     @Transactional
-    public void updateIsDayLimit(Boolean isDayLimit, String adsKey, String mediaKey){
-        adsMediaRepository.updateIsDayLimit(isDayLimit, adsKey, mediaKey);
+    public void updateTodayLimit(Boolean value, String adsKey, String mediaKey){
+        adsMediaRepository.updateTodayLimit(value, adsKey, mediaKey);
     }
 
     @Transactional

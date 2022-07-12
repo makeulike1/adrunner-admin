@@ -8,6 +8,8 @@ public class RequestSaveAds1 {
 
     private Integer     dailycap;
 
+    private Boolean     isLimit;
+
     public String getName() {
         return name;
     }
@@ -32,11 +34,22 @@ public class RequestSaveAds1 {
         this.dailycap = dailycap;
     }
 
-    @Override
-    public String toString() {
-        return "RequestSaveAds1 [cost=" + cost + ", dailycap=" + dailycap + ", name=" + name + "]";
+    public Boolean getIsLimit() {
+        return isLimit;
     }
 
+    public void setIsLimit(Boolean isLimit) {
+        this.isLimit = isLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestSaveAds1 [cost=" + cost + ", dailycap=" + dailycap + ", isLimit=" + isLimit + ", name=" + name
+                + "]";
+    }
+
+    
+    
     
     
 }

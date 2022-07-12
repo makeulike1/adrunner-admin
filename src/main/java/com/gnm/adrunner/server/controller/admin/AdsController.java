@@ -281,7 +281,7 @@ public class AdsController extends RequestResponseInterface{
             am.setMediaCost(e.getCost());
             am.setMediaDailyCap(e.getDailycap());
             am.setRunDailyCap(e.getDailycap());
-            am.setIsDayLimit(false);
+            am.setIsDayLimit(e.getIsLimit());
             Integer amId = adsMediaService.saveAdsMedia(am);
             // 메모리 데이터 추가
             memoryDataService.addMemoryData("ads-media", amId);
@@ -581,8 +581,8 @@ public class AdsController extends RequestResponseInterface{
         }
             
 
-        // 데일리 도달 여부를 false로 수정
-        adsMediaRepository.updateIsDayLimit(false, adsKey, mediaKey);
+        // 데일리캡 도달 여부를 false로 수정
+        adsMediaRepository.updateTodayLimit(false, adsKey, mediaKey);
 
         
         // 데일리 캡을 추가 부여 
