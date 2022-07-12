@@ -78,8 +78,18 @@ public class AdsMediaService {
 
 
 
+        
         // 데일리캡이 업데이트되면 runDailyCap도 업데이트 시킴
         adsMediaRepository.resetRunDailyCap(adsKey, mediaKey);
+
+
+
+        
+
+        // 만약 들어오는 데일리캡이 0이면 이미 금일 한도에 도달하였다고 간주
+        if(REQ_MEDIA_DAILYCAP == 0)
+            adsMediaRepository.updateTodayLimit(true, adsKey, mediaKey);
+
 
 
 
