@@ -93,7 +93,7 @@ public class AdsMediaService {
 
 
 
-        // 만약 데일리캡이 무제한인 경우 금일한도는 한도에 도달하지 않음
+        // 만약 데일리캡이 무제한인 경우 한도에 도달하지 않음
         if(!REQ_IS_LIMIT)
             adsMediaRepository.updateTodayLimit(false, adsKey, mediaKey);
 
