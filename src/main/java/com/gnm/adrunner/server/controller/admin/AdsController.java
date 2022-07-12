@@ -524,27 +524,33 @@ public class AdsController extends RequestResponseInterface{
         // 광고에 연동된 매체사 키 리스트 : 매체사별로 클릭 수 조회
         List<ResponseMediaList> result = new ArrayList<ResponseMediaList>();
         String[] mediaKeyList = adsMediaRepository.mediaKeyListByAdsKey(adsKey);
-        for(String e : mediaKeyList){
+        for(String mediaKey : mediaKeyList){
 
-            Integer ckcount     = redisUtil.getCkCount(adsKey, e, redisIndex);
-            Integer cvcount     = postbackService.countTotalPostbackByAdsKeyAndMediaKey(adsKey, e);
-            Integer todaycv     = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, e);
-            Integer dailycap    = adsMediaRepository.getMediaDailyCapByAdsKeyAndMediaKey(adsKey, e);
-            Integer runDailyCap = adsMediaRepository.getRunDailyCapByAdsKeyAndMediaKey(adsKey, e);
-            Boolean isDayLimit  = adsMediaRepository.getIsDayLimitByAdskeyAndMediakey(adsKey, e);
+            AdsMedia am = adsMediaRepository.findByAdsKeyAndMediakey(adsKey, mediaKey);
+            
+            Integer ckcount     = redisUtil.getCkCount(adsKey, mediaKey, redisIndex);
+            Integer cvcount     = postbackService.countTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
+            Integer todaycv     = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
+
+            Integer dailycap    = am.getMediaDailyCap();
+            Integer runDailyCap = am.getRunDailyCap();
+            Boolean isDayLimit  = am.getIsDayLimit();
+            Boolean todayLimit  = am.getTodayLimit();
+            
 
 
             ResponseMediaList tmp = new ResponseMediaList();
-            tmp.setMediaKey(e);
+            tmp.setMediaKey(mediaKey);
             tmp.setTotalClicks(ckcount);
             tmp.setTotalConversions(cvcount);
             tmp.setTodaycvCount(todaycv);
             tmp.setDailyCap(dailycap);
             tmp.setRunDailyCap(runDailyCap);
             tmp.setIsDayLimit(isDayLimit);
+            tmp.setTodayLimit(todayLimit);
 
             for(Media e1 : mediaList){
-                if(e.equals(e1.getMediaKey()))
+                if(mediaKey.equals(e1.getMediaKey()))
                     tmp.setMediaName(e1.getName());
             }
                 

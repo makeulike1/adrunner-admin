@@ -18,6 +18,8 @@ public class ResponseMediaList {
 
     private Boolean isDayLimit;
 
+    private Boolean todayLimit;
+
     public String getMediaKey() {
         return mediaKey;
     }
@@ -82,13 +84,20 @@ public class ResponseMediaList {
         this.isDayLimit = isDayLimit;
     }
 
+    public Boolean getTodayLimit() {
+        return todayLimit;
+    }
+
+    public void setTodayLimit(Boolean todayLimit) {
+        this.todayLimit = todayLimit;
+    }
+
     @Override
     public String toString() {
         return "ResponseMediaList [dailyCap=" + dailyCap + ", isDayLimit=" + isDayLimit + ", mediaKey=" + mediaKey
-                + ", mediaName=" + mediaName + ", runDailyCap=" + runDailyCap + ", todaycvCount=" + todaycvCount
-                + ", totalClicks=" + totalClicks + ", totalConversions=" + totalConversions + "]";
+                + ", mediaName=" + mediaName + ", runDailyCap=" + runDailyCap + ", todayLimit=" + todayLimit
+                + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks + ", totalConversions="
+                + totalConversions + "]";
     }
- 
-    
-  
+
 }
