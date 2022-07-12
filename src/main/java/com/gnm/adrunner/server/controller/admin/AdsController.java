@@ -349,28 +349,26 @@ public class AdsController extends RequestResponseInterface{
     }
 
 
-    // 광고에 연동된 매체사 등록
+    // 광고에 연동되어 있는 매체사 목록  
     @CrossOrigin(origins = "*")
-    @GetMapping("/media/list") 
-    public @ResponseBody ResponseEntity<String> media_list(
-        @RequestParam(value="adsKey", required=true) String adsKey,  HttpServletRequest request){
-
+    @GetMapping("/media/list")
+    public @ResponseBody ResponseEntity<String> list_media(@RequestParam(value="adsKey", required=true) String adsKey, HttpServletRequest request) {
+    
+            
         HttpHeaders responseHeaders = new HttpHeaders();
-        
-        String token = request.getHeader("token");
-
- 
+            
         // 유효하지 않은 토큰인 경우 203 에러 
-        if(adminLoginService.chkToken(token) == 203){
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
             return ResponseEntity.status(203)
                 .headers(responseHeaders)
                 .body(getStatusMessage(203));
         }
-
+            
 
         return ResponseEntity.status(200)
             .headers(responseHeaders)
-            .body(getStatusMessage(200));
+            .body(gson.toJson(viewAdsMediaRepository.findByAdsKey(adsKey)));
+        
     }
 
 
@@ -501,7 +499,7 @@ public class AdsController extends RequestResponseInterface{
     // 광고에 연동되어 있는 매체사 목록  
     @CrossOrigin(origins = "*")
     @GetMapping("/media/list2")
-    public @ResponseBody ResponseEntity<String> list_media(@RequestParam(value="adsKey", required=true) String adsKey, HttpServletRequest request) {
+    public @ResponseBody ResponseEntity<String> list_media2(@RequestParam(value="adsKey", required=true) String adsKey, HttpServletRequest request) {
     
             
         HttpHeaders responseHeaders = new HttpHeaders();
