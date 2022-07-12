@@ -750,15 +750,8 @@ public class AdsController extends RequestResponseInterface{
             String  mediaKey    = mediaRepository.getKeyByName(e.getName());
 
             AdsMedia am = adsMediaRepository.findByAdsKeyAndMediakey(adsKey, mediaKey);
-        
-            adsMediaService.modifyAdsMedia(
-                    adid, 
-                    e, 
-                    ads, 
-                    request.getRemoteAddr(), 
-                    adsKey, adminId, mediaKey,
-                    am.getMediaCost(),
-                    am.getMediaDailyCap());
+            
+            adsMediaService.modifyAdsMedia(am, e, request.getRemoteAddr(), adminId);
 
             // 메모리 데이터 업데이트
             memoryDataService.updateMemoryData("ads-media", am.getId());
