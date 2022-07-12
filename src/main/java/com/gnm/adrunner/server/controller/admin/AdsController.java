@@ -420,6 +420,7 @@ public class AdsController extends RequestResponseInterface{
             adsMedia.setMediaCost(0);
             adsMedia.setMediaDailyCap(0);
             adsMedia.setIsDayLimit(false);
+            adsMedia.setRunDailyCap(0);
             adsMedia.setIsDelete(false);
             adsMedia.setCreatetime(timeBuilder.getCurrentTime());
 
