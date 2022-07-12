@@ -1,14 +1,20 @@
 package com.gnm.adrunner.server.controller.admin;
  
 import com.gnm.adrunner.server.RequestResponseInterface;
+import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.Adv;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAdv;
+import com.gnm.adrunner.server.param.res.admin.ResponseAdvList3;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
+import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AdvRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
@@ -53,6 +59,9 @@ public class AdvController extends RequestResponseInterface{
 
     @Autowired
     AdvService advService;
+
+    @Autowired
+    AdsRepository adsRepository;
  
 
     // 광고주 등록
@@ -113,6 +122,41 @@ public class AdvController extends RequestResponseInterface{
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(gson.toJson(advRepository.listAll()));
+    }
+
+
+    // 광고주 목록 3
+    @CrossOrigin(origins = "*")
+    @GetMapping("/list3") 
+    public @ResponseBody ResponseEntity<String> list3(@RequestParam(value="adsKey", required=false) String adsKey, HttpServletRequest request) {
+         
+        HttpHeaders responseHeaders = new HttpHeaders();
+    
+        // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        } 
+
+        Ads ads = adsRepository.findByAdsKey(adsKey);
+
+        List<ResponseAdvList3> result = new ArrayList<ResponseAdvList3>();
+
+        for(Adv e : advRepository.listAll()){
+            ResponseAdvList3 tmp = new ResponseAdvList3();
+            tmp.setE(e);
+
+            if(e.getAdvKey().equals(ads.getAdvKey()))
+                tmp.setChk(true);
+            else tmp.setChk(false);
+            result.add(tmp);
+            tmp = null;
+        }
+
+        return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(gson.toJson(result));
     }
 
 

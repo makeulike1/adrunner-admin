@@ -1,19 +1,25 @@
 package com.gnm.adrunner.server.controller.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
+import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.Aff;
 import com.gnm.adrunner.server.entity.AffParam;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAff;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAffParam;
+import com.gnm.adrunner.server.param.res.admin.ResponseAffList3;
 import com.gnm.adrunner.server.repo.AffRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.AffService;
 import com.gnm.adrunner.server.service.MemoryDataService;
 import com.gnm.adrunner.util.timeBuilder;
 import com.gnm.adrunner.server.service.AffParamService;
+import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AffParamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller 
@@ -46,6 +53,9 @@ public class AffController extends RequestResponseInterface{
     @Autowired
     AffParamService affParamService;
 
+
+    @Autowired
+    AdsRepository adsRepository;
 
 
     @Autowired
@@ -134,6 +144,42 @@ public class AffController extends RequestResponseInterface{
                 .body(gson.toJson(affRepository.listStatusComplete()));
      }
 
+     // 제휴사: 연동완료된 제휴사 목록
+     @CrossOrigin(origins = "*")
+     @GetMapping("/list3") 
+     public @ResponseBody ResponseEntity<String> list3(
+         @RequestParam(value="adsKey", required=false) String adsKey, HttpServletRequest request) {
+     
+   
+         HttpHeaders responseHeaders = new HttpHeaders();
+         
+         // 유효하지 않은 토큰인 경우 203 에러 
+         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                  .headers(responseHeaders)
+                  .body(getStatusMessage(203));
+         }
+   
+         Ads ads = adsRepository.findByAdsKey(adsKey);
+
+         List<ResponseAffList3> result = new ArrayList<ResponseAffList3>();
+         
+         for(Aff e1 : affRepository.listStatusComplete()){
+            ResponseAffList3 tmp = new ResponseAffList3();
+            tmp.setE(e1);
+
+            if(e1.getId().equals(ads.getAff()))
+               tmp.setChk(true);
+            else tmp.setChk(false);
+            result.add(tmp);
+            tmp = null;
+         }
+         
+         
+         return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(gson.toJson(result));
+     }
  
 
 
