@@ -56,15 +56,22 @@ public class AdsMediaService {
         Integer mediaDailyCap   = e.getDailycap();            
 
         // 특정 매체사키에 대하여 매체사 단가와 데일리캡을 업데이트
-        adsMediaRepository.updateMediaCostAndDailyCap(adsKey, mediaKey, mediaCost, mediaDailyCap);            
+        adsMediaRepository.updateMediaCostAndDailyCap(adsKey, mediaKey, mediaCost, mediaDailyCap);  
+        
+        
+        // 데일리캡이 업데이트되면 runDailyCap도 업데이트 시킴
+        adsMediaRepository.resetRunDailyCap(adsKey, mediaKey);
 
+        
         // 매체사 단가 업데이트에 대해서 업데이트 로그
         if(!prevMediaCost.equals(mediaCost))
             logAdsService.insert(adsKey, remoteAddr, adminId, name+"의 매체사 단가", prevMediaCost.toString(), mediaCost.toString());   
 
+
         // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
         if(!prevMediaDailyCap.equals(mediaDailyCap))
             logAdsService.insert(adsKey, remoteAddr, adminId, name+" 매체사 일일 한도", prevMediaDailyCap.toString(), mediaDailyCap.toString());   
+            
     }
 
     public void deleteById(Integer amid) {

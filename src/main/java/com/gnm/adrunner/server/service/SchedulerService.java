@@ -262,7 +262,7 @@ public class SchedulerService {
                 // 광고 일일 한도 도달 여부 초기화
                 AdsMedia am = adsMediaRepository.findByAdsKeyAndMediakey(adsKey, mediaKey);
                 adsMediaService.updateIsDayLimit(false, adsKey, mediaKey);
-                adsMediaRepository.updateRunDailyCap(adsKey, mediaKey);
+                adsMediaRepository.resetRunDailyCap(adsKey, mediaKey);
                 memoryDataService.updateMemoryData("ads-media", am.getId());
 
 
