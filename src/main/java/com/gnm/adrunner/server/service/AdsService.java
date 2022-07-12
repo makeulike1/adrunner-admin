@@ -15,12 +15,10 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
  
 import com.gnm.adrunner.server.entity.Aff;
-import com.gnm.adrunner.server.entity.Media;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds1;
-import com.gnm.adrunner.server.param.res.admin.ResponseListAds2;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AffRepository;
@@ -356,9 +354,6 @@ public class AdsService {
 
 
  
-
-        List<Media> mediaList = mediaRepository.listAll();
-
         
         //제휴사 이름 표출을 위해서 제휴사 목록 전체 조회
         Iterable<Aff> affList = affService.listAff();
@@ -417,42 +412,12 @@ public class AdsService {
 
 
             conversionRate *= 100;
+ 
 
-        
-
-            // 광고에 연동된 매체사 키 리스트 : 매체사별로 클릭 수 조회
-            List<ResponseListAds2> mediaDataList = new ArrayList<ResponseListAds2>();
-            String[] mediaKeyList = adsMediaRepository.mediaKeyListByAdsKey(it.getAdsKey());
-            for(String e : mediaKeyList){
-                Integer ckcount = redisUtil.getCkCount(it.getAdsKey(), e, it.getRedisIndex());
-                Integer cvcount = postbackService.countTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
-                Integer todaycv = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(it.getAdsKey(), e);
-                Integer daylimit = adsMediaRepository.getMediaDailyCapByAdsKeyAndMediaKey(it.getAdsKey(), e);
-                Boolean isDayLimit = adsMediaRepository.getIsDayLimitByAdskeyAndMediakey(it.getAdsKey(), e);
-
-
-                ResponseListAds2 tmp = new ResponseListAds2();
-                tmp.setMediaKey(e);
-                tmp.setTotalClicks(ckcount);
-                tmp.setTotalConversions(cvcount);
-                tmp.setTodaycvCount(todaycv);
-                tmp.setDayLimit(daylimit);
-                tmp.setIsDayLimit(isDayLimit);
-
-                for(Media e1 : mediaList){
-                    if(e.equals(e1.getMediaKey()))
-                        tmp.setMediaName(e1.getName());
-                }
-                
-                mediaDataList.add(tmp);
-                
-            }
 
             record.setClick(clickCount); 
             record.setConversion(conversion);
             record.setConversionRate(conversionRate);
-            record.setMediaData(mediaDataList);
-            mediaDataList = null;
             
             result.add(record);
         }

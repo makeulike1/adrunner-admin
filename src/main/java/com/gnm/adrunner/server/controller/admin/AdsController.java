@@ -3,6 +3,7 @@ package com.gnm.adrunner.server.controller.admin;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,12 @@ import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.AdsMedia;
+import com.gnm.adrunner.server.entity.Media;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds1;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAdsMedia;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds;
+import com.gnm.adrunner.server.param.res.admin.ResponseMediaList;
 import com.gnm.adrunner.server.repo.AdminLoginRepository;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
@@ -26,6 +29,7 @@ import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.AdsService;
 import com.gnm.adrunner.server.service.LogAdsService;
 import com.gnm.adrunner.server.service.MemoryDataService;
+import com.gnm.adrunner.server.service.PostbackService;
 import com.gnm.adrunner.server.service.AdsMediaService;
 import com.gnm.adrunner.util.keyBuilder;
 import com.gnm.adrunner.util.redisUtil;
@@ -93,6 +97,8 @@ public class AdsController extends RequestResponseInterface{
     @Autowired
     SystemConfigRepository systemConfigRepository;
 
+    @Autowired
+    PostbackService postbackService;
  
 
     // 광고 상태 변경
@@ -345,6 +351,32 @@ public class AdsController extends RequestResponseInterface{
 
     // 광고에 연동된 매체사 등록
     @CrossOrigin(origins = "*")
+    @GetMapping("/media/list") 
+    public @ResponseBody ResponseEntity<String> media_list(
+        @RequestParam(value="adsKey", required=true) String adsKey,  HttpServletRequest request){
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        
+        String token = request.getHeader("token");
+
+ 
+        // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(token) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(getStatusMessage(200));
+    }
+
+
+
+    // 광고에 연동된 매체사 등록
+    @CrossOrigin(origins = "*")
     @PostMapping("/media/save") 
     public @ResponseBody ResponseEntity<String> save_media(
         @RequestBody RequestSaveAdsMedia req, HttpServletRequest request){
@@ -468,7 +500,7 @@ public class AdsController extends RequestResponseInterface{
 
     // 광고에 연동되어 있는 매체사 목록  
     @CrossOrigin(origins = "*")
-    @GetMapping("/media/list")
+    @GetMapping("/media/list2")
     public @ResponseBody ResponseEntity<String> list_media(@RequestParam(value="adsKey", required=true) String adsKey, HttpServletRequest request) {
     
             
@@ -480,11 +512,49 @@ public class AdsController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(getStatusMessage(203));
         }
-            
+        
+
+
+        Integer redisIndex = adsRepository.getRedisIndexByAdsKey(adsKey);
+
+        List<Media> mediaList = mediaRepository.listAll();
+
+        
+        // 광고에 연동된 매체사 키 리스트 : 매체사별로 클릭 수 조회
+        List<ResponseMediaList> result = new ArrayList<ResponseMediaList>();
+        String[] mediaKeyList = adsMediaRepository.mediaKeyListByAdsKey(adsKey);
+        for(String e : mediaKeyList){
+
+            Integer ckcount     = redisUtil.getCkCount(adsKey, e, redisIndex);
+            Integer cvcount     = postbackService.countTotalPostbackByAdsKeyAndMediaKey(adsKey, e);
+            Integer todaycv     = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, e);
+            Integer dailycap    = adsMediaRepository.getMediaDailyCapByAdsKeyAndMediaKey(adsKey, e);
+            Integer runDailyCap = adsMediaRepository.getRunDailyCapByAdsKeyAndMediaKey(adsKey, e);
+            Boolean isDayLimit  = adsMediaRepository.getIsDayLimitByAdskeyAndMediakey(adsKey, e);
+
+
+            ResponseMediaList tmp = new ResponseMediaList();
+            tmp.setMediaKey(e);
+            tmp.setTotalClicks(ckcount);
+            tmp.setTotalConversions(cvcount);
+            tmp.setTodaycvCount(todaycv);
+            tmp.setDailyCap(dailycap);
+            tmp.setRunDailyCap(runDailyCap);
+            tmp.setIsDayLimit(isDayLimit);
+
+            for(Media e1 : mediaList){
+                if(e.equals(e1.getMediaKey()))
+                    tmp.setMediaName(e1.getName());
+            }
+                
+            result.add(tmp);
+                
+        }
+        
 
         return ResponseEntity.status(200)
             .headers(responseHeaders)
-            .body(gson.toJson(viewAdsMediaRepository.findByAdsKey(adsKey)));
+            .body(gson.toJson(result));
           
     }
 

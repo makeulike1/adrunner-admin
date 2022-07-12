@@ -1,6 +1,6 @@
 package com.gnm.adrunner.server.param.res.admin;
 
-public class ResponseListAds2 {
+public class ResponseMediaList {
 
     private String  mediaKey;
 
@@ -12,7 +12,9 @@ public class ResponseListAds2 {
 
     private Integer todaycvCount;
  
-    private Integer dayLimit;
+    private Integer dailyCap;
+
+    private Integer runDailyCap;
 
     private Boolean isDayLimit;
 
@@ -56,12 +58,20 @@ public class ResponseListAds2 {
         this.todaycvCount = todaycvCount;
     }
 
-    public Integer getDayLimit() {
-        return dayLimit;
+    public Integer getDailyCap() {
+        return dailyCap;
     }
 
-    public void setDayLimit(Integer dayLimit) {
-        this.dayLimit = dayLimit;
+    public void setDailyCap(Integer dailyCap) {
+        this.dailyCap = dailyCap;
+    }
+
+    public Integer getRunDailyCap() {
+        return runDailyCap;
+    }
+
+    public void setRunDailyCap(Integer runDailyCap) {
+        this.runDailyCap = runDailyCap;
     }
 
     public Boolean getIsDayLimit() {
@@ -74,9 +84,11 @@ public class ResponseListAds2 {
 
     @Override
     public String toString() {
-        return "ResponseListAds2 [dayLimit=" + dayLimit + ", isDayLimit=" + isDayLimit + ", mediaKey=" + mediaKey
-                + ", mediaName=" + mediaName + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks
-                + ", totalConversions=" + totalConversions + "]";
-    } 
+        return "ResponseMediaList [dailyCap=" + dailyCap + ", isDayLimit=" + isDayLimit + ", mediaKey=" + mediaKey
+                + ", mediaName=" + mediaName + ", runDailyCap=" + runDailyCap + ", todaycvCount=" + todaycvCount
+                + ", totalClicks=" + totalClicks + ", totalConversions=" + totalConversions + "]";
+    }
  
+    
+  
 }
