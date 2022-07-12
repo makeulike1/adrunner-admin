@@ -46,7 +46,7 @@ public class AdsMediaService {
     public void modifyAdsMedia(AdsMedia am, RequestSaveAds1 e, String remoteAddr, String adminId, String mediaKey) {
     
         
-        String  name                = e.getName();
+        String  name                    = e.getName();
 
         Integer REQ_MEDIA_COST          = e.getCost();
         Integer REQ_MEDIA_DAILYCAP      = e.getDailycap();  
