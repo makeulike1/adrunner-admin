@@ -273,6 +273,7 @@ public class AdsController extends RequestResponseInterface{
 
         // 광고 등록시 연결 매체사도 등록
         for(RequestSaveAds1 e : AD_MEDIA){
+            System.out.println (e.toString());
             AdsMedia am = new AdsMedia();
             am.setAdsKey(ADS_KEY);
             String mediaKey = mediaRepository.getKeyByName(e.getName());
