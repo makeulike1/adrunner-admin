@@ -273,7 +273,6 @@ public class AdsController extends RequestResponseInterface{
 
         // 광고 등록시 연결 매체사도 등록
         for(RequestSaveAds1 e : AD_MEDIA){
-            System.out.println (e.toString());
             AdsMedia am = new AdsMedia();
             am.setAdsKey(ADS_KEY);
             String mediaKey = mediaRepository.getKeyByName(e.getName());
@@ -283,6 +282,8 @@ public class AdsController extends RequestResponseInterface{
             am.setMediaDailyCap(e.getDailycap());
             am.setRunDailyCap(e.getDailycap());
             am.setIsDayLimit(e.getIsLimit());
+            am.setIsDelete(false);
+            am.setTodayLimit(false);
             Integer amId = adsMediaService.saveAdsMedia(am);
             // 메모리 데이터 추가
             memoryDataService.addMemoryData("ads-media", amId);
