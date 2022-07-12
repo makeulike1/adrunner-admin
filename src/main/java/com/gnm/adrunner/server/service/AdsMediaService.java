@@ -58,14 +58,30 @@ public class AdsMediaService {
         Integer PREV_MEDIA_DAILYCAP     = am.getMediaDailyCap();
         Boolean PREV_IS_LIMIT           = am.getIsDayLimit();
 
+ 
 
-        // 특정 매체사키에 대하여 매체사 단가와 데일리캡을 업데이트
-        adsMediaRepository.updateMediaCostAndDailyCap(adsKey, mediaKey, REQ_MEDIA_COST, REQ_MEDIA_DAILYCAP);  
+        // 특정 매체사키에 대하여 매체사 단가 업데이트
+        adsMediaRepository.updateMediaCost(REQ_MEDIA_COST, adsKey, mediaKey);
+
+
+
+
+        // 특정 매체사키에 대하여 매체사 데일리캡 업데이트
+        adsMediaRepository.updateMediaDailycap(REQ_MEDIA_DAILYCAP, adsKey, mediaKey);
+
+
+
+
+        // 특정 매체사키에 대하여 매체사 데일리캡 사용여부 업데이트
+        adsMediaRepository.updateIsLimit(REQ_IS_LIMIT, adsKey, mediaKey);
         
-        
+
+
 
         // 데일리캡이 업데이트되면 runDailyCap도 업데이트 시킴
         adsMediaRepository.resetRunDailyCap(adsKey, mediaKey);
+
+
 
         
 
@@ -75,6 +91,7 @@ public class AdsMediaService {
 
 
 
+            
 
         // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
         if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP))

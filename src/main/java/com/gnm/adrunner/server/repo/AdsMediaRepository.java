@@ -81,4 +81,25 @@ public interface AdsMediaRepository extends CrudRepository<AdsMedia, Integer> {
 
     @Query(value="select run_daily_cap from ads_media where ads_key=?1 and media_key = ?2", nativeQuery = true)
     public Integer getRunDailyCapByAdsKeyAndMediaKey(String adsKey, String mediaKey);
+
+
+    @Transactional
+    @Modifying
+    @Query(value="update ads_media SET is_day_limit=?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
+    public void updateIsLimit(Boolean value, String adsKey, String mediaKey);
+
+
+    @Transactional
+    @Modifying
+    @Query(value="update ads_media SET media_cost=?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
+    public void updateMediaCost(Integer cost, String adsKey, String mediaKey);
+
+
+    @Transactional
+    @Modifying
+    @Query(value="update ads_media SET media_daily_cap=?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
+    public void updateMediaDailycap(Integer dailycap, String adsKey, String mediaKey);
+    
+
+
 }
