@@ -28,6 +28,9 @@ public class AdsMediaService {
     @Autowired
     AdsRepository adsRepository;
 
+    @Autowired
+    PostbackService postbackService;
+
     @PersistenceContext
 	private EntityManager entityManager;
 
@@ -110,8 +113,18 @@ public class AdsMediaService {
             
 
         // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
-        if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP))
+        if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP)){
+            Integer todayP = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
+
+
+            // 새로 업데이트 된 데일리캡의 수치에 따라 한도에 도달, 미도달 여부를 체크
+            if(todayP.compareTo(REQ_MEDIA_DAILYCAP) <= 0){
+                adsMediaRepository.updateTodayLimit(false, adsKey, mediaKey);
+            }else adsMediaRepository.updateTodayLimit(true, adsKey, mediaKey);
+
+
             logAdsService.insert(adsKey, remoteAddr, adminId, "media-daily-limit",  name,     PREV_MEDIA_DAILYCAP.toString(), REQ_MEDIA_DAILYCAP.toString());   
+        }
      
 
             
