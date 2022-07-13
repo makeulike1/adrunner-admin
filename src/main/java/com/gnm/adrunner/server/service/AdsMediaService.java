@@ -119,6 +119,7 @@ public class AdsMediaService {
 
             // 새로 업데이트 된 데일리캡의 수치에 따라 한도에 도달, 미도달 여부를 체크
             if(todayP.compareTo(REQ_MEDIA_DAILYCAP) <= 0){
+                System.out.println(todayP+":"+REQ_MEDIA_DAILYCAP);
                 adsMediaRepository.updateTodayLimit(false, adsKey, mediaKey);
             }else adsMediaRepository.updateTodayLimit(true, adsKey, mediaKey);
 
