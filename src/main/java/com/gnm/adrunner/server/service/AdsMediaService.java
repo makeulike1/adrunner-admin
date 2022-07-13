@@ -99,21 +99,9 @@ public class AdsMediaService {
         // 만약 데일리캡이 무제한인 경우 한도에 도달하지 않음
         if(!REQ_IS_LIMIT)
             adsMediaRepository.updateTodayLimit(false, adsKey, mediaKey);
-
-
-
-        
-
-        // 매체사 단가 업데이트에 대해서 업데이트 로그
-        if(!PREV_MEDIA_COST.equals(REQ_MEDIA_COST))
-            logAdsService.insert(adsKey, remoteAddr, adminId,   "media-daily-cost",  name,        PREV_MEDIA_COST.toString(),     REQ_MEDIA_COST.toString());   
-
-
-
+        else if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP)){
             
-
-        // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
-        if(!PREV_MEDIA_DAILYCAP.equals(REQ_MEDIA_DAILYCAP)){
+             // 매체사 데일리캡 업데이트에 대해서 업데이트 로그
             Integer todayP = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
 
 
@@ -127,6 +115,19 @@ public class AdsMediaService {
 
             logAdsService.insert(adsKey, remoteAddr, adminId, "media-daily-limit",  name,     PREV_MEDIA_DAILYCAP.toString(), REQ_MEDIA_DAILYCAP.toString());   
         }
+
+
+        
+
+        // 매체사 단가 업데이트에 대해서 업데이트 로그
+        if(!PREV_MEDIA_COST.equals(REQ_MEDIA_COST))
+            logAdsService.insert(adsKey, remoteAddr, adminId,   "media-daily-cost",  name,        PREV_MEDIA_COST.toString(),     REQ_MEDIA_COST.toString());   
+
+
+
+            
+
+
      
 
             
