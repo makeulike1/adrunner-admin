@@ -160,7 +160,10 @@ public class AffController extends RequestResponseInterface{
                   .body(getStatusMessage(203));
          }
    
-         Ads ads = adsRepository.findByAdsKey(adsKey);
+         Ads ads = null;
+
+         if(adsKey != null)
+            ads = adsRepository.findByAdsKey(adsKey);
 
          List<ResponseAffList3> result = new ArrayList<ResponseAffList3>();
          
@@ -168,8 +171,10 @@ public class AffController extends RequestResponseInterface{
             ResponseAffList3 tmp = new ResponseAffList3();
             tmp.setE(e1);
 
-            if(e1.getId().equals(ads.getAff()))
-               tmp.setChk(true);
+            if(ads != null)
+               if(e1.getId().equals(ads.getAff()))
+                  tmp.setChk(true);
+                  
             else tmp.setChk(false);
             result.add(tmp);
             tmp = null;

@@ -139,7 +139,10 @@ public class AdvController extends RequestResponseInterface{
                 .body(getStatusMessage(203));
         } 
 
-        Ads ads = adsRepository.findByAdsKey(adsKey);
+        Ads ads = null;
+        
+        if(adsKey != null)
+            ads = adsRepository.findByAdsKey(adsKey);
 
         List<ResponseAdvList3> result = new ArrayList<ResponseAdvList3>();
 
@@ -147,8 +150,10 @@ public class AdvController extends RequestResponseInterface{
             ResponseAdvList3 tmp = new ResponseAdvList3();
             tmp.setE(e);
 
-            if(e.getAdvKey().equals(ads.getAdvKey()))
-                tmp.setChk(true);
+            if(ads != null)
+                if(e.getAdvKey().equals(ads.getAdvKey()))
+                    tmp.setChk(true);
+                    
             else tmp.setChk(false);
             result.add(tmp);
             tmp = null;
