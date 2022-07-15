@@ -270,6 +270,7 @@ public class AdsMediaController extends RequestResponseInterface{
             Integer runDailyCap = am.getRunDailyCap();
             Boolean isDayLimit  = am.getIsDayLimit();
             Boolean todayLimit  = am.getTodayLimit();
+            Boolean isDelete    = am.getIsDelete();
             
 
 
@@ -282,6 +283,7 @@ public class AdsMediaController extends RequestResponseInterface{
             tmp.setRunDailyCap(runDailyCap);
             tmp.setIsDayLimit(isDayLimit);
             tmp.setTodayLimit(todayLimit);
+            tmp.setIsDelete(isDelete);
 
             for(Media e1 : mediaList){
                 if(mediaKey.equals(e1.getMediaKey()))

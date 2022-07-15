@@ -20,6 +20,8 @@ public class ResponseMediaList {
 
     private Boolean todayLimit;
 
+    private Boolean isDelete;
+
     public String getMediaKey() {
         return mediaKey;
     }
@@ -92,12 +94,22 @@ public class ResponseMediaList {
         this.todayLimit = todayLimit;
     }
 
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
-        return "ResponseMediaList [dailyCap=" + dailyCap + ", isDayLimit=" + isDayLimit + ", mediaKey=" + mediaKey
-                + ", mediaName=" + mediaName + ", runDailyCap=" + runDailyCap + ", todayLimit=" + todayLimit
-                + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks + ", totalConversions="
-                + totalConversions + "]";
-    }
+        return "ResponseMediaList [dailyCap=" + dailyCap + ", isDayLimit=" + isDayLimit + ", isDelete=" + isDelete
+                + ", mediaKey=" + mediaKey + ", mediaName=" + mediaName + ", runDailyCap=" + runDailyCap
+                + ", todayLimit=" + todayLimit + ", todaycvCount=" + todaycvCount + ", totalClicks=" + totalClicks
+                + ", totalConversions=" + totalConversions + "]";
+    } 
+
+    
 
 }
