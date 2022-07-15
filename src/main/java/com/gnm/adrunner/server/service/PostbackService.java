@@ -70,7 +70,7 @@ public class PostbackService {
         CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
         Root<Postback> root = query.from(Postback.class);
         query.select(criteriaBuilder.count(root));
-        query.where(criteriaBuilder.like(root.get("clickKey"), "%"+adsKey+":%"));
+        query.where(criteriaBuilder.equal(root.get("adsKey"), adsKey));
         return (int) (long) entityManager.createQuery(query).getSingleResult();
         
     }
@@ -80,7 +80,8 @@ public class PostbackService {
         CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
         Root<Postback> root = query.from(Postback.class);
         query.select(criteriaBuilder.count(root));
-        query.where(criteriaBuilder.like(root.get("clickKey"), "%"+adsKey+":"+mediaKey+"%"));
+        query.where(criteriaBuilder.equal(root.get("adsKey"), adsKey));
+        query.where(criteriaBuilder.equal(root.get("mediaKey"), mediaKey));
         return (int) (long) entityManager.createQuery(query).getSingleResult();
         
     }
