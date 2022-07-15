@@ -92,7 +92,7 @@ public class AdvController extends RequestResponseInterface{
 
 
         Integer advId   = advService.saveAdv(adv);
-        String  advKey  = keyBuilder.buildIdentifier(advId);
+        String  advKey  = keyBuilder.buildUUID().substring(0, 6).toUpperCase();
 
         advRepository.updateAdvKey(advKey, advId);
 

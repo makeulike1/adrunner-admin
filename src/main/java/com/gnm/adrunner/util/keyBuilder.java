@@ -38,8 +38,5 @@ public class keyBuilder {
     }
 
 
-    // 매체사 키, 광고주 키 발급
-    public static String buildIdentifier(Integer Id){
-        return Id.toString() + keyBuilder.buildUUID().substring(0, 5).toUpperCase();
-    }
+ 
 }
