@@ -14,8 +14,6 @@ public class Postback {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String  clickKey;
-
     private String  adsKey;
     
     private String  mediaKey;
@@ -66,14 +64,6 @@ public class Postback {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getClickKey() {
-        return clickKey;
-    }
-
-    public void setClickKey(String clickKey) {
-        this.clickKey = clickKey;
     }
 
     public String getAdsKey() {
@@ -255,11 +245,12 @@ public class Postback {
     @Override
     public String toString() {
         return "Postback [adsKey=" + adsKey + ", advCost=" + advCost + ", brand=" + brand + ", carrier=" + carrier
-                + ", clickKey=" + clickKey + ", country=" + country + ", createtime=" + createtime + ", deviceId="
-                + deviceId + ", eventName=" + eventName + ", eventTime=" + eventTime + ", eventValue=" + eventValue
-                + ", gaid=" + gaid + ", id=" + id + ", idfa=" + idfa + ", ip=" + ip + ", language=" + language
-                + ", mediaCost=" + mediaCost + ", mediaKey=" + mediaKey + ", model=" + model + ", network=" + network
-                + ", os=" + os + ", osVer=" + osVer + ", ptnPub=" + ptnPub + ", subPub=" + subPub + "]";
-    } 
-
+                + ", country=" + country + ", createtime=" + createtime + ", deviceId=" + deviceId + ", eventName="
+                + eventName + ", eventTime=" + eventTime + ", eventValue=" + eventValue + ", gaid=" + gaid + ", id="
+                + id + ", idfa=" + idfa + ", ip=" + ip + ", language=" + language + ", mediaCost=" + mediaCost
+                + ", mediaKey=" + mediaKey + ", model=" + model + ", network=" + network + ", os=" + os + ", osVer="
+                + osVer + ", ptnPub=" + ptnPub + ", subPub=" + subPub + "]";
+    }
+ 
+    
 }
