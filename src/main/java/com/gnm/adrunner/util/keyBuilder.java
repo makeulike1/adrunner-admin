@@ -12,14 +12,14 @@ public class keyBuilder {
     // 클릭키 생성
     // 클릭키 = [광고키]:[매체키]:[클릭시간]:[16자의 랜덤 대문자 UUID]
     public static String buildCK(String adsKey, String mediaKey){
-        return adsKey + ":" + mediaKey + ":" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ":" + UUID.randomUUID().toString().replace("-", "").substring(0, 16).toUpperCase();
+        return adsKey + ":" + mediaKey + ":" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ":" + buildUUID().substring(0, 16);
     }
 
 
 
     // UUID 생성
     public static String buildUUID(){
-        return UUID.randomUUID().toString().replace("-", "");
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 
 

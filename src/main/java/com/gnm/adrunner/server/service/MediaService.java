@@ -32,7 +32,7 @@ public class MediaService {
 
 
     public void updateMediaKey(String mediaKey, Integer mediaId){
-        mediaRepository.updateMediaKey(mediaKey.toUpperCase(), mediaId);
+        mediaRepository.updateMediaKey(mediaKey, mediaId);
     }
     
 }
