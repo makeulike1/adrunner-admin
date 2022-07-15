@@ -136,9 +136,9 @@ public class MediaController extends RequestResponseInterface{
         Integer mediaId = mediaService.saveMedia(m);
 
         // 매체사 키는 [매체사번호][5자리의 대문자 난수]
-        String mediaKey = keyBuilder.buildUUID().substring(0, 6).toUpperCase();
+        String mediaKey = keyBuilder.buildUUID().substring(0, 6);
 
-        mediaService.updateMediaKey(mediaKey.toUpperCase(), mediaId);
+        mediaService.updateMediaKey(mediaKey, mediaId);
 
         // 메모리 데이터 업데이트
         memoryDataService.addMemoryData("media", mediaId);

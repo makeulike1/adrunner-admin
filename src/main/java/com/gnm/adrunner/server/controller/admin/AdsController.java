@@ -220,7 +220,7 @@ public class AdsController extends RequestResponseInterface{
         Boolean     AD_IS_POSTBACK                          = req.getIsPostback();
         List<RequestSaveAds1>    AD_MEDIA                   = req.getMedia();
         
-        String ADS_KEY = keyBuilder.buildUUID().substring(0, 12).toUpperCase();
+        String ADS_KEY = keyBuilder.buildUUID().substring(0, 12);
     
 
 

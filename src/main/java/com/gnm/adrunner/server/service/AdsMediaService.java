@@ -105,6 +105,7 @@ public class AdsMediaService {
             Integer todayP = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
 
 
+            System.out.println("테스트 로그 - "+todayP+":"+REQ_MEDIA_DAILYCAP);
             // 새로 업데이트 된 데일리캡의 수치에 따라 한도에 도달, 미도달 여부를 체크
             if(todayP.compareTo(REQ_MEDIA_DAILYCAP) >= 0){
                 adsMediaRepository.updateTodayLimit(true, adsKey, mediaKey);
