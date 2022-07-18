@@ -92,6 +92,7 @@ public class AffController extends RequestResponseInterface{
       aff.setCreatetime(timeBuilder.getCurrentTime());
       aff.setDeletetime("1111-11-11 11:11:11");
       aff.setUpdatetime(timeBuilder.getCurrentTime());
+      aff.setEg(req.getEg());
           
       affRepository.save(aff);
   

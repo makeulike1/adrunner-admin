@@ -4,6 +4,8 @@ public class RequestSaveAff {
  
     private String  name;
 
+    private String  eg;
+
     public String getName() {
         return name;
     }
@@ -12,9 +14,17 @@ public class RequestSaveAff {
         this.name = name;
     }
 
+    public String getEg() {
+        return eg;
+    }
+
+    public void setEg(String eg) {
+        this.eg = eg;
+    }
+
     @Override
     public String toString() {
-        return "RequestSaveAff [name=" + name + "]";
+        return "RequestSaveAff [eg=" + eg + ", name=" + name + "]";
     }
- 
+
 }

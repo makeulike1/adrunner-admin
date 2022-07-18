@@ -17,6 +17,8 @@ public class Aff {
     private String  name;
 
     private Integer status;
+    
+    private String  eg;
 
     private Boolean isDelete;
 
@@ -50,6 +52,30 @@ public class Aff {
         this.status = status;
     }
 
+    public String getEg() {
+        return eg;
+    }
+
+    public void setEg(String eg) {
+        this.eg = eg;
+    }
+
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public String getDeletetime() {
+        return deletetime;
+    }
+
+    public void setDeletetime(String deletetime) {
+        this.deletetime = deletetime;
+    }
+
     public String getUpdatetime() {
         return updatetime;
     }
@@ -66,28 +92,14 @@ public class Aff {
         this.createtime = createtime;
     }
 
-    public String getDeletetime() {
-        return deletetime;
-    }
-
-    public void setDeletetime(String deletetime) {
-        this.deletetime = deletetime;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
     @Override
     public String toString() {
-        return "Aff [createtime=" + createtime + ", deletetime=" + deletetime + ", id=" + id + ", isDelete=" + isDelete
-                + ", name=" + name + ", status=" + status + ", updatetime=" + updatetime + "]";
+        return "Aff [createtime=" + createtime + ", deletetime=" + deletetime + ", eg=" + eg + ", id=" + id
+                + ", isDelete=" + isDelete + ", name=" + name + ", status=" + status + ", updatetime=" + updatetime
+                + "]";
     }
  
+    
     
     
 }
