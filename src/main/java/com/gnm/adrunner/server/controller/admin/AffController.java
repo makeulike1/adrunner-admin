@@ -298,7 +298,7 @@ public class AffController extends RequestResponseInterface{
 
      // 특정 제휴사 식별자에 대해 제휴사 항목 조회
      @CrossOrigin(origins = "*")
-     @DeleteMapping("/find/{id}") 
+     @GetMapping("/find/{id}") 
      public @ResponseBody ResponseEntity<String> findEgById(@PathVariable Integer id, HttpServletRequest request) {
      
   
