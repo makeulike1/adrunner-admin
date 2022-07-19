@@ -43,7 +43,7 @@ public class Application {
 		// Redis 그룹 개수 조회
 		GlobalConstant.NUMBER_OF_REDIS_GROUP = systemConfigRepository.findNumberOfRedsiGroup();
 		for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_GROUP; i++)
-			GlobalConstant.SERVER_HOST_REDIS.add(serverInstanceRepository.getServerHostWithGroup(GlobalConstant.SERVER_TYPE_REDIS, i));
+			GlobalConstant.SERVER_HOST_REDIS.add(serverInstanceRepository.getServerClientIpWithGroup(GlobalConstant.SERVER_TYPE_REDIS, i));
 	
 
 		// Redis 시작
