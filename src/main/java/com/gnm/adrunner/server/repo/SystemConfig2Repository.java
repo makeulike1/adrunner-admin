@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 public interface SystemConfig2Repository extends CrudRepository<SystemConfig2, Integer>{
  
-    @Query(value="select redis_db from system_config_2 where id=?1", nativeQuery = true)
+    @Query(value="select redis_db from system_config_2 where redis_group=?1", nativeQuery = true)
     public Integer findRedisDB(Integer redisGroup);
 
     @Transactional

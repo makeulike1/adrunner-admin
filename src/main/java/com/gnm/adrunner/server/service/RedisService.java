@@ -26,9 +26,6 @@ public class RedisService {
 
         Integer currentRedisDB          = systemConfig2Repository.findRedisDB(currentRedisGroup);
 
-
-        System.out.println(currentRedisGroup+":"+currentRedisDB);
-        
         // Redis DB가 16개까지 꽉 차있으면 다음 그룹으로 넘어감 
         if(currentRedisDB == 16){
             currentRedisGroup++;
