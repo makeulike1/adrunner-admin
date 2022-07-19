@@ -3,6 +3,7 @@ package com.gnm.adrunner.server.service;
 import javax.transaction.Transactional;
 
 import com.gnm.adrunner.config.GlobalConstant;
+import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.SystemConfig2Repository;
@@ -69,12 +70,13 @@ public class RedisService {
     @Transactional
     public void updateRedisDBIndex(Integer adsRedisGroup, Integer adsRedisDB, Integer currentRedisGroup){
         for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
-            Integer adid = adsRepository.findAvailableRedis(adsRedisGroup, adsRedisDB, GlobalConstant.ADS_STATUS_DISMISS);
-            if(adid != null){
+            Iterable<Ads> list = adsRepository.findAvailableRedis(adsRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
+        
+            if(list != null){
                 systemConfig2Repository.updateRedisDB(i, currentRedisGroup);    
                 break;
             }
-            adid = null;
+                
         } 
     }
     
