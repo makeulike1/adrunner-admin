@@ -69,7 +69,7 @@ public class RedisService {
     @Transactional
     public void updateRedisDBIndex(Integer adsRedisGroup, Integer adsRedisDB, Integer currentRedisGroup){
         for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
-            Integer adid = adsRepository.findByRgAndRDB(adsRedisGroup, adsRedisDB);
+            Integer adid = adsRepository.findByRgAndRDB(adsRedisGroup, adsRedisDB, GlobalConstant.ADS_STATUS_DISMISS);
             if(adid == null)
                 systemConfig2Repository.updateRedisDB(i, currentRedisGroup);    
             adid = null;
