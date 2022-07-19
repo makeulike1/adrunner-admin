@@ -16,7 +16,7 @@ public class ServerInstance {
 
     private Integer     type;
 
-    private Integer     group;
+    private Integer     serverGroup;
 
     private String      clientIp;
 
@@ -40,12 +40,12 @@ public class ServerInstance {
         this.type = type;
     }
 
-    public Integer getGroup() {
-        return group;
+    public Integer getServerGroup() {
+        return serverGroup;
     }
 
-    public void setGroup(Integer group) {
-        this.group = group;
+    public void setServerGroup(Integer serverGroup) {
+        this.serverGroup = serverGroup;
     }
 
     public String getClientIp() {
@@ -74,10 +74,8 @@ public class ServerInstance {
 
     @Override
     public String toString() {
-        return "ServerInstance [clientIp=" + clientIp + ", fullURL=" + fullURL + ", group=" + group + ", id=" + id
-                + ", port=" + port + ", type=" + type + "]";
+        return "ServerInstance [clientIp=" + clientIp + ", fullURL=" + fullURL + ", id=" + id + ", port=" + port
+                + ", serverGroup=" + serverGroup + ", type=" + type + "]";
     }
  
-    
-
 }
