@@ -9,18 +9,15 @@ import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.Aff;
-import com.gnm.adrunner.server.entity.AffParam;
+import com.gnm.adrunner.server.param.req.admin.RequestModifyAffEg;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAff;
-import com.gnm.adrunner.server.param.req.admin.RequestSaveAffParam;
 import com.gnm.adrunner.server.param.res.admin.ResponseAffList3;
 import com.gnm.adrunner.server.repo.AffRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.AffService;
 import com.gnm.adrunner.server.service.MemoryDataService;
 import com.gnm.adrunner.util.timeBuilder;
-import com.gnm.adrunner.server.service.AffParamService;
 import com.gnm.adrunner.server.repo.AdsRepository;
-import com.gnm.adrunner.server.repo.AffParamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -45,26 +42,15 @@ public class AffController extends RequestResponseInterface{
     @Autowired
     AdminLoginService adminLoginService;
 
-
     @Autowired
     AffService affService;
-
-
-    @Autowired
-    AffParamService affParamService;
-
 
     @Autowired
     AdsRepository adsRepository;
 
-
     @Autowired
     AffRepository affRepository;
-
-
-    @Autowired
-    AffParamRepository affParamRepository;
-
+ 
     @Autowired
     MemoryDataService memoryDataService;
   
@@ -102,6 +88,8 @@ public class AffController extends RequestResponseInterface{
    }
       
 
+
+
      
      // 제휴사 목록
      @CrossOrigin(origins = "*")
@@ -125,6 +113,8 @@ public class AffController extends RequestResponseInterface{
 
 
 
+
+
      // 제휴사: 연동완료된 제휴사 목록
      @CrossOrigin(origins = "*")
      @GetMapping("/list2") 
@@ -144,6 +134,9 @@ public class AffController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(gson.toJson(affRepository.listStatusComplete()));
      }
+
+
+
 
      // 제휴사: 연동완료된 제휴사 목록
      @CrossOrigin(origins = "*")
@@ -187,92 +180,7 @@ public class AffController extends RequestResponseInterface{
                 .body(gson.toJson(result));
      }
  
-
-
-
-
-     // 특정 제휴사 식별자에 대한 파라미터 목록
-     @CrossOrigin(origins = "*")
-     @GetMapping("/param/list/{affid}") 
-     public @ResponseBody ResponseEntity<String> paramList(@PathVariable Integer affid, HttpServletRequest request) {
-     
-  
-        HttpHeaders responseHeaders = new HttpHeaders();
  
-         // 유효하지 않은 토큰인 경우 203 에러 
-         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
-            return ResponseEntity.status(203)
-                .headers(responseHeaders)
-                .body(getStatusMessage(203));
-         }
-
-         return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(gson.toJson(affParamService.findByAffId(affid)));
-     }
-
-
-
-     // 특정 제휴사 파라미터 등록
-     @CrossOrigin(origins = "*")
-     @PostMapping("/param/save/{affid}") 
-     public @ResponseBody ResponseEntity<String> paramSave(@PathVariable Integer affid, @RequestBody RequestSaveAffParam req, HttpServletRequest request) {
-     
-  
-        HttpHeaders responseHeaders = new HttpHeaders();
- 
-         // 유효하지 않은 토큰인 경우 203 에러 
-         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
-            return ResponseEntity.status(203)
-                .headers(responseHeaders)
-                .body(getStatusMessage(203));
-         }
-
-         AffParam ap = new AffParam();
-         ap.setParamKey(req.getParamKey());
-         ap.setParamValue(req.getParamValue());
-         ap.setPassValue(req.getPassValue());
-         ap.setParamType(req.getParamType());
-         ap.setAffId(affid);
-         affParamService.saveAffParam(ap);
-
-         // 메모리 데이터 업데이트
-         memoryDataService.addMemoryData("aff-param", ap.getId());
-    
-         return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(getStatusMessage(200));
-     }
-
-
-
-
-     // 특정 제휴사 파라미터 삭제
-     @CrossOrigin(origins = "*")
-     @DeleteMapping("/param/delete/{id}") 
-     public @ResponseBody ResponseEntity<String> paramDelete(@PathVariable Integer id, HttpServletRequest request) {
-     
-  
-        HttpHeaders responseHeaders = new HttpHeaders();
- 
-         // 유효하지 않은 토큰인 경우 203 에러 
-         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
-            return ResponseEntity.status(203)
-                .headers(responseHeaders)
-                .body(getStatusMessage(203));
-         }
-
-         affParamService.deleteById(id);
- 
-         // 메모리 데이터 업데이트
-         memoryDataService.deleteMemoryData("aff-param", id);
-
-         return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(getStatusMessage(200));
-     }
-     
-   
 
 
      // 특정 제휴사 삭제
@@ -317,6 +225,33 @@ public class AffController extends RequestResponseInterface{
      }
 
 
+   // 특정 제휴사의 트래킹 링크 수정
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/tl/{id}") 
+    public @ResponseBody ResponseEntity<String> updateAffEg(
+         @PathVariable Integer id, 
+         @RequestBody RequestModifyAffEg req, HttpServletRequest request){
+         HttpHeaders responseHeaders = new HttpHeaders();
+ 
+         // 유효하지 않은 토큰인 경우 203 에러 
+         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+         }
+
+         affRepository.updateTlEg(req.getUrl(), id);
+
+         // 메모리 데이터 업데이트
+         memoryDataService.updateMemoryData("aff", id);
+
+         return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(getStatusMessage(200));
+      }
+
+
+
 
      // 특정 제휴사 상태 변경
      @CrossOrigin(origins = "*")
@@ -335,19 +270,17 @@ public class AffController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(getStatusMessage(203));
          }
- 
 
          if(status == 0){
             // 0이면 해당 제휴사에 대해서 연동 대기로 변경
             affService.updateStatusToBeDone(id);
-            // 메모리 데이터 업데이트
-            memoryDataService.updateMemoryData("aff", id);
          }else if(status == 1){
             // 0이면 해당 제휴사에 대해서 연동 완료로 변경
             affService.updateStatusDone(id);
-            // 메모리 데이터 업데이트
-            memoryDataService.updateMemoryData("aff", id);
          }
+
+         // 메모리 데이터 업데이트
+         memoryDataService.updateMemoryData("aff", id);
 
          return ResponseEntity.status(200)
                 .headers(responseHeaders)

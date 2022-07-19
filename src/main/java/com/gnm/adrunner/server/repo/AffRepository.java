@@ -42,5 +42,10 @@ public interface AffRepository extends CrudRepository<Aff, Integer> {
     @Modifying
     @Query(value="update aff set is_delete=true", nativeQuery = true)
     void deleteByAffId(Integer id);
+
+    @Transactional
+    @Modifying
+    @Query(value="update aff set eg=?1 where id=?2", nativeQuery = true)
+    void updateTlEg(String url, Integer id);
  
 }
