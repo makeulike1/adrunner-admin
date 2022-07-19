@@ -296,6 +296,26 @@ public class AffController extends RequestResponseInterface{
      }
 
 
+     // 특정 제휴사 식별자에 대해 제휴사 항목 조회
+     @CrossOrigin(origins = "*")
+     @DeleteMapping("/find/{id}") 
+     public @ResponseBody ResponseEntity<String> findEgById(@PathVariable Integer id, HttpServletRequest request) {
+     
+  
+        HttpHeaders responseHeaders = new HttpHeaders();
+ 
+         // 유효하지 않은 토큰인 경우 203 에러 
+         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+         }
+
+         return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(gson.toJson(affRepository.findByID(id)));
+     }
+
 
 
      // 특정 제휴사 상태 변경
