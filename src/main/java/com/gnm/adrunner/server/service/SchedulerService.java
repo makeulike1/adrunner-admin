@@ -168,10 +168,10 @@ public class SchedulerService {
                 adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_DISMISS);
                 logAdsService.insert(e.getAdsKey(), "", "system", "time-up", "", "", "");
                 memoryDataService.updateMemoryData("ads", e.getId());
-                redisUtil.flushDB(e.getRedisGroup(), e.getRedisIndex());
+                redisUtil.flushDB(e.getRedisGroup(), e.getRedisDb());
 
                 // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-                redisService.updateRIndexAfterDeleteAd(e.getRedisGroup(), e.getRedisIndex());
+                redisService.updateRIndexAfterDeleteAd(e.getRedisGroup(), e.getRedisDb());
                     
             }
             
@@ -279,7 +279,7 @@ public class SchedulerService {
                 Integer conversionCount = 0;
 
             
-                clickCount = redisUtil.getListSize(clkKeyListID, ads.getRedisGroup(), ads.getRedisIndex());
+                clickCount = redisUtil.getListSize(clkKeyListID, ads.getRedisGroup(), ads.getRedisDb());
 
     
 

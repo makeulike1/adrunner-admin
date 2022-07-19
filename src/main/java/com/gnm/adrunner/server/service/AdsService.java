@@ -378,7 +378,7 @@ public class AdsService {
 
 
             //Redis 에서 광고에 대한 일별 클릭 수 조회
-            Integer clickCount = redisUtil.getCkCount(it.getAdsKey(), it.getRedisGroup(), it.getRedisIndex());
+            Integer clickCount = redisUtil.getCkCount(it.getAdsKey(), it.getRedisGroup(), it.getRedisDb());
 
             
 

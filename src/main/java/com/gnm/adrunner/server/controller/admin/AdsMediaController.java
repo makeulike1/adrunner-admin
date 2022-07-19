@@ -263,7 +263,7 @@ public class AdsMediaController extends RequestResponseInterface{
 
             AdsMedia am = adsMediaRepository.findByAdsKeyAndMediakey(adsKey, mediaKey);
             
-            Integer ckcount     = redisUtil.getCkCount(adsKey, mediaKey, ads.getRedisGroup(), ads.getRedisIndex());
+            Integer ckcount     = redisUtil.getCkCount(adsKey, mediaKey, ads.getRedisGroup(), ads.getRedisDb());
             Integer cvcount     = postbackService.countTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
             Integer todaycv     = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
 

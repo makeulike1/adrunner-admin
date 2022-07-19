@@ -186,7 +186,7 @@ public class AdminController extends RequestResponseInterface{
     
 
 
-    
+
     
     // 테스트 : 클릭 찾기
     @CrossOrigin(origins = "*")
@@ -198,7 +198,7 @@ public class AdminController extends RequestResponseInterface{
         Ads ads = adsRepository.findByAdsKey(adsKey);
         
         String message = "";
-        if(redisUtil.findck(adsKey, ck, ads.getRedisGroup(), ads.getRedisIndex()))
+        if(redisUtil.findck(adsKey, ck, ads.getRedisGroup(), ads.getRedisDb()))
             message = "success";
         else message = "fail";
         

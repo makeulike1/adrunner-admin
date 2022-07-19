@@ -2,16 +2,16 @@ package com.gnm.adrunner.server.object;
 
 public class RedisEntity2 {
 
-    private Integer id;
+    private Integer db;
 
     private Integer group;
 
-    public Integer getId() {
-        return id;
+    public Integer getDb() {
+        return db;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDb(Integer db) {
+        this.db = db;
     }
 
     public Integer getGroup() {
@@ -22,15 +22,16 @@ public class RedisEntity2 {
         this.group = group;
     }
 
-    public RedisEntity2(Integer id, Integer group){
-        this.id = id;
+
+    public RedisEntity2(Integer db, Integer group){
+        this.db = db;
         this.group = group;
     }
-
-
+    
     @Override
     public String toString() {
-        return "RedisEntity2 [group=" + group + ", id=" + id + "]";
+        return "RedisEntity2 [db=" + db + ", group=" + group + "]";
     }
+
 
 }

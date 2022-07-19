@@ -257,7 +257,7 @@ public class AdsController extends RequestResponseInterface{
         Ad.setAutostart(AD_AUTOSTART);
         Ad.setAutodown(AD_AUTODOWN);
         Ad.setLoopbackdate(AD_LOOPBACK);
-        Ad.setRedisIndex(adsRedis.getId());
+        Ad.setRedisDb(adsRedis.getDb());
         Ad.setRedisGroup(adsRedis.getGroup());
         Ad.setAdsKey(ADS_KEY);
         Ad.setAdvKey(req.getAdvKey());
@@ -422,10 +422,11 @@ public class AdsController extends RequestResponseInterface{
             // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
             Ads ads                     = adsService.findById(adid);
 
-            redisService.updateRIndexAfterDeleteAd(ads.getRedisGroup(), ads.getRedisIndex());
+            redisService.updateRIndexAfterDeleteAd(ads.getRedisGroup(), ads.getRedisDb());
 
             // Redis 데이터도 날림
-            redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisIndex());
+            redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisDb());
+
 
         }catch(EmptyResultDataAccessException e){
 
@@ -564,7 +565,7 @@ public class AdsController extends RequestResponseInterface{
 
         return ResponseEntity.status(200)
             .headers(new HttpHeaders())
-            .body(gson.toJson(redisUtil.getLatestck(adsKey, mediaKeyList, ads.getRedisGroup(), ads.getRedisIndex())));
+            .body(gson.toJson(redisUtil.getLatestck(adsKey, mediaKeyList, ads.getRedisGroup(), ads.getRedisDb())));
     }
 
 }
