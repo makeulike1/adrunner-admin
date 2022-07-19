@@ -40,6 +40,9 @@ public interface AdsRepository extends CrudRepository<Ads, Integer> {
     @Query(value="update ads set status=?2 where id=?1", nativeQuery = true)
     public void updateAdsByStatus(Integer adsId, Integer status);
 
+    @Query(value="select * from ads where redis_group=?1 and redis_db=?2", nativeQuery = true)
+    public Integer findByRgAndRDB(Integer adsRedisGroup, Integer adsRedisDB);
+
 
 
 }

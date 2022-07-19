@@ -235,6 +235,16 @@ public class AdsController extends RequestResponseInterface{
         // 광고 등록 후 매핑되는 Redis 그룹 및 인덱스 참조
         RedisEntity2 adsRedis = redisService.getRIndexForInsertAd();
 
+        Integer numberOfRedisGroup      = systemConfigRepository.findNumberOfRedisGroup();
+
+
+        // 지정된 레디스 그룹 개수를 추과할 경우 에러 반환
+        if(numberOfRedisGroup.compareTo(adsRedis.getGroup()) < 0){
+            return ResponseEntity.status(217)
+                .headers(responseHeaders)
+                .body(getStatusMessage(217));
+        }
+
         Ad.setSupplyDemand(AD_SUPPLY_DEMAND);
         Ad.setName(AD_NAME);
         Ad.setType(AD_TYPE);
