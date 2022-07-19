@@ -4,23 +4,29 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
-import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.config.RedisConfig;
+import com.gnm.adrunner.server.object.RedisEntity;
+import com.gnm.adrunner.server.object.RedisGroup;
 
 import org.springframework.data.redis.core.RedisCallback;
 
 public class redisUtil {
 
+
+
     
     // Redis 리스트 사이즈 반환
-    public static Integer getListSize(String ckListId, Integer redisIndex){
+    public static Integer getListSize(String ckListId, Integer redisGroup, Integer redisDB){
         Integer result = 0;
 
-        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
+        RedisGroup currentRedis = RedisConfig.redisConn.get(redisGroup);
+
+        for(int i=0;i<currentRedis.getList().size();i++){
+            RedisEntity redisEntity = currentRedis.getList().get(i);
+
             Integer tmp = 0;
-            Object clkKeyListSize       = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().size(ckListId);
+            Object clkKeyListSize       = redisEntity.getDbList().get(redisDB).opsForList().size(ckListId);
             if(clkKeyListSize == null)
                 tmp = 0;
             else tmp = Integer.parseInt(clkKeyListSize.toString());
@@ -29,7 +35,6 @@ public class redisUtil {
 
         return result;
     }
-    
 
 
 
@@ -37,11 +42,16 @@ public class redisUtil {
     
 
     // Redis 클릭수 반환
-    public static Integer getCkCount(String adsKey, Integer redisIndex){
+    public static Integer getCkCount(String adsKey, Integer redisGroup, Integer redisDB){
 
         Integer totalCkCount = 0;
-        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
-            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+":*");
+
+        RedisGroup currentRedis = RedisConfig.redisConn.get(redisGroup);
+
+        for(int i=0;i<currentRedis.getList().size();i++){
+            RedisEntity redisEntity = currentRedis.getList().get(i);
+
+            Set<String> redisKeys = redisEntity.getDbList().get(redisDB).keys(adsKey+":*");
             List<String> keysList = new ArrayList<>(); 
             Iterator<String> it = redisKeys.iterator();
             while (it.hasNext()) {
@@ -51,7 +61,7 @@ public class redisUtil {
             
             Integer clickCount = 0;
             for(String key : keysList){
-                Object tmp = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().size(key);
+                Object tmp = redisEntity.getDbList().get(redisDB).opsForList().size(key);
                 if(tmp != null)
                     clickCount += Integer.parseInt(tmp.toString());
             }
@@ -64,12 +74,19 @@ public class redisUtil {
 
 
 
+
+
+
     // Redis 클릭수 반환 ( 매체사 포함 )
-    public static Integer getCkCount(String adsKey, String mediaKey, Integer redisIndex){
+    public static Integer getCkCount(String adsKey, String mediaKey, Integer redisGroup, Integer redisDB){
 
         Integer totalCkCount = 0;
-        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
-            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+":*:"+mediaKey);
+        RedisGroup currentRedis = RedisConfig.redisConn.get(redisGroup);
+
+        for(int i=0;i<currentRedis.getList().size();i++){
+            RedisEntity redisEntity = currentRedis.getList().get(i);
+
+            Set<String> redisKeys = redisEntity.getDbList().get(redisDB).keys(adsKey+":*:"+mediaKey);
             List<String> keysList = new ArrayList<>(); 
             Iterator<String> it = redisKeys.iterator();
             while (it.hasNext()) {
@@ -79,7 +96,7 @@ public class redisUtil {
             
             Integer clickCount = 0;
             for(String key : keysList){
-                Object tmp = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().size(key);
+                Object tmp = redisEntity.getDbList().get(redisDB).opsForList().size(key);
                 if(tmp != null)
                     clickCount += Integer.parseInt(tmp.toString());
             }
@@ -90,45 +107,43 @@ public class redisUtil {
         return totalCkCount;
     }
     
+
+
 
 
 
 
     // Redis DB 초기화 
-    public static void flushDB(Integer redisIndex){
-        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
-            RedisConfig.redisConn.get(i).get(redisIndex).execute((RedisCallback<String>) connection -> {
+    public static void flushDB(Integer redisGroup, Integer redisDB){
+        RedisGroup currentRedis = RedisConfig.redisConn.get(redisGroup);
+        
+        for(int i=0;i<currentRedis.getList().size();i++){
+            RedisEntity redisEntity = currentRedis.getList().get(i);
+
+            redisEntity.getDbList().get(redisDB).execute((RedisCallback<String>) connection -> {
                 connection.flushDb();
                 return "ok";
             });
+
+            redisEntity = null;
         }
+
+        currentRedis = null;
     }
  
-
-
-
-
-
-
-    // Redis에 클릭키 삽입
-    public static void putck(String ck, String adsKey, String mediaKey, Integer redisIndex){
-        RedisConfig.redisConn
-                .get(ThreadLocalRandom.current()
-                .nextInt(0, GlobalConstant.NUMBER_OF_REDIS))
-                .get(redisIndex).opsForList().leftPush(keyBuilder.buildCKListID(adsKey, mediaKey), ck);    
-
-    }
-
  
-
-
     
 
     // Redis에서 클릭키 검색
-    public static Boolean findck(String adsKey, String ck, Integer redisIndex){
+    public static Boolean findck(String adsKey, String ck, Integer redisGroup, Integer redisDB){
 
-        for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
-            Set<String> redisKeys = RedisConfig.redisConn.get(i).get(redisIndex).keys(adsKey+"*");
+        RedisGroup currentRedis  = RedisConfig.redisConn.get(redisGroup);
+         
+        for(int i=0;i<currentRedis.getList().size();i++){
+            
+            RedisEntity redisEntity = currentRedis.getList().get(i);
+
+            Set<String> redisKeys = redisEntity.getDbList().get(redisDB).keys(adsKey+"*");
             List<String> keysList = new ArrayList<>(); 
             Iterator<String> it = redisKeys.iterator();
             while (it.hasNext()) {
@@ -136,11 +151,15 @@ public class redisUtil {
             }
 
             for(String listKey : keysList){
-                Object tmp = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().indexOf(listKey, ck);
+                Object tmp = redisEntity.getDbList().get(redisDB).opsForList().indexOf(listKey, ck);
                 if(tmp != null)
                     return true;
             }
+
+            redisEntity = null;
         }
+
+        currentRedis = null;
 
         
         return false;
@@ -149,19 +168,32 @@ public class redisUtil {
 
 
 
+
     // Redis에서 금일 마지막으로 발생한 클릭키 100건 검색
-    public static List<String> getLatestck(String adsKey, String[] mediaKeyList, Integer redisIndex){
+    public static List<String> getLatestck(String adsKey, String[] mediaKeyList, Integer redisGroup, Integer redisDB){
 
 
         List<String> result = new ArrayList<String>();
+        
         for(String e : mediaKeyList){
+
             // Redis에서 클릭키 조회 - 리스트 이름은 [광고키:오늘날짜:매체사키] 정규식 패턴
-            for(int i=0;i<GlobalConstant.NUMBER_OF_REDIS;i++){
+            RedisGroup currentRedis  = RedisConfig.redisConn.get(redisGroup); 
+
+            for(int i=0;i<currentRedis.getList().size();i++){
+                
+                RedisEntity redisEntity = currentRedis.getList().get(i);
+
                 String ck = adsKey+":"+timeBuilder.getTodayDate()+":"+e;
-                List<Object> list = RedisConfig.redisConn.get(i).get(redisIndex).opsForList().range(ck, 0, 100);
+                List<Object> list = redisEntity.getDbList().get(redisDB).opsForList().range(ck, 0, 50);
                 for(Object e1 : list)result.add(e1.toString());
                 list = null;
+
+                redisEntity = null;
             }
+
+            currentRedis = null;
+            
         }
 
         return result;

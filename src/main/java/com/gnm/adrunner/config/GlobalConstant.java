@@ -1,62 +1,52 @@
 package com.gnm.adrunner.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GlobalConstant {
 
-
-    // 서버 정보
-    public static String    HOST_NCPI_POSTBACK = "https://postback.adrunner.com/postback/ncpi";
-
-
-
     // REDIS 서버 호스트 
-	public static String[]      REDIS_HOST          =   {"172.16.1.6"};
-	public static Integer[]     REDIS_PORT          =   {6379};
-    public static Integer       NUMBER_OF_REDIS     =   1;
-    public static Integer       NUMBER_OF_REDISDB   =   16;
+	public static Integer       REDIS_PORT                  =   6379;
+    public static Integer       NUMBER_OF_REDIS_DB          =   16;
+    public static Integer       NUMBER_OF_REDIS_GROUP       =   1;    
 
 
-    // 클릭 서버 호스트
-    public static String    CLICK_SERVER_HOST       =   "http://test.adrunner.co.kr:8081";
-
-
-    // 포스트백 서버 호스트
-    public static String    POSTBACK_SERVER_HOST    =   "http://test.adrunner.co.kr:8082";
-
+    public static String        PATH_UPDATE_MEMORY_DATA     = "/mem/refresh";
+    public static String        PATH_ADD_MEMORY_DATA        = "/mem/add";
+    public static String        PATH_DELETE_MEMORY_DATA     = "/mem/delete";
     
-    // 데이터베이스 서버 호스트
-
-    public static String    DATABASE_HOST       =   "http://test.adrunner.co.kr:3306";
-
-
-
-    public static String    PATH_UPDATE_MEMORY_DATA     = "/mem/refresh";
-    public static String    PATH_ADD_MEMORY_DATA        = "/mem/add";
-    public static String    PATH_DELETE_MEMORY_DATA     = "/mem/delete";
-    
-    public static Integer   ADS_TYPE_APP_NCPI           = 0;
-    public static Integer   ADS_TYPE_WEB_CPA            = 1;
-    public static Integer   ADS_TYPE_APP_CPA            = 2;
+    public static Integer       ADS_TYPE_APP_NCPI           = 0;
+    public static Integer       ADS_TYPE_WEB_CPA            = 1;
+    public static Integer       ADS_TYPE_APP_CPA            = 2;
 
 
-    public static Integer   ADS_STATUS_LIVE             = 0;
-    public static Integer   ADS_STATUS_READY            = 1;
-    public static Integer   ADS_STATUS_DISMISS          = 2;
-    public static Integer   ADS_STATUS_LOOPBACK         = 3;
-    public static Integer   ADS_STATUS_PAUSE            = 4;
+    public static Integer       ADS_STATUS_LIVE             = 0;
+    public static Integer       ADS_STATUS_READY            = 1;
+    public static Integer       ADS_STATUS_DISMISS          = 2;
+    public static Integer       ADS_STATUS_LOOPBACK         = 3;
+    public static Integer       ADS_STATUS_PAUSE            = 4;
+
+    public static Integer       AFF_STATUS_READY            = 0;
+    public static Integer       AFF_STATUS_PAUSE            = 1;
+    public static Integer       AFF_STATUS_DISMISS          = 2;
+
+    public static Integer       SERVER_TYPE_CLICK           = 0;
+    public static Integer       SERVER_TYPE_ADMIN           = 1;
+    public static Integer       SERVER_TYPE_PBACK           = 2;
+    public static Integer       SERVER_TYPE_REDIS           = 3;
+    public static Integer       SERVER_TYPE_MYSQL           = 4;
 
 
-
-    public static Integer   AFF_STATUS_READY            = 0;
-    public static Integer   AFF_STATUS_PAUSE            = 1;
-    public static Integer   AFF_STATUS_DISMISS          = 2;
-
-
+    public static String                SERVER_HOST_CLICK           = "";
+    public static String                SERVER_HOST_PBACK           = "";
+    public static String                SERVER_HOST_ADMIN           = "";
+    public static List<List<String>>    SERVER_HOST_REDIS           = new ArrayList<List<String>>();
 
 
     public static String getNCPIPostbackUrl(String ck, String ptnPub, String subPub, String aff){
 
 
-        return HOST_NCPI_POSTBACK+"?aff="+aff+
+        return SERVER_HOST_PBACK+"?aff="+aff+
                 "&clickid="     + ck +
                 "&pub="         + ptnPub + 
                 "&sub_pub="     + subPub + 

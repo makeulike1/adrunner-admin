@@ -11,6 +11,7 @@ import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.AdsMedia;
+import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds1;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds;
@@ -19,6 +20,7 @@ import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.LogAdsRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
+import com.gnm.adrunner.server.repo.SystemConfig2Repository;
 import com.gnm.adrunner.server.repo.SystemConfigRepository;
 import com.gnm.adrunner.server.repo.ViewAdsMediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
@@ -26,6 +28,7 @@ import com.gnm.adrunner.server.service.AdsService;
 import com.gnm.adrunner.server.service.LogAdsService;
 import com.gnm.adrunner.server.service.MemoryDataService;
 import com.gnm.adrunner.server.service.PostbackService;
+import com.gnm.adrunner.server.service.RedisService;
 import com.gnm.adrunner.server.service.AdsMediaService;
 import com.gnm.adrunner.util.keyBuilder;
 import com.gnm.adrunner.util.redisUtil;
@@ -91,10 +94,16 @@ public class AdsController extends RequestResponseInterface{
     MemoryDataService memoryDataService;
 
     @Autowired
-    SystemConfigRepository systemConfigRepository;
+    SystemConfigRepository  systemConfigRepository;
+
+    @Autowired
+    SystemConfig2Repository systemConfig2Repository;
 
     @Autowired
     PostbackService postbackService;
+
+    @Autowired
+    RedisService    redisService;
  
 
     // 광고 상태 변경
@@ -148,18 +157,8 @@ public class AdsController extends RequestResponseInterface{
         @RequestBody RequestSaveAds req, HttpServletRequest request) {
     
 
-        Integer redisIndex = systemConfigRepository.findRedisIndex();
 
         HttpHeaders responseHeaders = new HttpHeaders();
-
-
-        // 광고는 최대 16개까지 동시 집행 가능
-        if(redisIndex.equals(17)){
-            return ResponseEntity.status(217)
-                .headers(responseHeaders)
-                .body(getStatusMessage(217));
-        }
-
 
 
         String token = request.getHeader("token");
@@ -230,6 +229,12 @@ public class AdsController extends RequestResponseInterface{
         if(AD_EVENT_NAME == null)
             AD_EVENT_NAME = "";
         
+
+
+   
+        // 광고 등록 후 매핑되는 Redis 그룹 및 인덱스 참조
+        RedisEntity2 adsRedis = redisService.getRIndexForInsertAd();
+
         Ad.setSupplyDemand(AD_SUPPLY_DEMAND);
         Ad.setName(AD_NAME);
         Ad.setType(AD_TYPE);
@@ -252,7 +257,8 @@ public class AdsController extends RequestResponseInterface{
         Ad.setAutostart(AD_AUTOSTART);
         Ad.setAutodown(AD_AUTODOWN);
         Ad.setLoopbackdate(AD_LOOPBACK);
-        Ad.setRedisIndex(redisIndex);
+        Ad.setRedisIndex(adsRedis.getId());
+        Ad.setRedisGroup(adsRedis.getGroup());
         Ad.setAdsKey(ADS_KEY);
         Ad.setAdvKey(req.getAdvKey());
         Ad.setIsPostback(AD_IS_POSTBACK);
@@ -261,8 +267,7 @@ public class AdsController extends RequestResponseInterface{
         
         Integer adid = adsService.saveAds(Ad);
 
-        systemConfigRepository.updateRedisIndex((redisIndex + 1));
-
+       
  
         // 메모리 데이터 업데이트
         memoryDataService.addMemoryData("ads", adid);
@@ -415,14 +420,12 @@ public class AdsController extends RequestResponseInterface{
             memoryDataService.deleteMemoryData("ads", adid);
 
             // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-            Integer redisIndex = systemConfigRepository.findRedisIndex();
-            Ads ads = adsService.findById(adid);
-            Integer adsRedisIndex = ads.getRedisIndex();
-            if(adsRedisIndex.compareTo(redisIndex) < 0)
-                systemConfigRepository.updateRedisIndex(adsRedisIndex);
+            Ads ads                     = adsService.findById(adid);
+
+            redisService.updateRIndexAfterDeleteAd(ads.getRedisGroup(), ads.getRedisIndex());
 
             // Redis 데이터도 날림
-            redisUtil.flushDB(adsRedisIndex);
+            redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisIndex());
 
         }catch(EmptyResultDataAccessException e){
 
@@ -561,7 +564,7 @@ public class AdsController extends RequestResponseInterface{
 
         return ResponseEntity.status(200)
             .headers(new HttpHeaders())
-            .body(gson.toJson(redisUtil.getLatestck(adsKey, mediaKeyList, ads.getRedisIndex())));
+            .body(gson.toJson(redisUtil.getLatestck(adsKey, mediaKeyList, ads.getRedisGroup(), ads.getRedisIndex())));
     }
 
 }

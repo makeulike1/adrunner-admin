@@ -14,11 +14,15 @@ public class ServerInstance {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer     id;
 
-    private String      protocol;
+    private Integer     type;
+
+    private Integer     group;
 
     private String      clientIp;
 
     private Integer     port;
+
+    private String      fullURL;
 
     public Integer getId() {
         return id;
@@ -28,12 +32,20 @@ public class ServerInstance {
         this.id = id;
     }
 
-    public String getProtocol() {
-        return protocol;
+    public Integer getType() {
+        return type;
     }
 
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getGroup() {
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
     }
 
     public String getClientIp() {
@@ -52,14 +64,20 @@ public class ServerInstance {
         this.port = port;
     }
 
+    public String getFullURL() {
+        return fullURL;
+    }
+
+    public void setFullURL(String fullURL) {
+        this.fullURL = fullURL;
+    }
+
     @Override
     public String toString() {
-        return "ServerInstance [clientIp=" + clientIp + ", id=" + id + ", port=" + port + ", protocol=" + protocol
-                + "]";
+        return "ServerInstance [clientIp=" + clientIp + ", fullURL=" + fullURL + ", group=" + group + ", id=" + id
+                + ", port=" + port + ", type=" + type + "]";
     }
  
-    
-
     
 
 }

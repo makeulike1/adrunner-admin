@@ -54,6 +54,9 @@ public class SchedulerService {
     @Autowired
     RptWeekRepository       rptWeekRepository;
 
+    @Autowired
+    RedisService            redisService;
+
 
     // 일일 리포트 스케쥴러
     @Scheduled(cron = "0 0 0 * * * ")
@@ -165,13 +168,10 @@ public class SchedulerService {
                 adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_DISMISS);
                 logAdsService.insert(e.getAdsKey(), "", "system", "time-up", "", "", "");
                 memoryDataService.updateMemoryData("ads", e.getId());
-                redisUtil.flushDB(e.getRedisIndex());
+                redisUtil.flushDB(e.getRedisGroup(), e.getRedisIndex());
 
                 // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-                Integer redisIndex = systemConfigRepository.findRedisIndex();
-                Integer adsRedisIndex = e.getRedisIndex();
-                if(adsRedisIndex.compareTo(redisIndex) < 0)
-                    systemConfigRepository.updateRedisIndex(adsRedisIndex);
+                redisService.updateRIndexAfterDeleteAd(e.getRedisGroup(), e.getRedisIndex());
                     
             }
             
@@ -279,7 +279,7 @@ public class SchedulerService {
                 Integer conversionCount = 0;
 
             
-                clickCount = redisUtil.getListSize(clkKeyListID, ads.getRedisIndex());
+                clickCount = redisUtil.getListSize(clkKeyListID, ads.getRedisGroup(), ads.getRedisIndex());
 
     
 

@@ -60,6 +60,8 @@ public class Ads {
 
     private Integer cost2;
 
+    private Integer redisGroup;
+
     private Integer redisIndex;
  
     private Boolean isPostback;
@@ -256,6 +258,14 @@ public class Ads {
         this.cost2 = cost2;
     }
 
+    public Integer getRedisGroup() {
+        return redisGroup;
+    }
+
+    public void setRedisGroup(Integer redisGroup) {
+        this.redisGroup = redisGroup;
+    }
+
     public Integer getRedisIndex() {
         return redisIndex;
     }
@@ -279,8 +289,9 @@ public class Ads {
                 + ", deletetime=" + deletetime + ", description=" + description + ", enddate=" + enddate
                 + ", eventName=" + eventName + ", id=" + id + ", isDailyCap=" + isDailyCap + ", isDelete=" + isDelete
                 + ", isPostback=" + isPostback + ", loopbackdate=" + loopbackdate + ", name=" + name + ", os=" + os
-                + ", redisIndex=" + redisIndex + ", startdate=" + startdate + ", status=" + status + ", supplyDemand="
-                + supplyDemand + ", trackingUrl=" + trackingUrl + ", type=" + type + ", updatetime=" + updatetime + "]";
+                + ", redisGroup=" + redisGroup + ", redisIndex=" + redisIndex + ", startdate=" + startdate + ", status="
+                + status + ", supplyDemand=" + supplyDemand + ", trackingUrl=" + trackingUrl + ", type=" + type
+                + ", updatetime=" + updatetime + "]";
     }
  
 }

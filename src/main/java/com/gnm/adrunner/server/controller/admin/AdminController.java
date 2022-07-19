@@ -168,6 +168,8 @@ public class AdminController extends RequestResponseInterface{
 
 
 
+
+
     // 테스트 : 주간 리포트 신규 삽입
     @CrossOrigin(origins = "*")
     @GetMapping("/test2") 
@@ -183,6 +185,8 @@ public class AdminController extends RequestResponseInterface{
     }
     
 
+
+    
     
     // 테스트 : 클릭 찾기
     @CrossOrigin(origins = "*")
@@ -194,7 +198,7 @@ public class AdminController extends RequestResponseInterface{
         Ads ads = adsRepository.findByAdsKey(adsKey);
         
         String message = "";
-        if(redisUtil.findck(adsKey, ck, ads.getRedisIndex()))
+        if(redisUtil.findck(adsKey, ck, ads.getRedisGroup(), ads.getRedisIndex()))
             message = "success";
         else message = "fail";
         
@@ -202,6 +206,9 @@ public class AdminController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(message); 
     }
+
+
+
 
 
     // 관리자 로그인

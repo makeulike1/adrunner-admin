@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gnm.adrunner.server.RequestResponseInterface;
+import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.AdsMedia;
 import com.gnm.adrunner.server.entity.Media;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAdsMedia;
@@ -250,8 +251,8 @@ public class AdsMediaController extends RequestResponseInterface{
         
 
 
-        Integer redisIndex = adsRepository.getRedisIndexByAdsKey(adsKey);
-
+        Ads ads = adsRepository.findByAdsKey(adsKey);
+ 
         List<Media> mediaList = mediaRepository.listAll();
 
         
@@ -262,7 +263,7 @@ public class AdsMediaController extends RequestResponseInterface{
 
             AdsMedia am = adsMediaRepository.findByAdsKeyAndMediakey(adsKey, mediaKey);
             
-            Integer ckcount     = redisUtil.getCkCount(adsKey, mediaKey, redisIndex);
+            Integer ckcount     = redisUtil.getCkCount(adsKey, mediaKey, ads.getRedisGroup(), ads.getRedisIndex());
             Integer cvcount     = postbackService.countTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
             Integer todaycv     = postbackService.countTodayTotalPostbackByAdsKeyAndMediaKey(adsKey, mediaKey);
 

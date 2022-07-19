@@ -20,22 +20,22 @@ public class MemoryDataService {
     
     // 원격 서버 메모리 데이터 업데이트
     public void updateMemoryData(String type, Integer id){
-        for(ServerInstance e : serverInstanceRepository.listAll())
-            reqRemoteServer.requestGET(e.getProtocol()+e.getClientIp()+":"+e.getPort()+GlobalConstant.PATH_UPDATE_MEMORY_DATA+"?type="+type+"&id="+id);
+        for(ServerInstance e : serverInstanceRepository.listClickServer(GlobalConstant.SERVER_TYPE_CLICK))
+            reqRemoteServer.requestGET(e.getFullURL()+GlobalConstant.PATH_UPDATE_MEMORY_DATA+"?type="+type+"&id="+id);
     }
 
 
     // 원격 서버 메모리 데이터 추가
     public void addMemoryData(String type, Integer id){
-        for(ServerInstance e : serverInstanceRepository.listAll())
-            reqRemoteServer.requestGET(e.getProtocol()+e.getClientIp()+":"+e.getPort()+GlobalConstant.PATH_ADD_MEMORY_DATA+"?type="+type+"&id="+id);
+        for(ServerInstance e : serverInstanceRepository.listClickServer(GlobalConstant.SERVER_TYPE_CLICK))
+            reqRemoteServer.requestGET(e.getFullURL()+e.getClientIp()+":"+e.getPort()+GlobalConstant.PATH_ADD_MEMORY_DATA+"?type="+type+"&id="+id);
     }
 
 
     // 원격 서버 메모리 데이터 삭제
     public void deleteMemoryData(String type, Integer id){
-        for(ServerInstance e : serverInstanceRepository.listAll())
-            reqRemoteServer.requestGET(e.getProtocol()+e.getClientIp()+":"+e.getPort()+GlobalConstant.PATH_DELETE_MEMORY_DATA+"?type="+type+"&id="+id);
+        for(ServerInstance e : serverInstanceRepository.listClickServer(GlobalConstant.SERVER_TYPE_CLICK))
+            reqRemoteServer.requestGET(e.getFullURL()+e.getClientIp()+":"+e.getPort()+GlobalConstant.PATH_DELETE_MEMORY_DATA+"?type="+type+"&id="+id);
     }
     
 }
