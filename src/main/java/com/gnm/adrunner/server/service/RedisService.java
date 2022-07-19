@@ -44,7 +44,16 @@ public class RedisService {
                 systemConfigRepository.updateCurrentRedisGroup(currentRedisGroup);
                 systemConfig2Repository.updateRedisDB((currentRedisDB+1), currentRedisGroup);
             }
-        }else systemConfig2Repository.updateRedisDB((currentRedisDB+1), currentRedisGroup);
+        }else {
+
+            currentRedisDB = -1;
+            for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
+                Iterable<Ads> list = adsRepository.findAvailableRedis(currentRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
+                if(list == null)currentRedisDB = i;
+            } 
+
+            systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
+        }
    
         return new RedisEntity2(currentRedisDB, currentRedisGroup);
     }
