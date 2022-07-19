@@ -10,6 +10,7 @@ import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
 import com.gnm.adrunner.server.entity.Aff;
 import com.gnm.adrunner.server.param.req.admin.RequestModifyAffEg;
+import com.gnm.adrunner.server.param.req.admin.RequestModifyAffName;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAff;
 import com.gnm.adrunner.server.param.res.admin.ResponseAffList3;
 import com.gnm.adrunner.server.repo.AffRepository;
@@ -250,7 +251,30 @@ public class AffController extends RequestResponseInterface{
                 .body(getStatusMessage(200));
       }
 
+   // 특정 제휴사의 이름 수정
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/name/{id}") 
+    public @ResponseBody ResponseEntity<String> updateAffName(
+         @PathVariable Integer id, 
+         @RequestBody RequestModifyAffName req, HttpServletRequest request){
+         HttpHeaders responseHeaders = new HttpHeaders();
+ 
+         // 유효하지 않은 토큰인 경우 203 에러 
+         if(adminLoginService.chkToken(request.getHeader("token")) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+         }
 
+         affRepository.updateName(req.getName(), id);
+
+         // 메모리 데이터 업데이트
+         memoryDataService.updateMemoryData("aff", id);
+
+         return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(getStatusMessage(200));
+      }
 
 
      // 특정 제휴사 상태 변경
