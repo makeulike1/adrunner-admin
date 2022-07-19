@@ -52,7 +52,8 @@ public class RedisService {
                 if(list == null)currentRedisDB = i;
             } 
 
-            systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
+            if(currentRedisDB != -1)
+                systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
         }
    
         return new RedisEntity2(currentRedisDB, currentRedisGroup);
