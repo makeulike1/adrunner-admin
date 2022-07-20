@@ -339,7 +339,7 @@ public class AdsController extends RequestResponseInterface{
 
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
-                .body(getStatusMessage(200));
+                .body(ADS_KEY);
     }
 
 
