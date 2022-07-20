@@ -12,7 +12,6 @@ import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.RptDayRepository;
 import com.gnm.adrunner.server.repo.RptWeekRepository;
-import com.gnm.adrunner.server.repo.SystemConfigRepository;
 import com.gnm.adrunner.util.redisUtil;
 import com.gnm.adrunner.util.timeBuilder;
 
@@ -47,9 +46,6 @@ public class SchedulerService {
 
     @Autowired
     MemoryDataService       memoryDataService;
-
-    @Autowired
-    SystemConfigRepository  systemConfigRepository;
 
     @Autowired
     RptWeekRepository       rptWeekRepository;

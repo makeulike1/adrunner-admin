@@ -16,7 +16,6 @@ import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.LogAdsRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
-import com.gnm.adrunner.server.repo.SystemConfigRepository;
 import com.gnm.adrunner.server.repo.ViewAdsMediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.AdsService;
@@ -77,9 +76,7 @@ public class AdsMediaController extends RequestResponseInterface{
 
     @Autowired
     MemoryDataService memoryDataService;
-
-    @Autowired
-    SystemConfigRepository systemConfigRepository;
+ 
 
     @Autowired
     PostbackService postbackService;

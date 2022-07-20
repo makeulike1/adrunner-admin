@@ -4,7 +4,6 @@ import com.gnm.adrunner.server.entity.SystemConfig3;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.SystemConfig3Repository;
-import com.gnm.adrunner.server.repo.SystemConfigRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +15,15 @@ public class RedisService {
     AdsRepository adsRepository;
 
     @Autowired
-    SystemConfigRepository  systemConfigRepository;
-
+    SystemConfig3Service systemConfig3Service;
+ 
     @Autowired
     SystemConfig3Repository systemConfig3Repository;
  
  
     public RedisEntity2 getRIndexForInsertAd(){
 
-        Integer numberOfRedisGroup      = systemConfigRepository.findNumberOfRedisGroup();
+        Integer numberOfRedisGroup      = systemConfig3Service.countTotalRedisGroup();
 
         Integer currentRedisGroup       = -1;
 
