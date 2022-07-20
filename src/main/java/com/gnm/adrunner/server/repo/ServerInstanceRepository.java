@@ -12,7 +12,7 @@ public interface ServerInstanceRepository extends CrudRepository<ServerInstance,
     @Query(value="select * from server_instance", nativeQuery = true)
     public List<ServerInstance> listAll();
 
-    @Query(value="select * from server_instance where type=?1", nativeQuery = true)
+    @Query(value="select * from server_instance where type=?1 and server_group != -1", nativeQuery = true)
     public List<ServerInstance> listClickServer(Integer e1);
 
 
