@@ -5,7 +5,10 @@ import java.util.List;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.config.RedisConfig;
 import com.gnm.adrunner.server.repo.ServerInstanceRepository;
+import com.gnm.adrunner.server.repo.SystemConfig2Repository;
 import com.gnm.adrunner.server.service.SystemConfig3Service;
+import com.gnm.adrunner.util.aes256;
+import com.gnm.adrunner.util.storageObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -25,12 +28,15 @@ public class Application {
 	@Autowired
 	SystemConfig3Service systemConfig3Service;
 
+	@Autowired
+	SystemConfig2Repository systemConfig2Repository;
+
 	public static void main(String[] args) {	
 		SpringApplication.run(Application.class, args);
 	}
  
 	@EventListener(ApplicationReadyEvent.class)
-	public void doSomethingAfterStartup() {
+	public void doSomethingAfterStartup() throws Exception {
 
 		// 관리자 서버 호스트 조회
 		System.out.println("######################################################################");
@@ -62,7 +68,33 @@ public class Application {
 		System.out.println();
 	
 
+		
 		// Redis 시작
 		RedisConfig.init();
+
+
+		// 버킷 액세스키 
+		storageObject.setAccessKey(
+			aes256.decrypt(systemConfig2Repository.findByConfigKey("bucket_access_key")));
+
+		// 버킷 시크릿키 
+		storageObject.setSecretKey(
+			aes256.decrypt(systemConfig2Repository.findByConfigKey("bucket_secret_key")));
+
+		// 버킷 엔드포인트 
+		storageObject.setEndPoint(
+			systemConfig2Repository.findByConfigKey("bucket_endpoint"));
+
+		// 버킷 리전 
+		storageObject.setRegionName(
+			systemConfig2Repository.findByConfigKey("bucket_region_name"));
+
+		// 버킷 이름
+		storageObject.setBucketName(
+			systemConfig2Repository.findByConfigKey("bucket_name"));
+
+
+		// 버킷 초기화
+		storageObject.bucketInit();
 	}
 }

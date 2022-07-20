@@ -24,6 +24,7 @@ import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.server.repo.ViewAdsMediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
 import com.gnm.adrunner.server.service.AdsService;
+import com.gnm.adrunner.server.service.FileService;
 import com.gnm.adrunner.server.service.LogAdsService;
 import com.gnm.adrunner.server.service.MemoryDataService;
 import com.gnm.adrunner.server.service.PostbackService;
@@ -52,6 +53,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller 
 @RequestMapping(path="/ads")
@@ -102,6 +104,8 @@ public class AdsController extends RequestResponseInterface{
     @Autowired
     SystemConfig3Service systemConfig3Service;
  
+    @Autowired
+    FileService fileService;
 
     // 광고 상태 변경
     @CrossOrigin(origins = "*")
@@ -146,6 +150,66 @@ public class AdsController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));    
     }
+
+
+
+    // 이미지, 소재 등록
+    @CrossOrigin(origins = "*")
+    @PostMapping("/creative/save") 
+    public @ResponseBody ResponseEntity<String> uploadCreative(
+        @RequestParam(value="ads_key",    required=false) String adsKey,
+        @RequestParam(value="file1",    required=false) MultipartFile file1,
+        @RequestParam(value="file2",    required=false) MultipartFile file2,
+        @RequestParam(value="file3",    required=false) MultipartFile file3,
+        @RequestParam(value="file4",    required=false) MultipartFile file4,
+        @RequestParam(value="file5",    required=false) MultipartFile file5,
+        @RequestParam(value="file6",    required=false) MultipartFile file6,
+        @RequestParam(value="file7",    required=false) MultipartFile file7,
+        @RequestParam(value="file8",    required=false) MultipartFile file8,
+        @RequestParam(value="file9",    required=false) MultipartFile file9,
+        @RequestParam(value="file10",   required=false) MultipartFile file10, HttpServletRequest request) throws IOException {
+
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+        String token = request.getHeader("token");
+
+
+        // 유효하지 않은 토큰인 경우 203 에러 
+        if(adminLoginService.chkToken(token) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        } 
+
+        fileService.makeFolder(adsKey);
+
+        if(file1 != null)
+            fileService.uploadFile(adsKey, file1, "f1");
+        if(file2 != null)
+            fileService.uploadFile(adsKey, file1, "f2");
+        if(file3 != null)
+            fileService.uploadFile(adsKey, file1, "f3");
+        if(file4 != null)
+            fileService.uploadFile(adsKey, file1, "f4");
+        if(file5 != null)
+            fileService.uploadFile(adsKey, file1, "f5");
+        if(file6 != null)
+            fileService.uploadFile(adsKey, file1, "f6");
+        if(file7 != null)
+            fileService.uploadFile(adsKey, file1, "f7");
+        if(file8 != null)
+            fileService.uploadFile(adsKey, file1, "f8");
+        if(file9 != null)
+            fileService.uploadFile(adsKey, file1, "f9");
+        if(file10 != null)
+            fileService.uploadFile(adsKey, file1, "f10");
+
+        return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(getStatusMessage(200));    
+    }
+
 
     // 광고 등록
     @CrossOrigin(origins = "*")
