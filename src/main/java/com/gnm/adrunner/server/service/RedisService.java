@@ -1,14 +1,9 @@
 package com.gnm.adrunner.server.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import com.gnm.adrunner.config.GlobalConstant;
-import com.gnm.adrunner.server.entity.Ads;
+import com.gnm.adrunner.server.entity.SystemConfig3;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.repo.AdsRepository;
-import com.gnm.adrunner.server.repo.SystemConfig2Repository;
+import com.gnm.adrunner.server.repo.SystemConfig3Repository;
 import com.gnm.adrunner.server.repo.SystemConfigRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,81 +19,122 @@ public class RedisService {
     SystemConfigRepository  systemConfigRepository;
 
     @Autowired
-    SystemConfig2Repository systemConfig2Repository;
-
-    @Transactional
+    SystemConfig3Repository systemConfig3Repository;
+ 
+ 
     public RedisEntity2 getRIndexForInsertAd(){
-
 
         Integer numberOfRedisGroup      = systemConfigRepository.findNumberOfRedisGroup();
 
-        Integer currentRedisGroup       = systemConfigRepository.getCurrentRedisGroup();
+        Integer currentRedisGroup       = -1;
 
-        Integer currentRedisDB          = systemConfig2Repository.findRedisDB(currentRedisGroup);
+        Integer currentRedisDB          = -1;
 
-        // Redis DB가 16개까지 꽉 차있으면 다음 그룹으로 넘어감 
-        if(currentRedisDB == 16){
-            currentRedisGroup++;
+        for(int i=0; i<numberOfRedisGroup; i++){
+            SystemConfig3 sc = systemConfig3Repository.findByGroupID(i);
+            
 
-            // 레디스 그룹 개수 이하일 경우에만 갱신 가능
-            if(currentRedisGroup.compareTo(numberOfRedisGroup) < 0){
+            if(sc.getDb0() == -1){
+                currentRedisGroup = i;
                 currentRedisDB = 0;
-                systemConfigRepository.updateCurrentRedisGroup(currentRedisGroup);
-                systemConfig2Repository.updateRedisDB((currentRedisDB+1), currentRedisGroup);
-            }
-        }else {
-
-
-            Boolean isPossible = false;
-
-
-            // REDIS DB 인덱스가 낮은 수부터 광고에 할당 가능한 인스턴스 조회
-            for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
-                List<Ads> list = adsRepository.findAvailableRedis(currentRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
-                if(list.isEmpty()){
-                    currentRedisDB = i;
-                    isPossible = true;
-                    break;
-                }
-                list = null;
-            } 
-
-            if(!isPossible)currentRedisDB = -1;
-            else systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
-        }
-   
-        return new RedisEntity2(currentRedisDB, currentRedisGroup);
-    }
-
-    
-    @Transactional
-    public void updateRIndexAfterDeleteAd(Integer adsRedisGroup, Integer adsRedisDB){
-
-        // 광고 삭제시 REDIS 참조 인덱스 업데이트 
-        Integer currentRedisGroup   = systemConfigRepository.getCurrentRedisGroup();
-        
-        if(currentRedisGroup.compareTo(adsRedisGroup) < 0){
-            updateRedisDBIndex(adsRedisGroup, adsRedisDB, currentRedisGroup);
-        }else{
-            systemConfigRepository.updateCurrentRedisGroup(adsRedisGroup);
-            updateRedisDBIndex(adsRedisGroup, adsRedisDB, currentRedisGroup);
-        }
-
-        currentRedisGroup = null;
-
-    }
-
-    @Transactional
-    public void updateRedisDBIndex(Integer adsRedisGroup, Integer adsRedisDB, Integer currentRedisGroup){
-        for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
-            Iterable<Ads> list = adsRepository.findAvailableRedis(adsRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
-        
-            if(list != null){
-                systemConfig2Repository.updateRedisDB(i, currentRedisGroup);    
                 break;
             }
-                
-        } 
+
+            if(sc.getDb1() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 1;
+                break;
+            }
+
+            if(sc.getDb2() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 2;
+                break;
+            }
+
+            if(sc.getDb3() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 3;
+                break;
+            }
+
+            if(sc.getDb4() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 4;
+                break;
+            }
+
+            if(sc.getDb5() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 5;
+                break;
+            }
+
+            if(sc.getDb6() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 6;
+                break;
+            }
+
+            if(sc.getDb7() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 7;
+                break;
+            }
+
+            if(sc.getDb8() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 8;
+                break;
+            }
+
+            if(sc.getDb9() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 9;
+                break;
+            }
+
+            if(sc.getDb10() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 10;
+                break;
+            }
+
+            if(sc.getDb11() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 11;
+                break;
+            }
+
+            if(sc.getDb12() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 12;
+                break;
+            }
+
+            if(sc.getDb13() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 13;
+                break;
+            }
+
+            if(sc.getDb14() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 14;
+                break;
+            }
+
+            if(sc.getDb15() == -1){
+                currentRedisGroup = i;
+                currentRedisDB = 15;
+                break;
+            }
+
+            sc = null;
+        }
+
+
+        return new RedisEntity2(currentRedisDB, currentRedisGroup);
     }
     
 }

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
@@ -20,7 +21,6 @@ import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.LogAdsRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
-import com.gnm.adrunner.server.repo.SystemConfig2Repository;
 import com.gnm.adrunner.server.repo.SystemConfigRepository;
 import com.gnm.adrunner.server.repo.ViewAdsMediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
@@ -29,6 +29,7 @@ import com.gnm.adrunner.server.service.LogAdsService;
 import com.gnm.adrunner.server.service.MemoryDataService;
 import com.gnm.adrunner.server.service.PostbackService;
 import com.gnm.adrunner.server.service.RedisService;
+import com.gnm.adrunner.server.service.SystemConfig3Service;
 import com.gnm.adrunner.server.service.AdsMediaService;
 import com.gnm.adrunner.util.keyBuilder;
 import com.gnm.adrunner.util.redisUtil;
@@ -95,15 +96,15 @@ public class AdsController extends RequestResponseInterface{
 
     @Autowired
     SystemConfigRepository  systemConfigRepository;
-
-    @Autowired
-    SystemConfig2Repository systemConfig2Repository;
-
+ 
     @Autowired
     PostbackService postbackService;
 
     @Autowired
     RedisService    redisService;
+
+    @Autowired
+    SystemConfig3Service systemConfig3Service;
  
 
     // 광고 상태 변경
@@ -235,24 +236,13 @@ public class AdsController extends RequestResponseInterface{
         // 광고 등록 후 매핑되는 Redis 그룹 및 인덱스 참조
         RedisEntity2 adsRedis = redisService.getRIndexForInsertAd();
 
-        Integer numberOfRedisGroup      = systemConfigRepository.findNumberOfRedisGroup();
-
-
         // 할당할 수 있는 DB가 없음
         if(adsRedis.getDb() == -1){
             return ResponseEntity.status(217)
                 .headers(responseHeaders)
                 .body(getStatusMessage(217));
         }
-
-
-
-        // 지정된 레디스 그룹 개수를 추과할 경우 에러 반환
-        if(numberOfRedisGroup.compareTo(adsRedis.getGroup()) < 0){
-            return ResponseEntity.status(217)
-                .headers(responseHeaders)
-                .body(getStatusMessage(217));
-        }
+ 
 
         Ad.setSupplyDemand(AD_SUPPLY_DEMAND);
         Ad.setName(AD_NAME);
@@ -281,12 +271,27 @@ public class AdsController extends RequestResponseInterface{
         Ad.setAdsKey(ADS_KEY);
         Ad.setAdvKey(req.getAdvKey());
         Ad.setIsPostback(AD_IS_POSTBACK);
-                
- 
-        
-        Integer adid = adsService.saveAds(Ad);
+                 
 
-       
+        // 광고 등록
+        insertAd(Ad, adsRedis, AD_MEDIA, token);
+
+        
+        return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(getStatusMessage(200));
+    }
+
+
+
+
+
+    @Transactional
+    public void insertAd(Ads Ad, RedisEntity2 adsRedis, List<RequestSaveAds1> AD_MEDIA, String token){
+ 
+        Integer adid = adsService.saveAds(Ad);
+        systemConfig3Service.insertAds(adsRedis.getGroup(), adsRedis.getDb(), adid);;
+
  
         // 메모리 데이터 업데이트
         memoryDataService.addMemoryData("ads", adid);
@@ -294,7 +299,7 @@ public class AdsController extends RequestResponseInterface{
         // 광고 등록시 연결 매체사도 등록
         for(RequestSaveAds1 e : AD_MEDIA){
             AdsMedia am = new AdsMedia();
-            am.setAdsKey(ADS_KEY);
+            am.setAdsKey(Ad.getAdsKey());
             String mediaKey = mediaRepository.getKeyByName(e.getName());
             am.setMediaKey(mediaKey);
             am.setCreatetime(timeBuilder.getCurrentTime());
@@ -314,34 +319,22 @@ public class AdsController extends RequestResponseInterface{
             // 메모리 데이터 추가
             memoryDataService.addMemoryData("ads-media", amId);
         }
-
-
  
-
-
 
         // 광고 생성시에 집행 이력에 기록
         String adminId = adminLoginRepository.findAdminIdByToken(token);
 
 
-
-
         // 광고 변경 이력 갱신
-        logAdsService.insert(ADS_KEY, "", adminId, "new", "", "", "");
+        logAdsService.insert(Ad.getAdsKey(), "", adminId, "new", "", "", "");
         
-
-        
-
-
-        return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(getStatusMessage(200));
     }
 
 
+    
+    
 
-    
-    
+
 
     // 광고 목록  
     @CrossOrigin(origins = "*")
@@ -441,7 +434,9 @@ public class AdsController extends RequestResponseInterface{
             // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
             Ads ads                     = adsService.findById(adid);
 
-            redisService.updateRIndexAfterDeleteAd(ads.getRedisGroup(), ads.getRedisDb());
+            // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
+            systemConfig3Service.resetAds(ads.getRedisGroup(), ads.getRedisDb());
+
 
             // Redis 데이터도 날림
             redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisDb());

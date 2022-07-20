@@ -57,6 +57,9 @@ public class SchedulerService {
     @Autowired
     RedisService            redisService;
 
+    @Autowired
+    SystemConfig3Service    systemConfig3Service;
+
 
     // 일일 리포트 스케쥴러
     @Scheduled(cron = "0 0 0 * * * ")
@@ -171,7 +174,7 @@ public class SchedulerService {
                 redisUtil.flushDB(e.getRedisGroup(), e.getRedisDb());
 
                 // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-                redisService.updateRIndexAfterDeleteAd(e.getRedisGroup(), e.getRedisDb());
+                systemConfig3Service.resetAds(e.getRedisGroup(), e.getRedisDb());
                     
             }
             
