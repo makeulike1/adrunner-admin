@@ -238,6 +238,15 @@ public class AdsController extends RequestResponseInterface{
         Integer numberOfRedisGroup      = systemConfigRepository.findNumberOfRedisGroup();
 
 
+        // 할당할 수 있는 DB가 없음
+        if(adsRedis.getDb() == -1){
+            return ResponseEntity.status(217)
+                .headers(responseHeaders)
+                .body(getStatusMessage(217));
+        }
+
+
+
         // 지정된 레디스 그룹 개수를 추과할 경우 에러 반환
         if(numberOfRedisGroup.compareTo(adsRedis.getGroup()) < 0){
             return ResponseEntity.status(217)

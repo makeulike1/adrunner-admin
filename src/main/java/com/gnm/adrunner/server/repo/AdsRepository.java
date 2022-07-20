@@ -41,7 +41,7 @@ public interface AdsRepository extends CrudRepository<Ads, Integer> {
     public void updateAdsByStatus(Integer adsId, Integer status);
 
     @Query(value="select * from ads where redis_group=?1 and redis_db=?2 and status!=?3 and is_delete=false", nativeQuery = true)
-    public Iterable<Ads> findAvailableRedis(Integer adsRedisGroup, Integer adsRedisDB, Integer status);
+    public List<Ads> findAvailableRedis(Integer adsRedisGroup, Integer adsRedisDB, Integer status);
 
 
 

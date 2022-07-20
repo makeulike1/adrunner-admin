@@ -1,5 +1,7 @@
 package com.gnm.adrunner.server.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import com.gnm.adrunner.config.GlobalConstant;
@@ -46,14 +48,23 @@ public class RedisService {
             }
         }else {
 
-            currentRedisDB = -1;
+
+            Boolean isPossible = false;
+
+
+            // REDIS DB 인덱스가 낮은 수부터 광고에 할당 가능한 인스턴스 조회
             for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_DB;i++){
-                Iterable<Ads> list = adsRepository.findAvailableRedis(currentRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
-                if(list == null)currentRedisDB = i;
+                List<Ads> list = adsRepository.findAvailableRedis(currentRedisGroup, i, GlobalConstant.ADS_STATUS_DISMISS);
+                if(list.isEmpty()){
+                    currentRedisDB = i;
+                    isPossible = true;
+                    break;
+                }
+                list = null;
             } 
 
-            if(currentRedisDB != -1)
-                systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
+            if(!isPossible)currentRedisDB = -1;
+            else systemConfig2Repository.updateRedisDB(currentRedisDB, currentRedisGroup);
         }
    
         return new RedisEntity2(currentRedisDB, currentRedisGroup);
