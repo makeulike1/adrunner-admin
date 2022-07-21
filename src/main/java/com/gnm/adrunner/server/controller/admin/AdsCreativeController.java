@@ -17,6 +17,7 @@ import com.gnm.adrunner.server.repo.LogAdsRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.server.repo.ViewAdsMediaRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
+import com.gnm.adrunner.server.service.AdsCreativeService;
 import com.gnm.adrunner.server.service.AdsService;
 import com.gnm.adrunner.server.service.FileService;
 import com.gnm.adrunner.server.service.LogAdsService;
@@ -89,6 +90,9 @@ public class AdsCreativeController extends RequestResponseInterface{
 
     @Autowired
     AdsCreativeRepository adsCreativeRepository;
+
+    @Autowired
+    AdsCreativeService adsCreativeService;
  
     @Autowired
     FileService fileService;
@@ -146,7 +150,7 @@ public class AdsCreativeController extends RequestResponseInterface{
     public @ResponseBody ResponseEntity<String> uploadCreative(
         @RequestParam(value="ads_key",    required=false) String adsKey,
         @RequestParam(value="file",    required=false) MultipartFile file,
-        @RequestParam(value="file_index",    required=false) MultipartFile fileIndex,
+        @RequestParam(value="file_index",    required=false) Integer fileIndex,
         HttpServletRequest request) throws IOException {
 
             String token = request.getHeader("token");
@@ -159,6 +163,15 @@ public class AdsCreativeController extends RequestResponseInterface{
                     .headers(responseHeaders)
                     .body(getStatusMessage(203));
             } 
+
+            AdsCreative ac      = adsCreativeRepository.findByAdsKey(adsKey);
+            
+            String createtime   = ac.getCreatetime();
+
+            String extension    = fileService.uploadFile(createtime+"-"+adsKey, file, "f"+fileIndex);
+
+            adsCreativeService.update(fileIndex, extension, adsKey);
+ 
 
             return ResponseEntity.status(200)
                 .headers(responseHeaders)
@@ -202,7 +215,7 @@ public class AdsCreativeController extends RequestResponseInterface{
 
         AdsCreativeFileList acf = new AdsCreativeFileList();
         
-        String currentTime = timeBuilder.getCurrentTime2();
+        String createtime = timeBuilder.getCurrentTime2();
 
         fileService.makeFolder(adsKey);
         acf.setAds_key(adsKey);
@@ -222,29 +235,29 @@ public class AdsCreativeController extends RequestResponseInterface{
 
 
         if(file1 != null)
-            ext1 = fileService.uploadFile(currentTime+"-"+adsKey, file1, "f1");
+            ext1 = fileService.uploadFile(createtime+"-"+adsKey, file1, "f1");
         if(file2 != null)
-            ext2 = fileService.uploadFile(currentTime+"-"+adsKey, file2, "f2");
+            ext2 = fileService.uploadFile(createtime+"-"+adsKey, file2, "f2");
         if(file3 != null)
-            ext3 = fileService.uploadFile(currentTime+"-"+adsKey, file3, "f3");
+            ext3 = fileService.uploadFile(createtime+"-"+adsKey, file3, "f3");
         if(file4 != null)
-            ext4 = fileService.uploadFile(currentTime+"-"+adsKey, file4, "f4");   
+            ext4 = fileService.uploadFile(createtime+"-"+adsKey, file4, "f4");   
         if(file5 != null)
-            ext5 = fileService.uploadFile(currentTime+"-"+adsKey, file5, "f5");
+            ext5 = fileService.uploadFile(createtime+"-"+adsKey, file5, "f5");
         if(file6 != null)
-            ext6 = fileService.uploadFile(currentTime+"-"+adsKey, file6, "f6");   
+            ext6 = fileService.uploadFile(createtime+"-"+adsKey, file6, "f6");   
         if(file7 != null)
-            ext7 = fileService.uploadFile(currentTime+"-"+adsKey, file7, "f7");
+            ext7 = fileService.uploadFile(createtime+"-"+adsKey, file7, "f7");
         if(file8 != null)
-            ext8 = fileService.uploadFile(currentTime+"-"+adsKey, file8, "f8");
+            ext8 = fileService.uploadFile(createtime+"-"+adsKey, file8, "f8");
         if(file9 != null)
-            ext9 = fileService.uploadFile(currentTime+"-"+adsKey, file9, "f9");
+            ext9 = fileService.uploadFile(createtime+"-"+adsKey, file9, "f9");
         if(file10 != null)
-            ext10 = fileService.uploadFile(currentTime+"-"+adsKey, file10, "f10");
+            ext10 = fileService.uploadFile(createtime+"-"+adsKey, file10, "f10");
         if(file11 != null)
-            ext11 = fileService.uploadFile(currentTime+"-"+adsKey, file11, "f11");
+            ext11 = fileService.uploadFile(createtime+"-"+adsKey, file11, "f11");
         if(file12 != null)
-            ext12 = fileService.uploadFile(currentTime+"-"+adsKey, file12, "f12");
+            ext12 = fileService.uploadFile(createtime+"-"+adsKey, file12, "f12");
 
 
         AdsCreative ac = new AdsCreative();
@@ -260,7 +273,7 @@ public class AdsCreativeController extends RequestResponseInterface{
         ac.setExt10(ext10);
         ac.setExt11(ext11);
         ac.setExt12(ext12);
-        ac.setCreatetime(currentTime);
+        ac.setCreatetime(createtime);
         ac.setAdsKey(adsKey);
         adsCreativeRepository.save(ac);
         
