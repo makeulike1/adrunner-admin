@@ -99,6 +99,13 @@ public interface AdsMediaRepository extends CrudRepository<AdsMedia, Integer> {
     @Modifying
     @Query(value="update ads_media SET media_daily_cap=?1 where ads_key=?2 and media_key = ?3", nativeQuery = true)
     public void updateMediaDailycap(Integer dailycap, String adsKey, String mediaKey);
+
+
+    
+    @Transactional
+    @Modifying
+    @Query(value="delete * from ads_media", nativeQuery = true)
+    public void removeAll();
     
 
 

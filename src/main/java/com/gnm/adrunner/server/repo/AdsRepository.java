@@ -43,6 +43,12 @@ public interface AdsRepository extends CrudRepository<Ads, Integer> {
     @Query(value="select * from ads where redis_group=?1 and redis_db=?2 and status!=?3 and is_delete=false", nativeQuery = true)
     public List<Ads> findAvailableRedis(Integer adsRedisGroup, Integer adsRedisDB, Integer status);
 
+ 
+    @Transactional
+    @Modifying
+    @Query(value="delete * from ads", nativeQuery = true)
+    public void removeAll();
+
 
 
 }

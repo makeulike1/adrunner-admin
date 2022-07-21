@@ -237,7 +237,7 @@ public class AdsController extends RequestResponseInterface{
         if(file12 != null)
             ext12 = fileService.uploadFile(currentTime+"-"+adsKey, file12, "f12");
 
-            
+
         AdsCreative ac = new AdsCreative();
         ac.setExt1(ext1);
         ac.setExt2(ext2);
@@ -252,7 +252,9 @@ public class AdsController extends RequestResponseInterface{
         ac.setExt11(ext11);
         ac.setExt12(ext12);
         ac.setCreatetime(currentTime);
+        ac.setAdsKey(adsKey);
         adsCreativeRepository.save(ac);
+        
         
         return ResponseEntity.status(200)
                 .headers(responseHeaders)

@@ -1,7 +1,6 @@
 package com.gnm.adrunner.server.controller.admin;
-
-import java.text.ParseException;
  
+import java.text.ParseException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +19,7 @@ import com.gnm.adrunner.server.repo.AffRepository;
 import com.gnm.adrunner.server.repo.MediaRepository;
 import com.gnm.adrunner.server.repo.ServerInstanceRepository;
 import com.gnm.adrunner.server.service.AdminLoginService;
+import com.gnm.adrunner.server.service.AdrunnerAdminService;
 import com.gnm.adrunner.server.service.SchedulerService;
 import com.gnm.adrunner.util.aes256;
 import com.gnm.adrunner.util.redisUtil;
@@ -71,6 +71,9 @@ public class AdminController extends RequestResponseInterface{
 
     @Autowired
     AdminRepository                 adminRepository;
+
+    @Autowired
+    AdrunnerAdminService            adrunnerAdminService;
 
 
 
@@ -146,66 +149,7 @@ public class AdminController extends RequestResponseInterface{
                 .headers(responseHeaders)
                 .body(getStatusMessage(statusCode));
     }
-
-
-
-
-
-
-    // 테스트 : 일일 리포트 신규 삽입
-    @CrossOrigin(origins = "*")
-    @GetMapping("/test") 
-    public @ResponseBody ResponseEntity<String>  test(HttpServletRequest request) throws ParseException {
-        
-        HttpHeaders responseHeaders = new HttpHeaders();
-        
-        schedulerService.updateRptDay(true);
-        
-        return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(getStatusMessage(200));
-    }
-
-
-
-
-
-    // 테스트 : 주간 리포트 신규 삽입
-    @CrossOrigin(origins = "*")
-    @GetMapping("/test2") 
-    public @ResponseBody ResponseEntity<String>  test2(HttpServletRequest request) throws ParseException {
-        
-        HttpHeaders responseHeaders = new HttpHeaders();
-        
-        schedulerService.insertWeeklyReport();
-        
-        return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(getStatusMessage(200));
-    }
-    
-
-
-
-    
-    // 테스트 : 클릭 찾기
-    @CrossOrigin(origins = "*")
-    @GetMapping("/test1") 
-    public @ResponseBody ResponseEntity<String>  test1(@RequestParam(value="click", required=true) String ck, @RequestParam(value="ads_key", required=true) String adsKey, HttpServletRequest request) throws ParseException {
-        
-        HttpHeaders responseHeaders = new HttpHeaders();
-        
-        Ads ads = adsRepository.findByAdsKey(adsKey);
-        
-        String message = "";
-        if(redisUtil.findck(adsKey, ck, ads.getRedisGroup(), ads.getRedisDb()))
-            message = "success";
-        else message = "fail";
-        
-        return ResponseEntity.status(200)
-                .headers(responseHeaders)
-                .body(message); 
-    }
+ 
 
 
 
@@ -254,9 +198,26 @@ public class AdminController extends RequestResponseInterface{
             .body(token);
     }
 
+ 
 
-
-
+    // 테스트 : 클릭 찾기
+    @CrossOrigin(origins = "*")
+    @GetMapping("/test1") 
+    public @ResponseBody ResponseEntity<String>  test1(@RequestParam(value="click", required=true) String ck, @RequestParam(value="ads_key", required=true) String adsKey, HttpServletRequest request) throws ParseException {
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+        
+        Ads ads = adsRepository.findByAdsKey(adsKey);
+        
+        String message = "";
+        if(redisUtil.findck(adsKey, ck, ads.getRedisGroup(), ads.getRedisDb()))
+            message = "success";
+        else message = "fail";
+        
+        return ResponseEntity.status(200)
+                .headers(responseHeaders)
+                .body(message); 
+    }
     
 }
 
