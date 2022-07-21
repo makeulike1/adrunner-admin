@@ -11,12 +11,15 @@ import javax.transaction.Transactional;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
+import com.gnm.adrunner.server.entity.AdsCreative;
 import com.gnm.adrunner.server.entity.AdsMedia;
+import com.gnm.adrunner.server.object.AdsCreativeFileList;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds1;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds;
 import com.gnm.adrunner.server.repo.AdminLoginRepository;
+import com.gnm.adrunner.server.repo.AdsCreativeRepository;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.LogAdsRepository;
@@ -103,6 +106,9 @@ public class AdsController extends RequestResponseInterface{
 
     @Autowired
     SystemConfig3Service systemConfig3Service;
+
+    @Autowired
+    AdsCreativeRepository adsCreativeRepository;
  
     @Autowired
     FileService fileService;
@@ -167,7 +173,10 @@ public class AdsController extends RequestResponseInterface{
         @RequestParam(value="file7",    required=false) MultipartFile file7,
         @RequestParam(value="file8",    required=false) MultipartFile file8,
         @RequestParam(value="file9",    required=false) MultipartFile file9,
-        @RequestParam(value="file10",   required=false) MultipartFile file10, HttpServletRequest request) throws IOException {
+        @RequestParam(value="file10",   required=false) MultipartFile file10, 
+        @RequestParam(value="file11",   required=false) MultipartFile file11, 
+        @RequestParam(value="file12",   required=false) MultipartFile file12, 
+        HttpServletRequest request) throws IOException {
 
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -182,29 +191,64 @@ public class AdsController extends RequestResponseInterface{
                 .body(getStatusMessage(203));
         } 
 
+        AdsCreativeFileList acf = new AdsCreativeFileList();
+        
         fileService.makeFolder(adsKey);
+        acf.setAds_key(adsKey);
+
+        String ext1     = "";
+        String ext2     = "";
+        String ext3     = "";
+        String ext4     = "";
+        String ext5     = "";
+        String ext6     = "";
+        String ext7     = "";
+        String ext8     = "";
+        String ext9     = "";
+        String ext10    = "";
+        String ext11    = "";
+        String ext12    = "";
 
         if(file1 != null)
-            fileService.uploadFile(adsKey, file1, "f1");
+            ext1 = fileService.uploadFile(adsKey, file1, "f1");
         if(file2 != null)
-            fileService.uploadFile(adsKey, file1, "f2");
+            ext2 = fileService.uploadFile(adsKey, file2, "f2");
         if(file3 != null)
-            fileService.uploadFile(adsKey, file1, "f3");
+            ext3 = fileService.uploadFile(adsKey, file3, "f3");
         if(file4 != null)
-            fileService.uploadFile(adsKey, file1, "f4");
+            ext4 = fileService.uploadFile(adsKey, file4, "f4");   
         if(file5 != null)
-            fileService.uploadFile(adsKey, file1, "f5");
+            ext5 = fileService.uploadFile(adsKey, file5, "f5");
         if(file6 != null)
-            fileService.uploadFile(adsKey, file1, "f6");
+            ext6 = fileService.uploadFile(adsKey, file6, "f6");   
         if(file7 != null)
-            fileService.uploadFile(adsKey, file1, "f7");
+            ext7 = fileService.uploadFile(adsKey, file7, "f7");
         if(file8 != null)
-            fileService.uploadFile(adsKey, file1, "f8");
+            ext8 = fileService.uploadFile(adsKey, file8, "f8");
         if(file9 != null)
-            fileService.uploadFile(adsKey, file1, "f9");
+            ext9 = fileService.uploadFile(adsKey, file9, "f9");
         if(file10 != null)
-            fileService.uploadFile(adsKey, file1, "f10");
+            ext10 = fileService.uploadFile(adsKey, file10, "f10");
+        if(file11 != null)
+            ext11 = fileService.uploadFile(adsKey, file11, "f11");
+        if(file12 != null)
+            ext12 = fileService.uploadFile(adsKey, file12, "f12");
 
+        AdsCreative ac = new AdsCreative();
+        ac.setExt1(ext1);
+        ac.setExt2(ext2);
+        ac.setExt3(ext3);
+        ac.setExt4(ext4);
+        ac.setExt5(ext5);
+        ac.setExt6(ext6);
+        ac.setExt7(ext7);
+        ac.setExt8(ext8);
+        ac.setExt9(ext9);
+        ac.setExt10(ext10);
+        ac.setExt11(ext11);
+        ac.setExt12(ext12);
+        adsCreativeRepository.save(ac);
+        
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));    

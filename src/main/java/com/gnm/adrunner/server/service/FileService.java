@@ -47,7 +47,7 @@ public class FileService {
     }
 
     // 파일 업로드
-    public void uploadFile(String adsKey, MultipartFile file , String fileName) throws IOException {
+    public String uploadFile(String adsKey, MultipartFile file , String fileName) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         
@@ -75,6 +75,7 @@ public class FileService {
         putObjectRequest = null;
         convFile = null;
 
+        return extension;
     }
   
 }
