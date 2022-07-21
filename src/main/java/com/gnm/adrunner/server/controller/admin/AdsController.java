@@ -193,6 +193,8 @@ public class AdsController extends RequestResponseInterface{
 
         AdsCreativeFileList acf = new AdsCreativeFileList();
         
+        String currentTime = timeBuilder.getCurrentTime2();
+
         fileService.makeFolder(adsKey);
         acf.setAds_key(adsKey);
 
@@ -209,31 +211,33 @@ public class AdsController extends RequestResponseInterface{
         String ext11    = "";
         String ext12    = "";
 
-        if(file1 != null)
-            ext1 = fileService.uploadFile(adsKey, file1, "f1");
-        if(file2 != null)
-            ext2 = fileService.uploadFile(adsKey, file2, "f2");
-        if(file3 != null)
-            ext3 = fileService.uploadFile(adsKey, file3, "f3");
-        if(file4 != null)
-            ext4 = fileService.uploadFile(adsKey, file4, "f4");   
-        if(file5 != null)
-            ext5 = fileService.uploadFile(adsKey, file5, "f5");
-        if(file6 != null)
-            ext6 = fileService.uploadFile(adsKey, file6, "f6");   
-        if(file7 != null)
-            ext7 = fileService.uploadFile(adsKey, file7, "f7");
-        if(file8 != null)
-            ext8 = fileService.uploadFile(adsKey, file8, "f8");
-        if(file9 != null)
-            ext9 = fileService.uploadFile(adsKey, file9, "f9");
-        if(file10 != null)
-            ext10 = fileService.uploadFile(adsKey, file10, "f10");
-        if(file11 != null)
-            ext11 = fileService.uploadFile(adsKey, file11, "f11");
-        if(file12 != null)
-            ext12 = fileService.uploadFile(adsKey, file12, "f12");
 
+        if(file1 != null)
+            ext1 = fileService.uploadFile(currentTime+"-"+adsKey, file1, "f1");
+        if(file2 != null)
+            ext2 = fileService.uploadFile(currentTime+"-"+adsKey, file2, "f2");
+        if(file3 != null)
+            ext3 = fileService.uploadFile(currentTime+"-"+adsKey, file3, "f3");
+        if(file4 != null)
+            ext4 = fileService.uploadFile(currentTime+"-"+adsKey, file4, "f4");   
+        if(file5 != null)
+            ext5 = fileService.uploadFile(currentTime+"-"+adsKey, file5, "f5");
+        if(file6 != null)
+            ext6 = fileService.uploadFile(currentTime+"-"+adsKey, file6, "f6");   
+        if(file7 != null)
+            ext7 = fileService.uploadFile(currentTime+"-"+adsKey, file7, "f7");
+        if(file8 != null)
+            ext8 = fileService.uploadFile(currentTime+"-"+adsKey, file8, "f8");
+        if(file9 != null)
+            ext9 = fileService.uploadFile(currentTime+"-"+adsKey, file9, "f9");
+        if(file10 != null)
+            ext10 = fileService.uploadFile(currentTime+"-"+adsKey, file10, "f10");
+        if(file11 != null)
+            ext11 = fileService.uploadFile(currentTime+"-"+adsKey, file11, "f11");
+        if(file12 != null)
+            ext12 = fileService.uploadFile(currentTime+"-"+adsKey, file12, "f12");
+
+            
         AdsCreative ac = new AdsCreative();
         ac.setExt1(ext1);
         ac.setExt2(ext2);
@@ -247,6 +251,7 @@ public class AdsController extends RequestResponseInterface{
         ac.setExt10(ext10);
         ac.setExt11(ext11);
         ac.setExt12(ext12);
+        ac.setCreatetime(currentTime);
         adsCreativeRepository.save(ac);
         
         return ResponseEntity.status(200)

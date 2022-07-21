@@ -40,6 +40,8 @@ public class AdsCreative {
 
     private String      ext12;
 
+    private String      createtime;
+
     public Integer getId() {
         return id;
     }
@@ -152,11 +154,21 @@ public class AdsCreative {
         this.ext12 = ext12;
     }
 
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
     @Override
     public String toString() {
-        return "AdsCreative [adsKey=" + adsKey + ", ext1=" + ext1 + ", ext10=" + ext10 + ", ext11=" + ext11 + ", ext12="
-                + ext12 + ", ext2=" + ext2 + ", ext3=" + ext3 + ", ext4=" + ext4 + ", ext5=" + ext5 + ", ext6=" + ext6
-                + ", ext7=" + ext7 + ", ext8=" + ext8 + ", ext9=" + ext9 + ", id=" + id + "]";
+        return "AdsCreative [adsKey=" + adsKey + ", createtime=" + createtime + ", ext1=" + ext1 + ", ext10=" + ext10
+                + ", ext11=" + ext11 + ", ext12=" + ext12 + ", ext2=" + ext2 + ", ext3=" + ext3 + ", ext4=" + ext4
+                + ", ext5=" + ext5 + ", ext6=" + ext6 + ", ext7=" + ext7 + ", ext8=" + ext8 + ", ext9=" + ext9 + ", id="
+                + id + "]";
     }
+ 
  
 }

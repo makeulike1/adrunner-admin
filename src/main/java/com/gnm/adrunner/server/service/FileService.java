@@ -71,7 +71,6 @@ public class FileService {
 
         convFile.delete();
         
-        extension = null;
         putObjectRequest = null;
         convFile = null;
 

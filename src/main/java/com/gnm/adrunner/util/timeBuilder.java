@@ -20,10 +20,18 @@ public class timeBuilder {
 
     public static SimpleDateFormat  simpleDateFormat3   = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 
+    public static SimpleDateFormat  simpleDateFormat4   = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREA);
+
     // 현재 시각 반환
     public static String getCurrentTime(){
         simpleDateFormat.setTimeZone(timeZone);
         return simpleDateFormat.format(Calendar.getInstance(timeZone).getTime());
+    }
+
+    // 현재 시각 반환
+    public static String getCurrentTime2(){
+        simpleDateFormat4.setTimeZone(timeZone);
+        return simpleDateFormat4.format(Calendar.getInstance(timeZone).getTime());
     }
 
     // 현재 시각 반환
