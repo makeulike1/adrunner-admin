@@ -46,7 +46,7 @@ public interface AdsRepository extends CrudRepository<Ads, Integer> {
  
     @Transactional
     @Modifying
-    @Query(value="delete * from ads", nativeQuery = true)
+    @Query(value="delete  from ads", nativeQuery = true)
     public void removeAll();
 
 

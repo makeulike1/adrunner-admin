@@ -11,7 +11,7 @@ public interface AdsCreativeRepository extends CrudRepository<AdsCreative, Integ
 
     @Transactional
     @Modifying
-    @Query(value="delete * from ads_creative", nativeQuery = true)
+    @Query(value="delete from ads_creative", nativeQuery = true)
     public void removeAll();
 
   

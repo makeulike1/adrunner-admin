@@ -16,7 +16,7 @@ public interface LogAdsRepository extends CrudRepository<LogAds, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value="delete * from log_ads", nativeQuery = true)
+    @Query(value="delete from log_ads", nativeQuery = true)
     public void removeAll();
     
 }

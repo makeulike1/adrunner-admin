@@ -11,7 +11,7 @@ public interface RptWeekRepository extends CrudRepository<RptWeek, Integer>{
 
     @Transactional
     @Modifying
-    @Query(value="delete * from rpt_week", nativeQuery = true)
+    @Query(value="delete from rpt_week", nativeQuery = true)
     void removeAll();
     
 }

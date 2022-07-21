@@ -14,7 +14,7 @@ public interface RptDayRepository extends CrudRepository<RptDay, Integer>{
 
     @Transactional
     @Modifying
-    @Query(value="delete * from rpt_day", nativeQuery = true)
+    @Query(value="delete from rpt_day", nativeQuery = true)
     void removeAll();
     
 }

@@ -14,7 +14,7 @@ public interface PostbackRepository extends CrudRepository<Postback, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value="delete * from postback", nativeQuery = true)
+    @Query(value="delete from postback", nativeQuery = true)
     public void removeAll();
     
 }
