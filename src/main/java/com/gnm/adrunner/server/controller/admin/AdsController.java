@@ -17,6 +17,7 @@ import com.gnm.adrunner.server.object.AdsCreativeFileList;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds1;
+import com.gnm.adrunner.server.param.res.admin.ResponseCreativeList;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds;
 import com.gnm.adrunner.server.repo.AdminLoginRepository;
 import com.gnm.adrunner.server.repo.AdsCreativeRepository;
@@ -37,6 +38,7 @@ import com.gnm.adrunner.server.service.AdsMediaService;
 import com.gnm.adrunner.util.keyBuilder;
 import com.gnm.adrunner.util.redisUtil;
 import com.gnm.adrunner.util.scriptBuilder;
+import com.gnm.adrunner.util.storageObject;
 import com.gnm.adrunner.util.timeBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,6 +163,52 @@ public class AdsController extends RequestResponseInterface{
 
     // 이미지, 소재 등록
     @CrossOrigin(origins = "*")
+    @GetMapping("creative/list") 
+    public @ResponseBody ResponseEntity<String> creativeList(
+        @RequestParam(value="ads_key",    required=false) String adsKey,
+        HttpServletRequest request){
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+        String token = request.getHeader("token");
+
+         // 유효하지 않은 토큰인 경우 203 에러 
+         if(adminLoginService.chkToken(token) == 203){
+            return ResponseEntity.status(203)
+                .headers(responseHeaders)
+                .body(getStatusMessage(203));
+        }
+
+        AdsCreative ac = adsCreativeRepository.findByAdsKey(adsKey);
+
+
+
+        String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"/";
+        
+        ResponseCreativeList rcl = new ResponseCreativeList();
+        rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
+        rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
+        rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
+        rcl.setFileURL4(S3_FILE_URL+"f4."+ac.getExt4());
+        rcl.setFileURL5(S3_FILE_URL+"f5."+ac.getExt5());
+        rcl.setFileURL6(S3_FILE_URL+"f6."+ac.getExt6());
+        rcl.setFileURL7(S3_FILE_URL+"f7."+ac.getExt7());
+        rcl.setFileURL8(S3_FILE_URL+"f8."+ac.getExt8());
+        rcl.setFileURL9(S3_FILE_URL+"f9."+ac.getExt9());
+        rcl.setFileURL10(S3_FILE_URL+"f10."+ac.getExt10());
+        rcl.setFileURL11(S3_FILE_URL+"f11."+ac.getExt11());
+        rcl.setFileURL12(S3_FILE_URL+"f12."+ac.getExt12());
+
+        return ResponseEntity.status(200)
+            .headers(responseHeaders)
+            .body(gson.toJson(rcl));    
+    }
+
+
+
+
+    // 이미지, 소재 등록
+    @CrossOrigin(origins = "*")
     @PostMapping("/creative/save") 
     public @ResponseBody ResponseEntity<String> uploadCreative(
         @RequestParam(value="ads_key",    required=false) String adsKey,
@@ -255,7 +303,7 @@ public class AdsController extends RequestResponseInterface{
         ac.setAdsKey(adsKey);
         adsCreativeRepository.save(ac);
         
-        
+
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));    
