@@ -165,7 +165,7 @@ public class AdsController extends RequestResponseInterface{
     @CrossOrigin(origins = "*")
     @GetMapping("creative/list") 
     public @ResponseBody ResponseEntity<String> creativeList(
-        @RequestParam(value="ads_key",    required=false) String adsKey,
+        @RequestParam(value="ads_key",    required=true) String adsKey,
         HttpServletRequest request){
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -181,24 +181,24 @@ public class AdsController extends RequestResponseInterface{
 
         AdsCreative ac = adsCreativeRepository.findByAdsKey(adsKey);
 
-
-        System.out.println("테스트 로그 : "+ac.toString());
-
-        String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"/";
-        
         ResponseCreativeList rcl = new ResponseCreativeList();
-        rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
-        rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
-        rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
-        rcl.setFileURL4(S3_FILE_URL+"f4."+ac.getExt4());
-        rcl.setFileURL5(S3_FILE_URL+"f5."+ac.getExt5());
-        rcl.setFileURL6(S3_FILE_URL+"f6."+ac.getExt6());
-        rcl.setFileURL7(S3_FILE_URL+"f7."+ac.getExt7());
-        rcl.setFileURL8(S3_FILE_URL+"f8."+ac.getExt8());
-        rcl.setFileURL9(S3_FILE_URL+"f9."+ac.getExt9());
-        rcl.setFileURL10(S3_FILE_URL+"f10."+ac.getExt10());
-        rcl.setFileURL11(S3_FILE_URL+"f11."+ac.getExt11());
-        rcl.setFileURL12(S3_FILE_URL+"f12."+ac.getExt12());
+
+        if(ac != null){
+            String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"/";
+            rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
+            rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
+            rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
+            rcl.setFileURL4(S3_FILE_URL+"f4."+ac.getExt4());
+            rcl.setFileURL5(S3_FILE_URL+"f5."+ac.getExt5());
+            rcl.setFileURL6(S3_FILE_URL+"f6."+ac.getExt6());
+            rcl.setFileURL7(S3_FILE_URL+"f7."+ac.getExt7());
+            rcl.setFileURL8(S3_FILE_URL+"f8."+ac.getExt8());
+            rcl.setFileURL9(S3_FILE_URL+"f9."+ac.getExt9());
+            rcl.setFileURL10(S3_FILE_URL+"f10."+ac.getExt10());
+            rcl.setFileURL11(S3_FILE_URL+"f11."+ac.getExt11()); 
+            rcl.setFileURL12(S3_FILE_URL+"f12."+ac.getExt12());
+            S3_FILE_URL = null;
+        }
 
         return ResponseEntity.status(200)
             .headers(responseHeaders)
