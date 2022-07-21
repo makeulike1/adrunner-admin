@@ -182,6 +182,7 @@ public class AdsController extends RequestResponseInterface{
         AdsCreative ac = adsCreativeRepository.findByAdsKey(adsKey);
 
 
+        System.out.println("테스트 로그 : "+ac.toString());
 
         String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"/";
         

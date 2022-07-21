@@ -144,7 +144,7 @@ public class AdrunnerController extends RequestResponseInterface{
 
         adrunnerAdminService.removeAllAds();
         
-        
+    
         return ResponseEntity.status(200)
                 .headers(responseHeaders)
                 .body(getStatusMessage(200));
