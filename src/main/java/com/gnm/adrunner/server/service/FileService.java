@@ -60,7 +60,7 @@ public class FileService {
 
 
     // 파일 업로드
-    public String uploadFile(String adsKey, MultipartFile file , String fileName) throws IOException {
+    public String uploadFile(String key, MultipartFile file , String fileName) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         
@@ -71,7 +71,7 @@ public class FileService {
 
         PutObjectRequest putObjectRequest = 
                 new PutObjectRequest(storageObject
-                    .bucketName, fileName+"."+extension, convFile)
+                    .bucketName, key+"-"+fileName+"."+extension, convFile)
                     .withCannedAcl(CannedAccessControlList.PublicRead);
 
         try {

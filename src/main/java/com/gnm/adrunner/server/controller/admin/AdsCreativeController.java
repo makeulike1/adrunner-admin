@@ -265,7 +265,7 @@ public class AdsCreativeController extends RequestResponseInterface{
         if(file9 != null)
             ext9 = fileService.uploadFile(createtime+"-"+adsKey, file9, "f9");
         if(file10 != null)
-            ext10 = fileService.uploadFile(createtime+"-"+adsKey, file10, "f10");
+            ext10 = fileService.(createtime+"-"+adsKey, file10, "f10");
         if(file11 != null)
             ext11 = fileService.uploadFile(createtime+"-"+adsKey, file11, "f11");
         if(file12 != null)
