@@ -50,7 +50,7 @@ public class FileService {
     // 광고 소재 폴더 삭제
     public void deleteFile(String adsKey, String createtime) throws IOException {
         try{
-            storageObject.s3.deleteObject(storageObject.bucketName, createtime+"-"+adsKey);
+            storageObject.s3.deleteObject(storageObject.bucketName, createtime+"-"+adsKey+"*");
         }catch (AmazonS3Exception e) {
             e.printStackTrace();
         } catch(SdkClientException e) {
@@ -71,7 +71,7 @@ public class FileService {
 
         PutObjectRequest putObjectRequest = 
                 new PutObjectRequest(storageObject
-                    .bucketName, adsKey+"/"+fileName+"."+extension, convFile)
+                    .bucketName, fileName+"."+extension, convFile)
                     .withCannedAcl(CannedAccessControlList.PublicRead);
 
         try {
