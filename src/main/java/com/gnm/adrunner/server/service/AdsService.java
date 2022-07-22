@@ -359,14 +359,21 @@ public class AdsService {
 
         AdsCreative ac = adsCreativeRepository.findByAdsKey(ads.getAdsKey());
 
-        // 스토리지 오브젝트 : 광고 소재 삭제
 
-        for(int i=1; i<=12; i++){
-            String key = ac.getCreatetime()+"-"+ac.getAdsKey()+"-f"+i;
-            fileService.deleteFile(key);
-            key = null;
-        }
-        
+        // 오브젝트 스토리지 : 광고 소재 삭제
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f1"+"."+ac.getExt1());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f2"+"."+ac.getExt2());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f3"+"."+ac.getExt3());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f4"+"."+ac.getExt4());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f5"+"."+ac.getExt5());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f6"+"."+ac.getExt6());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f7"+"."+ac.getExt7());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f8"+"."+ac.getExt8());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f9"+"."+ac.getExt9());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f10"+"."+ac.getExt10());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f11"+"."+ac.getExt11());
+        fileService.deleteFile(ac.getCreatetime()+"-"+ac.getAdsKey()+"-f12"+"."+ac.getExt12());
+       
 
         ads = null;
 
