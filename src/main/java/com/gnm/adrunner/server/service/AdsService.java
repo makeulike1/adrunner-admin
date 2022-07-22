@@ -340,6 +340,7 @@ public class AdsService {
 
 
 
+    @Transactional
     public void removeAds(Integer adid) throws IOException{
         // 특정 광고 식별자에 대해서 광고 삭제
         deleteAds(adid);
