@@ -121,7 +121,7 @@ public class AdsCreativeController extends RequestResponseInterface{
         ResponseCreativeList rcl = new ResponseCreativeList();
 
         if(ac != null){
-            String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"/";
+            String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"-";
             rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
             rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
             rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
