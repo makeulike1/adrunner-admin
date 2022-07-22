@@ -345,13 +345,13 @@ public class AdsService {
 
     public void removeAds(Integer adid) throws IOException{
         // 특정 광고 식별자에 대해서 광고 삭제
-        adsService.deleteAds(adid);
+        deleteAds(adid);
 
         // 메모리 데이터 삭제
         memoryDataService.deleteMemoryData("ads", adid);
 
         // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-        Ads ads                     = adsService.findById(adid);
+        Ads ads                     = findById(adid);
 
         // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
         systemConfig3Service.resetAds(ads.getRedisGroup(), ads.getRedisDb());
