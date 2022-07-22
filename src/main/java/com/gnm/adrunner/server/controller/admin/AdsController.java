@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
-import com.gnm.adrunner.server.entity.AdsCreative;
 import com.gnm.adrunner.server.entity.AdsMedia;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;

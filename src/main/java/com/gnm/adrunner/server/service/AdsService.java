@@ -61,9 +61,6 @@ public class AdsService {
     MediaRepository mediaRepository;
 
     @Autowired
-    AdsService adsService;
-
-    @Autowired
     MemoryDataService memoryDataService;
 
     @Autowired
