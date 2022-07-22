@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.RequestResponseInterface;
 import com.gnm.adrunner.server.entity.Ads;
+import com.gnm.adrunner.server.entity.AdsCreative;
 import com.gnm.adrunner.server.entity.AdsMedia;
 import com.gnm.adrunner.server.object.RedisEntity2;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
@@ -413,7 +414,7 @@ public class AdsController extends RequestResponseInterface{
     // 광고 삭제 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete/{adid}")
-    public @ResponseBody ResponseEntity<String>  delete(@PathVariable Integer adid, HttpServletRequest request){
+    public @ResponseBody ResponseEntity<String>  delete(@PathVariable Integer adid, HttpServletRequest request) throws IOException{
 
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -429,24 +430,7 @@ public class AdsController extends RequestResponseInterface{
 
 
         try{
-
-            // 특정 광고 식별자에 대해서 광고 삭제
-            adsService.deleteAds(adid);
-
-            // 메모리 데이터 삭제
-            memoryDataService.deleteMemoryData("ads", adid);
-
-            // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-            Ads ads                     = adsService.findById(adid);
-
-            // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-            systemConfig3Service.resetAds(ads.getRedisGroup(), ads.getRedisDb());
-
-
-            // Redis 데이터도 날림
-            redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisDb());
-
-
+            adsService.removeAds(adid);
         }catch(EmptyResultDataAccessException e){
 
 

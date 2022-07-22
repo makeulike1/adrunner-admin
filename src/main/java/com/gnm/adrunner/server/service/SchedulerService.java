@@ -1,5 +1,6 @@
 package com.gnm.adrunner.server.service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -150,7 +151,7 @@ public class SchedulerService {
 
 
     @Scheduled(cron = "*/1 * * * * * ")
-    public void refreshStatus() throws ParseException{
+    public void refreshStatus() throws ParseException, IOException{
 
 
 
@@ -163,15 +164,11 @@ public class SchedulerService {
 
             Date loopbackDate   = timeBuilder.toDate(e.getLoopbackdate());
 
+            // 루프백 기간이 종료되면 광고 종료시킴
             if(loopbackDate.compareTo(currentDate) == -1){
                 adsService.updateAdsByStatus(e.getId(), GlobalConstant.ADS_STATUS_DISMISS);
                 logAdsService.insert(e.getAdsKey(), "", "system", "time-up", "", "", "");
-                memoryDataService.updateMemoryData("ads", e.getId());
-                redisUtil.flushDB(e.getRedisGroup(), e.getRedisDb());
-
-                // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
-                systemConfig3Service.resetAds(e.getRedisGroup(), e.getRedisDb());
-                    
+                adsService.removeAds(e.getId());
             }
             
         }

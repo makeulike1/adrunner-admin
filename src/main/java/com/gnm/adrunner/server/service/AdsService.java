@@ -12,13 +12,16 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import java.io.IOException;
 import java.text.ParseException;
  
 import com.gnm.adrunner.server.entity.Aff;
 import com.gnm.adrunner.config.GlobalConstant;
 import com.gnm.adrunner.server.entity.Ads;
+import com.gnm.adrunner.server.entity.AdsCreative;
 import com.gnm.adrunner.server.param.req.admin.RequestSaveAds;
 import com.gnm.adrunner.server.param.res.admin.ResponseListAds1;
+import com.gnm.adrunner.server.repo.AdsCreativeRepository;
 import com.gnm.adrunner.server.repo.AdsMediaRepository;
 import com.gnm.adrunner.server.repo.AdsRepository;
 import com.gnm.adrunner.server.repo.AffRepository;
@@ -56,6 +59,21 @@ public class AdsService {
  
     @Autowired
     MediaRepository mediaRepository;
+
+    @Autowired
+    AdsService adsService;
+
+    @Autowired
+    MemoryDataService memoryDataService;
+
+    @Autowired
+    SystemConfig3Service systemConfig3Service;
+
+    @Autowired
+    AdsCreativeRepository adsCreativeRepository;
+
+    @Autowired
+    FileService fileService;
 
 
     @Transactional
@@ -323,6 +341,33 @@ public class AdsService {
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
 
+
+
+    public void removeAds(Integer adid) throws IOException{
+        // 특정 광고 식별자에 대해서 광고 삭제
+        adsService.deleteAds(adid);
+
+        // 메모리 데이터 삭제
+        memoryDataService.deleteMemoryData("ads", adid);
+
+        // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
+        Ads ads                     = adsService.findById(adid);
+
+        // 광고가 삭제된 후에 Redis DB 가용이 확보되면, 해당 데이터베이스를 사용
+        systemConfig3Service.resetAds(ads.getRedisGroup(), ads.getRedisDb());
+
+        // Redis 데이터도 날림
+        redisUtil.flushDB(ads.getRedisGroup(), ads.getRedisDb());
+
+        AdsCreative ac = adsCreativeRepository.findByAdsKey(ads.getAdsKey());
+
+        // 스토리지 오브젝트 : 광고 소재 삭제
+        fileService.deleteFile(ac.getAdsKey(), ac.getCreatetime());
+
+        ads = null;
+
+        ac  = null;
+    }
 
 
 

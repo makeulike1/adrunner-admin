@@ -45,6 +45,19 @@ public class FileService {
         putObjectRequest = null;
         objectMetadata = null;
     }
+    
+
+    // 광고 소재 폴더 삭제
+    public void deleteFile(String adsKey, String createtime) throws IOException {
+        try{
+            storageObject.s3.deleteObject(storageObject.bucketName, createtime+"-"+adsKey);
+        }catch (AmazonS3Exception e) {
+            e.printStackTrace();
+        } catch(SdkClientException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // 파일 업로드
     public String uploadFile(String adsKey, MultipartFile file , String fileName) throws IOException {
