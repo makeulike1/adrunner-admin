@@ -360,7 +360,13 @@ public class AdsService {
         AdsCreative ac = adsCreativeRepository.findByAdsKey(ads.getAdsKey());
 
         // 스토리지 오브젝트 : 광고 소재 삭제
-        fileService.deleteFile(ac.getAdsKey(), ac.getCreatetime());
+
+        for(int i=1; i<=12; i++){
+            String key = ac.getCreatetime()+"-"+ac.getAdsKey()+"-f"+i;
+            fileService.deleteFile(key);
+            key = null;
+        }
+        
 
         ads = null;
 

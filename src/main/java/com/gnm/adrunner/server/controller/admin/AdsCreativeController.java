@@ -180,10 +180,16 @@ public class AdsCreativeController extends RequestResponseInterface{
             
             String createtime   = ac.getCreatetime();
 
-            String extension    = fileService.uploadFile(createtime+"-"+adsKey, file, "f"+fileIndex);
+            String extension    = fileService.uploadFile(createtime+"-"+adsKey+"-f"+fileIndex, file);
 
             adsCreativeService.update(fileIndex, extension, adsKey);
  
+
+            ac = null;
+
+            createtime = null;
+
+            extension = null;
 
             return ResponseEntity.status(200)
                 .headers(responseHeaders)
@@ -229,7 +235,6 @@ public class AdsCreativeController extends RequestResponseInterface{
         
         String createtime = timeBuilder.getCurrentTime2();
 
-        fileService.makeFolder(adsKey);
         acf.setAds_key(adsKey);
 
         String ext1     = "";
@@ -247,29 +252,29 @@ public class AdsCreativeController extends RequestResponseInterface{
 
 
         if(file1 != null)
-            ext1 = fileService.uploadFile(createtime+"-"+adsKey, file1, "f1");
+            ext1 =  fileService.uploadFile(createtime+"-"+adsKey+"-f1",      file1);
         if(file2 != null)
-            ext2 = fileService.uploadFile(createtime+"-"+adsKey, file2, "f2");
+            ext2 =  fileService.uploadFile(createtime+"-"+adsKey+"-f2",      file2);
         if(file3 != null)
-            ext3 = fileService.uploadFile(createtime+"-"+adsKey, file3, "f3");
+            ext3 =  fileService.uploadFile(createtime+"-"+adsKey+"-f3",      file3);
         if(file4 != null)
-            ext4 = fileService.uploadFile(createtime+"-"+adsKey, file4, "f4");   
+            ext4 =  fileService.uploadFile(createtime+"-"+adsKey+"-f4",      file4);
         if(file5 != null)
-            ext5 = fileService.uploadFile(createtime+"-"+adsKey, file5, "f5");
+            ext5 =  fileService.uploadFile(createtime+"-"+adsKey+"-f5",      file5);
         if(file6 != null)
-            ext6 = fileService.uploadFile(createtime+"-"+adsKey, file6, "f6");   
+            ext6 =  fileService.uploadFile(createtime+"-"+adsKey+"-f6",      file6);
         if(file7 != null)
-            ext7 = fileService.uploadFile(createtime+"-"+adsKey, file7, "f7");
+            ext7 =  fileService.uploadFile(createtime+"-"+adsKey+"-f7",      file7);
         if(file8 != null)
-            ext8 = fileService.uploadFile(createtime+"-"+adsKey, file8, "f8");
+            ext8 =  fileService.uploadFile(createtime+"-"+adsKey+"-f8",      file8);
         if(file9 != null)
-            ext9 = fileService.uploadFile(createtime+"-"+adsKey, file9, "f9");
+            ext9 =  fileService.uploadFile(createtime+"-"+adsKey+"-f9",      file9);
         if(file10 != null)
-            ext10 = fileService.uploadFile(createtime+"-"+adsKey, file10, "f10");
+            ext10 = fileService.uploadFile(createtime+"-"+adsKey+"-f10",    file10);
         if(file11 != null)
-            ext11 = fileService.uploadFile(createtime+"-"+adsKey, file11, "f11");
+            ext11 = fileService.uploadFile(createtime+"-"+adsKey+"-f11",    file11);
         if(file12 != null)
-            ext12 = fileService.uploadFile(createtime+"-"+adsKey, file12, "f12");
+            ext12 = fileService.uploadFile(createtime+"-"+adsKey+"-f12",    file12);
 
 
         AdsCreative ac = new AdsCreative();

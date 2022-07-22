@@ -48,9 +48,9 @@ public class FileService {
     
 
     // 광고 소재 폴더 삭제
-    public void deleteFile(String adsKey, String createtime) throws IOException {
+    public void deleteFile(String fileName) throws IOException {
         try{
-            storageObject.s3.deleteObject(storageObject.bucketName, createtime+"-"+adsKey+"*");
+            storageObject.s3.deleteObject(storageObject.bucketName, fileName);
         }catch (AmazonS3Exception e) {
             e.printStackTrace();
         } catch(SdkClientException e) {
@@ -60,7 +60,7 @@ public class FileService {
 
 
     // 파일 업로드
-    public String uploadFile(String key, MultipartFile file , String fileName) throws IOException {
+    public String uploadFile(String fileName, MultipartFile file) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         
@@ -71,8 +71,8 @@ public class FileService {
 
         PutObjectRequest putObjectRequest = 
                 new PutObjectRequest(storageObject
-                    .bucketName, key+"-"+fileName+"."+extension, convFile)
-                    .withCannedAcl(CannedAccessControlList.PublicRead);
+                        .bucketName, fileName+"."+extension, convFile)
+                        .withCannedAcl(CannedAccessControlList.PublicRead);
 
         try {
             storageObject.s3.putObject(putObjectRequest);
