@@ -10,6 +10,8 @@ public class GlobalConstant {
     public static Integer       NUMBER_OF_REDIS_DB          =   16;
     public static Integer       NUMBER_OF_REDIS_GROUP       =   1;    
 
+    public static String        RUNNING_MODE                =   "";
+
 
     public static String        PATH_UPDATE_MEMORY_DATA     = "/mem/refresh";
     public static String        PATH_ADD_MEMORY_DATA        = "/mem/add";

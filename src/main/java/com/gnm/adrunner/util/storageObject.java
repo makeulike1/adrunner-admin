@@ -40,12 +40,12 @@ public class storageObject {
     }
 
     public static void setEndPoint(String s3) {
-        System.out.println("BUCKET ENDPOINT :"+s3);
+        System.out.println("BUCKET ENDPOINT : "+s3);
         endPoint = s3;
     }
   
     public static void setRegionName(String s4) {
-        System.out.println("BUCKET REGION :"+s4);
+        System.out.println("BUCKET REGION : "+s4);
         regionName = s4;
     }
 

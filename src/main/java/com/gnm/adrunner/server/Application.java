@@ -1,5 +1,6 @@
 package com.gnm.adrunner.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gnm.adrunner.config.GlobalConstant;
@@ -32,6 +33,11 @@ public class Application {
 	SystemConfig2Repository systemConfig2Repository;
 
 	public static void main(String[] args) {	
+		for(int i=0;i<args.length;i++){
+			if(i==0)
+				GlobalConstant.RUNNING_MODE = args[i];			
+		}
+
 		SpringApplication.run(Application.class, args);
 	}
  
@@ -56,11 +62,21 @@ public class Application {
 		GlobalConstant.NUMBER_OF_REDIS_GROUP = systemConfig3Service.countTotalRedisGroup();
 		System.out.println("NUMBER OF REDIS GROUP : " 	+ GlobalConstant.NUMBER_OF_REDIS_GROUP);
 		for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_GROUP; i++){
-			List<String> REDIS_CLIENT_IP = serverInstanceRepository.getServerClientIpWithGroup(GlobalConstant.SERVER_TYPE_REDIS, i);
+
+			List<String> REDIS_CLIENT_IP = new ArrayList<String>();
+
+
+			// 개발 모드일 때 REDIS는 로컬을 참조하도록
+			if(GlobalConstant.RUNNING_MODE.equals("dev")){
+				REDIS_CLIENT_IP = serverInstanceRepository.getDevServerClientIpWithGroup(GlobalConstant.SERVER_TYPE_REDIS);
+			}else REDIS_CLIENT_IP = serverInstanceRepository.getServerClientIpWithGroup(GlobalConstant.SERVER_TYPE_REDIS, i);
+
+
 			GlobalConstant.SERVER_HOST_REDIS.add(REDIS_CLIENT_IP);
 			System.out.print("GROUP NUMBER : #"+i+" - ");
 			for(String e : REDIS_CLIENT_IP)System.out.print("["+e+"]");
 			System.out.println();
+
 			REDIS_CLIENT_IP = null;
 		}
 

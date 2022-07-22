@@ -28,4 +28,7 @@ public interface ServerInstanceRepository extends CrudRepository<ServerInstance,
     @Query(value="select client_ip from server_instance where type=?1 and server_group=?2", nativeQuery = true)
     public List<String> getServerClientIpWithGroup(Integer type, int i);
 
+    @Query(value="select client_ip from server_instance where type=?1 and server_group=-2", nativeQuery = true)
+    public List<String> getDevServerClientIpWithGroup(Integer type);
+
 }
