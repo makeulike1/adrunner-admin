@@ -61,7 +61,10 @@ public class Application {
 
 	 
 		// Redis 그룹 개수 조회
-		GlobalConstant.NUMBER_OF_REDIS_GROUP = systemConfig3Service.countTotalRedisGroup();
+		if(GlobalConstant.RUNNING_MODE.equals("dev")){
+			GlobalConstant.NUMBER_OF_REDIS_GROUP = 1;
+		}else GlobalConstant.NUMBER_OF_REDIS_GROUP = systemConfig3Service.countTotalRedisGroup();
+		
 		System.out.println("NUMBER OF REDIS GROUP : " 	+ GlobalConstant.NUMBER_OF_REDIS_GROUP);
 		for(int i=0; i<GlobalConstant.NUMBER_OF_REDIS_GROUP; i++){
 
