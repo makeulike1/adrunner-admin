@@ -147,6 +147,31 @@ public class AdsCreativeController extends RequestResponseInterface{
             rcl.setExt11(ac.getExt11());
             rcl.setExt12(ac.getExt12());
             S3_FILE_URL = null;
+        }else{
+            rcl.setFileURL1("");
+            rcl.setFileURL2("");
+            rcl.setFileURL3("");
+            rcl.setFileURL4("");
+            rcl.setFileURL5("");
+            rcl.setFileURL6("");
+            rcl.setFileURL7("");
+            rcl.setFileURL8("");
+            rcl.setFileURL9("");
+            rcl.setFileURL10("");
+            rcl.setFileURL11("");
+            rcl.setFileURL12("");
+            rcl.setExt1("");
+            rcl.setExt2("");
+            rcl.setExt3("");
+            rcl.setExt4("");
+            rcl.setExt5("");
+            rcl.setExt6("");
+            rcl.setExt7("");
+            rcl.setExt8("");
+            rcl.setExt9("");
+            rcl.setExt10("");
+            rcl.setExt11("");
+            rcl.setExt12("");
         }
 
         return ResponseEntity.status(200)
