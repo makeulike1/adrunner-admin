@@ -122,18 +122,54 @@ public class AdsCreativeController extends RequestResponseInterface{
 
         if(ac != null){
             String S3_FILE_URL = storageObject.endPoint + "/" + storageObject.bucketName + "/" + ac.getCreatetime() + "-" + ac.getAdsKey() +"-";
-            rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
-            rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
-            rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
-            rcl.setFileURL4(S3_FILE_URL+"f4."+ac.getExt4());
-            rcl.setFileURL5(S3_FILE_URL+"f5."+ac.getExt5());
-            rcl.setFileURL6(S3_FILE_URL+"f6."+ac.getExt6());
-            rcl.setFileURL7(S3_FILE_URL+"f7."+ac.getExt7());
-            rcl.setFileURL8(S3_FILE_URL+"f8."+ac.getExt8());
-            rcl.setFileURL9(S3_FILE_URL+"f9."+ac.getExt9());
-            rcl.setFileURL10(S3_FILE_URL+"f10."+ac.getExt10());
-            rcl.setFileURL11(S3_FILE_URL+"f11."+ac.getExt11()); 
-            rcl.setFileURL12(S3_FILE_URL+"f12."+ac.getExt12());
+            if(!ac.getExt1().equals(""))
+                rcl.setFileURL1(S3_FILE_URL+"f1."+ac.getExt1());
+            else rcl.setFileURL1("");
+
+            if(!ac.getExt2().equals(""))
+                rcl.setFileURL2(S3_FILE_URL+"f2."+ac.getExt2());
+            else rcl.setFileURL2("");
+
+            if(!ac.getExt3().equals(""))
+                rcl.setFileURL3(S3_FILE_URL+"f3."+ac.getExt3());
+            else rcl.setFileURL3("");
+
+            if(!ac.getExt4().equals(""))
+                rcl.setFileURL4(S3_FILE_URL+"f4."+ac.getExt4());
+            else rcl.setFileURL4("");
+
+            if(!ac.getExt5().equals(""))
+                rcl.setFileURL5(S3_FILE_URL+"f5."+ac.getExt5());
+            else rcl.setFileURL5("");
+
+            if(!ac.getExt6().equals(""))
+                rcl.setFileURL6(S3_FILE_URL+"f6."+ac.getExt6());
+            else rcl.setFileURL6("");
+
+            if(!ac.getExt7().equals(""))
+                rcl.setFileURL7(S3_FILE_URL+"f7."+ac.getExt7());
+            else rcl.setFileURL7("");
+
+            if(!ac.getExt8().equals(""))
+                rcl.setFileURL8(S3_FILE_URL+"f8."+ac.getExt8());            
+            else rcl.setFileURL8("");
+            
+            if(!ac.getExt9().equals(""))
+                rcl.setFileURL9(S3_FILE_URL+"f9."+ac.getExt9());
+            else rcl.setFileURL9("");
+
+            if(!ac.getExt10().equals(""))
+                rcl.setFileURL10(S3_FILE_URL+"f10."+ac.getExt10());
+            else rcl.setFileURL10("");
+            
+            if(!ac.getExt11().equals(""))
+                rcl.setFileURL11(S3_FILE_URL+"f11."+ac.getExt11()); 
+            else rcl.setFileURL11("");
+            
+            if(!ac.getExt12().equals(""))
+                rcl.setFileURL12(S3_FILE_URL+"f12."+ac.getExt12());
+            else rcl.setFileURL12("");
+
             rcl.setExt1(ac.getExt1());
             rcl.setExt2(ac.getExt2());
             rcl.setExt3(ac.getExt3());
