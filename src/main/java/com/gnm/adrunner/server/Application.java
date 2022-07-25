@@ -45,7 +45,16 @@ public class Application {
  
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() throws Exception {
+		configureServerHost();
+		configureRedis();
+		configureStorageObject();
+	}
 
+
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 서버 호스트 초기화
+	public void configureServerHost(){
 		// 관리자 서버 호스트 조회
 		System.out.println("######################################################################");
 		GlobalConstant.SERVER_HOST_ADMIN = serverInstanceRepository.getServerHost(GlobalConstant.SERVER_TYPE_ADMIN);
@@ -58,8 +67,14 @@ public class Application {
 		// 포스트백 서버 호스트 조회
 		GlobalConstant.SERVER_HOST_PBACK = serverInstanceRepository.getServerHost(GlobalConstant.SERVER_TYPE_PBACK);
 		System.out.println("SERVER HOST(POSTBACK) : " 	+ GlobalConstant.SERVER_HOST_PBACK);
+	}
 
-	 
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// REDIS 초기화
+	public void configureRedis(){
 		// Redis 그룹 개수 조회
 		if(GlobalConstant.RUNNING_MODE.equals("dev")){
 			GlobalConstant.NUMBER_OF_REDIS_GROUP = 1;
@@ -87,13 +102,16 @@ public class Application {
 
 		System.out.println("######################################################################");
 		System.out.println();
-	
 
-		
 		// Redis 시작
 		RedisConfig.init();
+	}
+	
 
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 버킷 초기화
+	public void configureStorageObject() throws Exception{
 		// 버킷 액세스키 
 		storageObject.setAccessKey(
 			aes256.decrypt(systemConfig2Repository.findByConfigKey("bucket_access_key")));
@@ -118,4 +136,5 @@ public class Application {
 		// 버킷 초기화
 		storageObject.bucketInit();
 	}
+	
 }
