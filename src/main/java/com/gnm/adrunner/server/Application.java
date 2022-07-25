@@ -38,6 +38,7 @@ public class Application {
 				GlobalConstant.RUNNING_MODE = args[i];			
 		}
 
+		// 개발 서버는 dev, 라이브 서버는 release
 		System.out.println("RUNNING MODE : " + GlobalConstant.RUNNING_MODE);
 
 		SpringApplication.run(Application.class, args);
